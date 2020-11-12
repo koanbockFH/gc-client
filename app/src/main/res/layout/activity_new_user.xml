@@ -1,4 +1,4 @@
-<!--This is the UI of the Login Page -->
+<!--  This is the UI, which shows an overview of the just created student. These infos will be send to the student.  -->
 
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -11,11 +11,36 @@
     android:background="@color/background_color"
     tools:context=".MainActivity">
 
-    <!--<ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src=" "/> -->
+    <View
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:background="@color/primary_color"
 
+        />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"
+        android:padding="10dp">
+        <!-- android:background="@drawable/round_edittext" -->
+
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_person" />
+
+        <TextView
+            android:id="@+id/confirmed_name"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:hint="PLACEHOLDERNAME"
+            android:textColor="@color/primary_color"
+            android:textColorHint="@color/primary_color" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -29,13 +54,13 @@
         <ImageView
             android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_person" />
+            android:src="@drawable/ic_mail" />
 
-        <EditText
-            android:id="@+id/username"
+        <TextView
+            android:id="@+id/confirmed_mail"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:hint="Enter Username"
+            android:hint="PLACEHOLDER@MAIL"
             android:textColor="@color/primary_color"
             android:textColorHint="@color/primary_color" />
     </LinearLayout>
@@ -53,20 +78,20 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_lock"/>
 
-        <EditText
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/password"
-        android:hint="Enter Password"
-        android:textColor="@color/primary_color"
-        android:textColorHint="@color/primary_color"
+        <TextView
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/confirmed_password"
+            android:hint="PLACEHOLDERPASSWORD"
+            android:textColor="@color/primary_color"
+            android:textColorHint="@color/primary_color"
 
             android:inputType="textPassword"
             />
 
 
 
-        </LinearLayout>
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_login"
@@ -76,7 +101,7 @@
         android:layout_marginRight="75dp"
         android:background="@drawable/round_button"
         android:layout_gravity="right"
-        android:text="Login"
+        android:text="Send Mail"
         android:textColor="@color/white" />
 
 </LinearLayout>
