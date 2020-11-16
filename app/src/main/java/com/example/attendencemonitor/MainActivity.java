@@ -4,8 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.IInterface;
-import android.telephony.ims.RegistrationManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,12 +15,9 @@ import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.example.attendencemonitor.service.ModuleService;
 import com.example.attendencemonitor.service.UserService;
-import com.example.attendencemonitor.service.api.ApiAccess;
 import com.example.attendencemonitor.service.contract.IActionCallback;
-import com.example.attendencemonitor.service.contract.ICallback;
 import com.example.attendencemonitor.service.contract.IModuleService;
 import com.example.attendencemonitor.service.contract.IUserService;
-import com.example.attendencemonitor.service.dto.AuthResponseDto;
 import com.example.attendencemonitor.service.dto.LoginFormDto;
 
 public class MainActivity extends AppCompatActivity {
@@ -67,16 +62,15 @@ public class MainActivity extends AppCompatActivity {
                 dto.setPassword(userPassword);
 
 
-                userService.login(dto, new LoginCallback());
 
                 //validation
                 if(awesomeValidation.validate())
                 {
-                    Toast.makeText(getApplicationContext(), "register successful", Toast.LENGTH_SHORT).show();
+                    userService.login(dto, new LoginCallback());
                 }
                 else
                 {
-                    Toast.makeText(getApplicationContext(), "register failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Please check your input", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -98,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         public void onError(Throwable error)
         {
 
-            Toast.makeText(MainActivity.this, "something went wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
 
         }
     }

@@ -62,7 +62,7 @@ public class Register extends AppCompatActivity {
         ePassword = (EditText) findViewById(R.id.reg_password);
         eConfpassword = (EditText) findViewById(R.id.reg_conf_password);
 
-        eRegister = (Button) findViewById(R.id.btn_register);
+        eRegister = (Button) findViewById(R.id.btn_submit_register);
 
         //validation
 
@@ -70,7 +70,7 @@ public class Register extends AppCompatActivity {
         awesomeValidation.addValidation(this,R.id.reg_firstname,RegexTemplate.NOT_EMPTY,R.string.invalid_name);
         awesomeValidation.addValidation(this,R.id.reg_lastname,RegexTemplate.NOT_EMPTY,R.string.invalid_name);
         awesomeValidation.addValidation(this,R.id.reg_mail, Patterns.EMAIL_ADDRESS,R.string.invalid_mail);
-        awesomeValidation.addValidation(this,R.id.reg_code,"[0-9]",R.string.invalid_code);
+        awesomeValidation.addValidation(this,R.id.reg_code,".{3,}",R.string.invalid_code);
         awesomeValidation.addValidation(this,R.id.reg_password,".{6,}",R.string.invalid_password);
         awesomeValidation.addValidation(this,R.id.reg_conf_password,R.id.reg_password,R.string.invalid_conf_password);
 
@@ -96,17 +96,23 @@ public class Register extends AppCompatActivity {
                 regDto.setMail(userEmail);
                 regDto.setPassword(userPassword);
                 regDto.setCode(userCode);
-                regDto.setUserType(UserType.valueOf(eUsertype.getText().toString()));
-                userService.register(regDto, new RegistrationCallback());
+                switch(eUsertype.getText().toString()) {
+                    case "Teacher":
+                        regDto.setUserType(UserType.TEACHER);
+                        break;
+                    default:
+                        regDto.setUserType(UserType.STUDENT);
+                        break;
+                }
 
                 //validation
                 if(awesomeValidation.validate())
                 {
-                    Toast.makeText(getApplicationContext(), "register successful", Toast.LENGTH_SHORT).show();
+                    userService.register(regDto, new RegistrationCallback());
                 }
                 else
                 {
-                    Toast.makeText(getApplicationContext(), "register failed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Please check your input", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -121,15 +127,14 @@ public class Register extends AppCompatActivity {
         public void onSuccess()
         {
             Log.i("registration", "successful");
+            Toast.makeText(getApplicationContext(), "Register successful", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(Register.this, HomeAdmin.class));
         }
 
         @Override
         public void onError(Throwable error)
         {
-
-            Toast.makeText(Register.this, "something went wrong", Toast.LENGTH_SHORT).show();
-
+            Toast.makeText(Register.this, "Something went wrong", Toast.LENGTH_SHORT).show();
         }
     }
 
