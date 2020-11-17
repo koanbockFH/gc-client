@@ -1,0 +1,97 @@
+package com.example.attendencemonitor.QrCode;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.example.attendencemonitor.R;
+import com.example.attendencemonitor.service.UserService;
+import com.example.attendencemonitor.service.contract.ICallback;
+import com.example.attendencemonitor.service.contract.IUserService;
+import com.example.attendencemonitor.service.model.UserModel;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+
+public class IdCodeActivity extends AppCompatActivity
+{
+    private final IUserService userService =  new UserService();
+    private ImageView imageView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_id_code);
+
+        imageView = findViewById(R.id.imageView);
+
+        userService.getCurrentUser(new UserCallback());
+    }
+
+    private class UserCallback implements ICallback<UserModel>
+    {
+        @Override
+        public void onSuccess(UserModel user)
+        {
+            createQrCode(user.getCode());
+        }
+
+        @Override
+        public void onError(Throwable error)
+        {
+            Toast.makeText(IdCodeActivity.this, "something went wrong see in error", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void createQrCode(String data)
+    {
+        try
+        {
+            Bitmap bitmap = TextToImageEncode(data);
+            imageView.setImageBitmap(bitmap);
+        }
+        catch (WriterException e)
+        {
+            e.printStackTrace();
+        }
+
+    }
+
+    private Bitmap TextToImageEncode(String text) throws WriterException
+    {
+        final int WIDTH = 200;
+        final int HEIGHT = 200;
+        BitMatrix result;
+        try
+        {
+            result = new MultiFormatWriter().encode(String.valueOf(text),
+                                                    BarcodeFormat.QR_CODE, WIDTH, HEIGHT, null);
+        }
+        catch (IllegalArgumentException iae)
+        {
+            // Unsupported format
+            return null;
+        }
+        int width = result.getWidth();
+        int height = result.getHeight();
+        int[] pixels = new int[width * height];
+        for (int y = 0; y < height; y++)
+        {
+            int offset = y * width;
+            for (int x = 0; x < width; x++)
+            {
+                pixels[offset + x] = result.get(x, y) ? getResources().getColor(R.color.QRBlack, getTheme()) : getResources().getColor(R.color.QRWhite, getTheme());
+            }
+        }
+        Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+        return bitmap;
+    }
+
+}

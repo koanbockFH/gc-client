@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiAccess
 {
     private String accessToken;
-    private Retrofit retrofit;
+    private final Retrofit retrofit;
 
     private static ApiAccess instance;
 
@@ -21,7 +21,7 @@ public class ApiAccess
     {
         if (instance == null)
         {
-            synchronized (Retrofit.class)
+            synchronized (ApiAccess.class)
             {
                 if (instance == null)
                 {

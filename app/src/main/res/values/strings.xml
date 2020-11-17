@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AttendenceMonitor</string>
+    <string name="tv_infoQR">SHOW QR-CODE TO TEACHER</string>
 </resources>

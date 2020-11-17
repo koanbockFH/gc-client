@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AttendenceMonitor">
-        <activity android:name=".ModulesList"></activity>
+        <activity android:name=".QrCode.IdCodeActivity"></activity>
+        <activity android:name=".QrCode.ScannerActivity" />
+        <activity android:name=".ModulesList" />
         <activity android:name=".HomeAdmin" />
         <activity android:name=".NewUser" />
         <activity android:name=".Register" />
