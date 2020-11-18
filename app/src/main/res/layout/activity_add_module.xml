@@ -7,23 +7,13 @@
     android:orientation="vertical"
     android:background="@color/background_color"
     tools:context=".MainActivity"
-    android:gravity="center_horizontal">
-
-    <!--<ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src=" "/> -->
-
-
-
-        <!-- android:background="@drawable/round_edittext" -->
-
+    android:gravity="center">
 
         <EditText
-            android:id="@+id/reg_firstname"
+            android:id="@+id/add_module_name"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:hint="Enter Firstname"
+            android:hint="Enter Modulename"
             android:textColor="@color/primary_color"
             android:textColorHint="@color/primary_color"
             android:layout_gravity="center"
@@ -31,22 +21,8 @@
             android:padding="10dp"/>
 
 
-
-
-
         <EditText
-            android:id="@+id/reg_lastname"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:hint="Enter Lastname"
-            android:textColor="@color/primary_color"
-            android:textColorHint="@color/primary_color"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:padding="10dp"/>
-
-        <EditText
-            android:id="@+id/reg_code"
+            android:id="@+id/add_module_code"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:hint="Enter Code"
@@ -56,96 +32,38 @@
             android:layout_marginTop="20dp"
             android:padding="10dp"/>
 
-
-
-
-
         <EditText
-            android:id="@+id/reg_mail"
+            android:id="@+id/add_module_teacher"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:hint="Enter Mail"
+            android:hint="Enter Teacher"
             android:textColor="@color/primary_color"
-            android:textColorHint="@color/primary_color"
-            android:inputType="textEmailAddress"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:padding="10dp"/>
-
-
-
-        <EditText
-            android:id="@+id/reg_password"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:hint="Enter Password"
-            android:inputType="textPassword"
-            android:textColor="@color/primary_color"
-
             android:textColorHint="@color/primary_color"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:padding="10dp"/>
 
         <EditText
-            android:id="@+id/reg_conf_password"
+            android:id="@+id/add_module_class"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:hint="Confirm Password"
-            android:inputType="textPassword"
+            android:hint="Enter Class"
             android:textColor="@color/primary_color"
-
             android:textColorHint="@color/primary_color"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:padding="10dp"/>
-
-
-
-
-
-
-
-
-
-            <RadioGroup
-                android:id="@+id/reg_user_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                >
-
-                <RadioButton
-                    android:id="@+id/reg_teacher"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:text="Teacher" />
-
-                <RadioButton
-                    android:id="@+id/reg_student"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:checked="true"
-                    android:text="Student" />
-
-
-            </RadioGroup>
-
 
         <Button
-            android:id="@+id/btn_submit_register"
+            android:id="@+id/btn_add_module"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_marginRight="75dp"
             android:background="@drawable/round_button"
             android:text="Register"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:layout_marginTop="30dp"/>
 
 
 </LinearLayout>
