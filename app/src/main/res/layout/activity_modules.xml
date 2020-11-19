@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@color/primary_color"
-        android:text="Add Module"
+        android:text="@string/add_module"
         android:textColor="@color/white"
         android:layout_margin="20dp"/>
 
