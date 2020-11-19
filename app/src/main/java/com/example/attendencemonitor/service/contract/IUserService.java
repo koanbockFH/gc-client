@@ -1,5 +1,6 @@
 package com.example.attendencemonitor.service.contract;
 
+import com.example.attendencemonitor.service.dto.AuthResponseDto;
 import com.example.attendencemonitor.service.dto.LoginFormDto;
 import com.example.attendencemonitor.service.dto.RegisterFormDto;
 import com.example.attendencemonitor.service.model.UserModel;
