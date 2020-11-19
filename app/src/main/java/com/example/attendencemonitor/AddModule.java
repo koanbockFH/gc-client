@@ -3,12 +3,9 @@ package com.example.attendencemonitor;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,15 +18,12 @@ import com.example.attendencemonitor.service.UserService;
 import com.example.attendencemonitor.service.contract.IActionCallback;
 import com.example.attendencemonitor.service.contract.IModuleService;
 import com.example.attendencemonitor.service.contract.IUserService;
-import com.example.attendencemonitor.service.dto.RegisterFormDto;
-import com.example.attendencemonitor.service.model.ModuleModel;
-import com.example.attendencemonitor.service.model.UserType;
 
 public class AddModule extends AppCompatActivity {
 
     IUserService userService = new UserService();
     IModuleService moduleService = new ModuleService();
-    ModuleModel moduleModel = new ModuleModel();
+
 
     private EditText eModulename;
     private EditText eCode;
@@ -39,7 +33,7 @@ public class AddModule extends AppCompatActivity {
 
     String modulename = "";
     String moduleCode = "";
-    String teacher = "";
+    String mteacher = "";
     String mClass = "";
 
     AwesomeValidation awesomeValidation;
@@ -68,38 +62,18 @@ public class AddModule extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 modulename = eModulename.getText().toString();
-                teacher = eTeacher.getText().toString();
+                mteacher = eTeacher.getText().toString();
                 moduleCode = eCode.getText().toString();
                 mClass = eClass.getText().toString();
 
 
-                //int selUserTypeId = eUsertypeGroup.getCheckedRadioButtonId();
-                //eUsertype = (RadioButton) findViewById(selUserTypeId);
-
-                RegisterFormDto regDto = new RegisterFormDto();
-
-                regDto.s;
-                regDto.setLastName(userLastname);
-                regDto.setMail(userEmail);
-                regDto.setPassword(userPassword);
-                regDto.setCode(userCode);
-
-                //validation
-                if(awesomeValidation.validate())
-                {
-                    userService.register(regDto, new Register.RegistrationCallback());
-                }
-                else
-                {
-                    Toast.makeText(getApplicationContext(), "Please check your input", Toast.LENGTH_SHORT).show();
-                }
             }
         });
 
     }
 
 
-    private class RegistrationCallback implements IActionCallback
+    private class AddModuleCallback implements IActionCallback
     {
 
         @Override
@@ -107,7 +81,7 @@ public class AddModule extends AppCompatActivity {
         {
             Log.i("module added", "successfully");
             Toast.makeText(getApplicationContext(), "Module added successfully", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(AddModule.this, Modules.class)); //??
+            startActivity(new Intent(AddModule.this, Modules.class));
         }
 
         @Override
@@ -120,5 +94,5 @@ public class AddModule extends AppCompatActivity {
 
 
 }
-}
+
 
