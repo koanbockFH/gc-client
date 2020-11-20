@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:background="@color/background_color"
-    tools:context=".MainActivity">
+    tools:context=".Login">
 
     <View
         android:layout_width="300dp"

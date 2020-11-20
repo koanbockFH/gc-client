@@ -8,13 +8,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.attendencemonitor.service.ModuleItem;
+import com.example.attendencemonitor.service.model.ModuleModel;
 
 import java.util.ArrayList;
 
 public class ModAdapter extends RecyclerView.Adapter<ModAdapter.MViewHolder>{
 
-    private ArrayList<ModuleItem> mModuleList;
+    private ArrayList<ModuleModel> mModuleList;
 
     public static class MViewHolder extends RecyclerView.ViewHolder{
         public TextView mTextView;
@@ -25,15 +25,15 @@ public class ModAdapter extends RecyclerView.Adapter<ModAdapter.MViewHolder>{
         }
     }
 
-    public ModAdapter(ArrayList<ModuleItem> moduleList) {
+    public ModAdapter(ArrayList<ModuleModel> moduleList) {
         mModuleList = moduleList;
     }
 
     @Override
     public void onBindViewHolder(@NonNull MViewHolder holder, int position) {
-        ModuleItem currentItem = mModuleList.get(position);
+        ModuleModel currentItem = mModuleList.get(position);
 
-        holder.mTextView.setText(currentItem.getText1());
+        holder.mTextView.setText(currentItem.getName());
     }
 
     @NonNull
