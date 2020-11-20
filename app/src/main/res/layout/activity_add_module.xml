@@ -13,7 +13,7 @@
             android:id="@+id/add_module_name"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:hint="Enter Modulename"
+            android:hint="Enter Module Name"
             android:textColor="@color/primary_color"
             android:textColorHint="@color/primary_color"
             android:layout_gravity="center"
@@ -48,6 +48,17 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:hint="Enter Class"
+            android:textColor="@color/primary_color"
+            android:textColorHint="@color/primary_color"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:padding="10dp"/>
+
+        <EditText
+            android:id="@+id/add_module_description"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="Enter Description"
             android:textColor="@color/primary_color"
             android:textColorHint="@color/primary_color"
             android:layout_gravity="center"

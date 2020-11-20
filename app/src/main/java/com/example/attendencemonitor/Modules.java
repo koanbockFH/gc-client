@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class Modules extends AppCompatActivity {
 
-    //IModuleService moduleService = new ModuleService();
+    IModuleService moduleService = new ModuleService();
 
     private RecyclerView mRecyclerview;
     private RecyclerView.Adapter mAdapter;
@@ -43,7 +43,10 @@ public class Modules extends AppCompatActivity {
             }
         });
 
+
+
         ArrayList<ModuleModel> modulesList = new ArrayList<>();
+
         ModuleModel mod1 = new ModuleModel();
         ModuleModel mod2 = new ModuleModel();
         ModuleModel mod3 = new ModuleModel();
