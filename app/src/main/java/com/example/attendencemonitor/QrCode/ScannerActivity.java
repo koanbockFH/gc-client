@@ -1,10 +1,13 @@
 package com.example.attendencemonitor.QrCode;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
+import android.os.PersistableBundle;
 import android.view.ViewGroup;
 
 import com.example.attendencemonitor.R;
@@ -14,17 +17,24 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class ScannerActivity extends AppCompatActivity  implements ZXingScannerView.ResultHandler
 {
+    public static final String EXTRA_RESULT_PAYLOAD = "SCANNER_RESULT";
     private ZXingScannerView mScannerView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    public void onCreate(Bundle state)
     {
-        super.onCreate(savedInstanceState);
+        super.onCreate(state);
         setContentView(R.layout.activity_scanner);
 
         ViewGroup contentFrame = findViewById(R.id.content_frame);
         mScannerView = new ZXingScannerView(this);
         contentFrame.addView(mScannerView);
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState)
+    {
+        super.onSaveInstanceState(outState, outPersistentState);
     }
 
     @Override
@@ -45,8 +55,9 @@ public class ScannerActivity extends AppCompatActivity  implements ZXingScannerV
     @Override
     public void handleResult(Result rawResult)
     {
-        String studentCode = rawResult.getText();
-        Log.i("Studentcode: ",studentCode);
+        Intent payload = new Intent();
+        payload.putExtra(EXTRA_RESULT_PAYLOAD,  rawResult.getText());
+        setResult(Activity.RESULT_OK, payload);
 
         new Handler().postDelayed(new Runnable()
         {
