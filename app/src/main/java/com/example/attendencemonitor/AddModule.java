@@ -65,6 +65,10 @@ public class AddModule extends AppCompatActivity {
         awesomeValidation.addValidation(this,R.id.add_module_code,".{3,}",R.string.invalid_code);
         awesomeValidation.addValidation(this,R.id.add_module_teacher, RegexTemplate.NOT_EMPTY,R.string.invalid_name);
         awesomeValidation.addValidation(this,R.id.add_module_class,RegexTemplate.NOT_EMPTY,R.string.invalid_name);
+        /* validation for Description; but I think unnecessary
+        if (eDescription.getText().toString().trim().equalsIgnoreCase("")) {
+            eDescription.setError("This field can not be blank");
+        }*/
 
 
         eAddModule.setOnClickListener(new View.OnClickListener() {
@@ -73,9 +77,9 @@ public class AddModule extends AppCompatActivity {
 
                 modulename = eModulename.getText().toString();
                 //geht das so?
-                mTeacher = (UserModel) eTeacher.getText();
+                //mTeacher = (UserModel) eTeacher.getText();
                 moduleCode = eCode.getText().toString();
-                mClass = (List<UserModel>) eClass.getText();
+                //mClass = (List<UserModel>) eClass.getText();
                 mDescription = eDescription.getText().toString();
 
 
@@ -88,10 +92,21 @@ public class AddModule extends AppCompatActivity {
                 dto.setTeacher(mTeacher);
                 //add students and teacher to dto
 
-                moduleService.saveOrUpdate(dto, new AddModuleCallback());
+
+
+                if(awesomeValidation.validate())
+                {
+                    moduleService.saveOrUpdate(dto, new AddModuleCallback());
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(), "Please check your input", Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
+
+
 
     }
 

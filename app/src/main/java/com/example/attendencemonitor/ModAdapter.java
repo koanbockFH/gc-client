@@ -14,6 +14,8 @@ import java.util.ArrayList;
 
 public class ModAdapter extends RecyclerView.Adapter<ModAdapter.MViewHolder>{
 
+    private int textSize;
+
     private ArrayList<ModuleModel> mModuleList;
 
     public static class MViewHolder extends RecyclerView.ViewHolder{
@@ -23,6 +25,7 @@ public class ModAdapter extends RecyclerView.Adapter<ModAdapter.MViewHolder>{
             super(itemView);
             mTextView = itemView.findViewById(R.id.module);
         }
+
     }
 
     public ModAdapter(ArrayList<ModuleModel> moduleList) {
@@ -32,8 +35,8 @@ public class ModAdapter extends RecyclerView.Adapter<ModAdapter.MViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull MViewHolder holder, int position) {
         ModuleModel currentItem = mModuleList.get(position);
-
         holder.mTextView.setText(currentItem.getName());
+        holder.mTextView.setTextSize(30);
     }
 
     @NonNull
@@ -43,6 +46,8 @@ public class ModAdapter extends RecyclerView.Adapter<ModAdapter.MViewHolder>{
         MViewHolder evh = new MViewHolder(v);
         return evh;
     }
+
+
 
     @Override
     public int getItemCount() {

@@ -25,6 +25,7 @@ public class Modules extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private Button add_mods;
+    private Button home_icon;
 
 
 
@@ -33,7 +34,7 @@ public class Modules extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modules);
         add_mods = (Button) findViewById(R.id.add_modules);
-
+        home_icon = (Button) findViewById(R.id.btn_home);
 
 
         add_mods.setOnClickListener(new View.OnClickListener() {
@@ -43,20 +44,36 @@ public class Modules extends AppCompatActivity {
             }
         });
 
+        home_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Modules.this, HomeAdmin.class));
+            }
+        });
+
         ArrayList<ModuleModel> modulesList = new ArrayList<>();
 
         ModuleModel mod1 = new ModuleModel();
         ModuleModel mod2 = new ModuleModel();
         ModuleModel mod3 = new ModuleModel();
         ModuleModel mod4 = new ModuleModel();
-        mod1.setName("English");
-        mod2.setName("German");
-        mod3.setName("Spanish");
-        mod4.setName("French");
+        ModuleModel mod5 = new ModuleModel();
+        ModuleModel mod6 = new ModuleModel();
+        ModuleModel mod7 = new ModuleModel();
+        mod1.setName("Cloud Computing");
+        mod2.setName("Global Classroom");
+        mod3.setName("Physics");
+        mod4.setName("English");
+        mod5.setName("German");
+        mod6.setName("Spanish");
+        mod7.setName("French");
         modulesList.add(mod1);
         modulesList.add(mod2);
         modulesList.add(mod3);
         modulesList.add(mod4);
+        modulesList.add(mod6);
+        modulesList.add(mod7);
+        modulesList.add(mod5);
 
 
         mRecyclerview = findViewById(R.id.modulelist);
@@ -68,5 +85,9 @@ public class Modules extends AppCompatActivity {
         mRecyclerview.setAdapter(mAdapter);
 
 
+
+
     }
+
+
 }

@@ -21,6 +21,7 @@
         android:layout_gravity="center"
         android:background="@color/primary_color"
         android:text="@string/add_module"
+        android:textSize="30dp"
         android:textColor="@color/white"
         android:layout_margin="20dp"/>
 

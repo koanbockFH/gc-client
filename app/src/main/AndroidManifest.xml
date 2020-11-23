@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AttendenceMonitor" >
         <activity android:name=".Modules" />
+        <activity android:name=".AddModule" />
         <activity android:name=".HomeAdmin" />
         <activity android:name=".NewUser" />
         <activity android:name=".Register" />
