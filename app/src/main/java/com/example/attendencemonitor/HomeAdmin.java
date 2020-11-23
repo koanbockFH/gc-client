@@ -33,7 +33,7 @@ public class HomeAdmin extends AppCompatActivity {
         module_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeAdmin.this, AddModule.class));
+                startActivity(new Intent(HomeAdmin.this, Modules.class));
             }
         });
 
