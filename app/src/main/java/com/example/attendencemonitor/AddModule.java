@@ -70,6 +70,7 @@ public class AddModule extends AppCompatActivity {
         eAddModule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 modulename = eModulename.getText().toString();
                 //geht das so?
                 mTeacher = (UserModel) eTeacher.getText();
@@ -80,15 +81,14 @@ public class AddModule extends AppCompatActivity {
 
                 ModuleModel dto = new ModuleModel();
                 dto.setName(modulename);
+                dto.setStudents(mClass);
+                //TODO Code darf ja noch nicht vergeben sein
                 dto.setCode(moduleCode);
                 dto.setDescription(mDescription);
                 dto.setTeacher(mTeacher);
-                dto.setStudents(mClass);
                 //add students and teacher to dto
 
                 moduleService.saveOrUpdate(dto, new AddModuleCallback());
-
-                startActivity(new Intent(AddModule.this, Modules.class));
 
             }
         });

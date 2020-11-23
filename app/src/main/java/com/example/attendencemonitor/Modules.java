@@ -24,7 +24,6 @@ public class Modules extends AppCompatActivity {
     private RecyclerView mRecyclerview;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-
     private Button add_mods;
 
 
@@ -33,8 +32,9 @@ public class Modules extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modules);
-
         add_mods = (Button) findViewById(R.id.add_modules);
+
+
 
         add_mods.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,8 +42,6 @@ public class Modules extends AppCompatActivity {
                 startActivity(new Intent(Modules.this, AddModule.class));
             }
         });
-
-
 
         ArrayList<ModuleModel> modulesList = new ArrayList<>();
 
@@ -68,5 +66,7 @@ public class Modules extends AppCompatActivity {
 
         mRecyclerview.setLayoutManager(mLayoutManager);
         mRecyclerview.setAdapter(mAdapter);
+
+
     }
 }
