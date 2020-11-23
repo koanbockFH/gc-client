@@ -24,7 +24,7 @@ public class StatisticsActivity extends AppCompatActivity {
 
         getEntries();
         String label;
-        barDataSet = new BarDataSet(barEntries, "Data Set");
+        barDataSet = new BarDataSet(barEntries, "Attendence Vs Performance Data Set");
         barData = new BarData(barDataSet);
         barChart.setData(barData);
         barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
