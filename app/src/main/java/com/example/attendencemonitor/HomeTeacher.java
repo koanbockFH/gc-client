@@ -15,6 +15,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.vision.CameraSource;
@@ -38,7 +39,7 @@ public class HomeTeacher extends AppCompatActivity {
         openScanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //startActivity(new Intent(HomeTeacher.this, IdCodeActivity.class));
+                //TODO startActivity(new Intent(HomeTeacher.this, IdCodeActivity.class));
             }
         });
 

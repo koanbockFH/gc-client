@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         public void onSuccess()
         {
             Log.i("login", "successful");
-            startActivity(new Intent(MainActivity.this, HomeAdmin.class));
+            startActivity(new Intent(MainActivity.this, HomeStudent.class));
         }
 
         @Override

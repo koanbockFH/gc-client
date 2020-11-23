@@ -36,23 +36,36 @@
 
 
             />
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="110dp"
+        app:iconGravity="textStart"
         android:padding="10dp">
     <Button
         android:id="@+id/btn_openScanner"
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:layout_marginTop="10dp"
-        android:text="Open Scanner"
-        app:icon="@drawable/ic_person"
+        android:background="@drawable/ic_action_scanner"
         android:textColor="@color/white" />
-</LinearLayout>
+
+
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:layout_marginTop="440dp"
+        android:text="Please click on Scanner to scan"
+        android:textSize="25sp"
+        android:gravity="center"
+        />
+
 
 
 </RelativeLayout>
