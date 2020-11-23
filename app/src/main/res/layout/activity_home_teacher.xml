@@ -38,22 +38,21 @@
             />
     </LinearLayout>
 
-    <SurfaceView
-        android:id="@+id/camerapreview"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_centerInParent="true" />
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:layout_below="@+id/camerapreview"
-        android:layout_marginTop="20dp"
-        android:text="Scan QR Code"
-        android:textSize="18dp"
-        android:gravity="center"
-        />
+        android:layout_gravity="center"
+        android:layout_marginTop="110dp"
+        android:padding="10dp">
+    <Button
+        android:id="@+id/btn_openScanner"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginTop="10dp"
+        android:text="Open Scanner"
+        app:icon="@drawable/ic_person"
+        android:textColor="@color/white" />
+</LinearLayout>
 
 
 </RelativeLayout>
