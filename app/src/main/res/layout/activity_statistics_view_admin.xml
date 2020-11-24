@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Modules"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/background_color"
+    >
+
+    <include
+        layout="@layout/content_statisticslist_admin"
+        android:layout_width="match_parent"
+        android:layout_height="450dp"
+        android:layout_marginTop="40dp"/>
+
+    <LinearLayout
+
+        android:id="@+id/change_statistics"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="100dp">
+
+        <Button
+            android:id="@+id/btn_statistics_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:text="Sort by Date"
+            />
+        <Button
+            android:id="@+id/btn_statistics_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:text="Sort by Date"
+            />
+        <Button
+            android:id="@+id/btn_statistics_today"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:text="Sort by Date"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/buttonbar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        >
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@drawable/ic_home"
+            android:layout_weight="1"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/moduleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:icon="@drawable/ic_modules"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+
+
+            />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/statisticsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:icon="@drawable/ic__bar_chart"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+
+
+            />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/classlistButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:icon="@drawable/ic_classlist"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+
+
+            />
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>
