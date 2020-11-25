@@ -20,7 +20,7 @@ import com.example.attendencemonitor.service.contract.IModuleService;
 import com.example.attendencemonitor.service.contract.IUserService;
 import com.example.attendencemonitor.service.dto.LoginFormDto;
 
-public class MainActivity extends AppCompatActivity {
+public class Login extends AppCompatActivity {
 
     IUserService userService = new UserService();
     IModuleService moduleService = new ModuleService();
@@ -85,14 +85,14 @@ public class MainActivity extends AppCompatActivity {
         public void onSuccess()
         {
             Log.i("login", "successful");
-            startActivity(new Intent(MainActivity.this, HomeAdmin.class));
+            startActivity(new Intent(Login.this, HomeAdmin.class));
         }
 
         @Override
         public void onError(Throwable error)
         {
 
-            Toast.makeText(MainActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Login.this, "Something went wrong", Toast.LENGTH_SHORT).show();
 
         }
     }

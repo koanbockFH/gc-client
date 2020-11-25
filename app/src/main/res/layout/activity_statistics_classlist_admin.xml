@@ -9,24 +9,11 @@
     android:background="@color/background_color"
     >
 
-    <!-- <SearchView
-        android:id="@+id/module_search"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" /> -->
-
-    <Button
-        android:id="@+id/add_modules"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@color/primary_color"
-        android:text="@string/add_module"
-        android:textSize="30dp"
-        android:textColor="@color/white"
-        android:layout_margin="20dp"/>
-
     <include
-        layout="@layout/content_modulelist" />
+        layout="@layout/content_classlist_admin"
+        android:layout_width="match_parent"
+        android:layout_height="450dp"
+        android:layout_marginTop="40dp"/>
 
 
     <LinearLayout android:id="@+id/buttonbar"
@@ -58,7 +45,31 @@
 
 
             />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/statisticsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:icon="@drawable/ic__bar_chart"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+
+
+            />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/classlistButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:icon="@drawable/ic_classlist"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+
+
+            />
     </LinearLayout>
+
+
 
 
 </RelativeLayout>
