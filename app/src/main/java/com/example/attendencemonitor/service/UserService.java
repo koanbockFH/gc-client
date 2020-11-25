@@ -33,7 +33,7 @@ public class UserService extends BaseService<IUserApi> implements IUserService
     @Override
     public void login(LoginFormDto dto, IActionCallback callback)
     {
-        api.login(dto).enqueue(new AuthenticationResolver(callback));
+        api.login(dto).enqueue(new LoginResolver(callback));
     }
 
     @Override
@@ -45,16 +45,15 @@ public class UserService extends BaseService<IUserApi> implements IUserService
     @Override
     public void logout(IActionCallback callback)
     {
-        ApiAccess.getInstance().setAccessToken(null);
-        //TODO Backend does not yet have a logout function we "fix" it by deleting the active token in the frontend
+        api.logout().enqueue(new LogoutResolver(callback));
     }
 
-    //Custom Handler for Login
-    private static class AuthenticationResolver implements Callback<AuthResponseDto>
+    //Custom Resolver for Login
+    private static class LoginResolver implements Callback<AuthResponseDto>
     {
         private final IActionCallback callback;
 
-        private AuthenticationResolver(IActionCallback callback)
+        private LoginResolver(IActionCallback callback)
         {
             this.callback = callback;
         }
@@ -80,6 +79,35 @@ public class UserService extends BaseService<IUserApi> implements IUserService
 
         @Override
         public void onFailure(Call<AuthResponseDto> call, Throwable t)
+        {
+            callback.onError(t);
+        }
+    }
+
+    //Custom Resolver for Logout
+    private static class LogoutResolver implements  Callback<Void>
+    {
+        private final IActionCallback callback;
+
+        private LogoutResolver(IActionCallback callback)
+        {
+            this.callback = callback;
+        }
+
+        @Override
+        public void onResponse(Call<Void> call, Response<Void> response)
+        {
+            if(response.isSuccessful())
+            {
+                ApiAccess.getInstance().setAccessToken(null);
+            }
+            else{
+                callback.onError(new HttpException(response));
+            }
+        }
+
+        @Override
+        public void onFailure(Call<Void> call, Throwable t)
         {
             callback.onError(t);
         }
