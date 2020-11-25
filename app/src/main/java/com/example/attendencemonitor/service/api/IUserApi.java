@@ -20,4 +20,7 @@ public interface IUserApi
 
     @GET("auth/profile")
     Call<UserModel> getCurrentUser();
+
+    @GET("auth/logout")
+    Call<Void> logout();
 }
