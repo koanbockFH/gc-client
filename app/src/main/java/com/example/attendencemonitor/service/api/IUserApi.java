@@ -27,6 +27,6 @@ public interface IUserApi
     @GET("user")
     Call<Pagination<UserModel>> getUserList(@Query("page") Integer page, @Query("take") Integer take, @Query("search") String search, @Query("type") UserType type);
 
-    @GET("auth/logout")
+    @POST("auth/logout")
     Call<Void> logout();
 }

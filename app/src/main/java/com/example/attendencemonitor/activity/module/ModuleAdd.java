@@ -13,6 +13,7 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.example.attendencemonitor.R;
+import com.example.attendencemonitor.activity.base.BaseMenuActivity;
 import com.example.attendencemonitor.activity.user.UserSearchActivity;
 import com.example.attendencemonitor.service.ModuleService;
 import com.example.attendencemonitor.service.contract.ICallback;
@@ -23,8 +24,8 @@ import com.example.attendencemonitor.service.model.UserType;
 
 import java.util.ArrayList;
 
-public class ModuleAdd extends AppCompatActivity {
-
+public class ModuleAdd extends BaseMenuActivity
+{
     IModuleService moduleService = new ModuleService();
     private static final int REQUEST_STUDENT_SELECTION = 1;
     private static final int REQUEST_TEACHER_SELECTION = 2;
@@ -42,6 +43,7 @@ public class ModuleAdd extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        initializeMenu("Add Module", true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_module_add);
 

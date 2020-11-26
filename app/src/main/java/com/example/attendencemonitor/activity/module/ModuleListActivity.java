@@ -8,10 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.attendencemonitor.AddModule;
-import com.example.attendencemonitor.Modules;
 import com.example.attendencemonitor.R;
-import com.example.attendencemonitor.activity.base.BaseMenuActicity;
+import com.example.attendencemonitor.activity.base.BaseMenuActivity;
 import com.example.attendencemonitor.service.ModuleService;
 import com.example.attendencemonitor.service.contract.ICallback;
 import com.example.attendencemonitor.service.contract.IModuleService;
@@ -21,7 +19,7 @@ import com.example.attendencemonitor.service.model.ModuleModel;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class ModuleListActivity extends BaseMenuActicity
+public class ModuleListActivity extends BaseMenuActivity
 {
     IModuleService moduleService = new ModuleService();
     private final UserSearchDto dto = new UserSearchDto();

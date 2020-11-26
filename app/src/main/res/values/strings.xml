@@ -20,4 +20,32 @@
     <string name="tv_searchUser">Search by email or names</string>
     <string name="add_module_student_value">Students selected:</string>
     <string name="menuitem_logout">Logout</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="login_hint_username">Enter Username</string>
+    <string name="login_hint_password">Enter Password</string>
+    <string name="login_submit">Login</string>
+    <string name="title_activity_main">MainActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
+    <string name="register_submit">Register</string>
+    <string name="student_type">Student</string>
+    <string name="teacher_type">Teacher</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="enter_mail">Enter Mail</string>
+    <string name="enter_code">Enter Code</string>
+    <string name="enter_lastname">Enter Lastname</string>
+    <string name="enter_firstname">Enter Firstname</string>
+    <string name="register_menu">Register</string>
+    <string name="modules_menu">Modules</string>
 </resources>
