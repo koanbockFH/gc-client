@@ -4,9 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.module.ModuleList">
+    tools:context=".activity.module.ModuleListActivity">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_module_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout_editor_absoluteX="121dp"
@@ -24,5 +25,6 @@
         app:tint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_baseline_add_24" />
+        app:srcCompat="@drawable/ic_baseline_add_24"
+        android:onClick="onAdd"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

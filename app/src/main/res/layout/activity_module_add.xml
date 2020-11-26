@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background_color"
-    tools:context=".AddModule"
+    tools:context=".activity.module.ModuleAdd"
     android:gravity="center">
 
         <EditText

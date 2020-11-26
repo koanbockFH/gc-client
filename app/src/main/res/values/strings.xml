@@ -19,4 +19,5 @@
     <string name="btn_cancelUser">Cancel</string>
     <string name="tv_searchUser">Search by email or names</string>
     <string name="add_module_student_value">Students selected:</string>
+    <string name="menuitem_logout">Logout</string>
 </resources>
