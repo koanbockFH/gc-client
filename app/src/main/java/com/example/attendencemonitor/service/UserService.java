@@ -1,5 +1,7 @@
 package com.example.attendencemonitor.service;
 
+import android.content.Context;
+
 import com.example.attendencemonitor.service.api.resolver.ActionResolver;
 import com.example.attendencemonitor.service.api.resolver.ResultResolver;
 import com.example.attendencemonitor.service.api.ApiAccess;
@@ -9,7 +11,9 @@ import com.example.attendencemonitor.service.contract.ICallback;
 import com.example.attendencemonitor.service.contract.IUserService;
 import com.example.attendencemonitor.service.dto.AuthResponseDto;
 import com.example.attendencemonitor.service.dto.LoginFormDto;
+import com.example.attendencemonitor.service.dto.Pagination;
 import com.example.attendencemonitor.service.dto.RegisterFormDto;
+import com.example.attendencemonitor.service.dto.UserSearchDto;
 import com.example.attendencemonitor.service.model.UserModel;
 
 import retrofit2.Call;
@@ -31,9 +35,9 @@ public class UserService extends BaseService<IUserApi> implements IUserService
     }
 
     @Override
-    public void login(LoginFormDto dto, IActionCallback callback)
+    public void login(Context context, LoginFormDto dto, IActionCallback callback)
     {
-        api.login(dto).enqueue(new LoginResolver(callback));
+        api.login(dto).enqueue(new LoginResolver(callback, context));
     }
 
     @Override
@@ -43,19 +47,27 @@ public class UserService extends BaseService<IUserApi> implements IUserService
     }
 
     @Override
-    public void logout(IActionCallback callback)
+    public void logout(Context context, IActionCallback callback)
     {
-        api.logout().enqueue(new LogoutResolver(callback));
+        api.logout().enqueue(new LogoutResolver(callback, context));
+    }
+
+    @Override
+    public void getUserList(UserSearchDto dto, ICallback<Pagination<UserModel>> callback)
+    {
+        api.getUserList(dto.getPage(), dto.getTake(), dto.getSearch(), dto.getType()).enqueue(new ResultResolver<>(callback));
     }
 
     //Custom Resolver for Login
     private static class LoginResolver implements Callback<AuthResponseDto>
     {
         private final IActionCallback callback;
+        private final Context context;
 
-        private LoginResolver(IActionCallback callback)
+        private LoginResolver(IActionCallback callback, Context context)
         {
             this.callback = callback;
+            this.context = context;
         }
 
         @Override
@@ -73,6 +85,7 @@ public class UserService extends BaseService<IUserApi> implements IUserService
                     return;
                 }
                 ApiAccess.getInstance().setAccessToken(dto.getAccessToken());
+                AppData.getInstance().createSession(context);
                 callback.onSuccess();
             }
         }
@@ -88,10 +101,12 @@ public class UserService extends BaseService<IUserApi> implements IUserService
     private static class LogoutResolver implements  Callback<Void>
     {
         private final IActionCallback callback;
+        private final Context context;
 
-        private LogoutResolver(IActionCallback callback)
+        private LogoutResolver(IActionCallback callback, Context context)
         {
             this.callback = callback;
+            this.context = context;
         }
 
         @Override
@@ -99,7 +114,9 @@ public class UserService extends BaseService<IUserApi> implements IUserService
         {
             if(response.isSuccessful())
             {
+                AppData.getInstance().closeSession(context);
                 ApiAccess.getInstance().setAccessToken(null);
+                callback.onSuccess();
             }
             else{
                 callback.onError(new HttpException(response));
