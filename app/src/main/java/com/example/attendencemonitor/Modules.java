@@ -88,6 +88,4 @@ public class Modules extends AppCompatActivity {
 
 
     }
-
-
 }

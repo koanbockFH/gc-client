@@ -15,4 +15,8 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="add_module">Add Module</string>
+    <string name="btn_submitUser">Save</string>
+    <string name="btn_cancelUser">Cancel</string>
+    <string name="tv_searchUser">Search by email or names</string>
+    <string name="add_module_student_value">Students selected:</string>
 </resources>

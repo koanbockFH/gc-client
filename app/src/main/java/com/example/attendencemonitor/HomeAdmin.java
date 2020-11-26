@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 
+import com.example.attendencemonitor.activity.module.ModuleList;
+
 public class HomeAdmin extends AppCompatActivity {
 
     private Button reg_btn;
@@ -33,7 +35,7 @@ public class HomeAdmin extends AppCompatActivity {
         module_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeAdmin.this, Modules.class));
+                startActivity(new Intent(HomeAdmin.this, ModuleList.class));
             }
         });
 

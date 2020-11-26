@@ -9,7 +9,9 @@ import com.example.attendencemonitor.service.contract.ICallback;
 import com.example.attendencemonitor.service.contract.IUserService;
 import com.example.attendencemonitor.service.dto.AuthResponseDto;
 import com.example.attendencemonitor.service.dto.LoginFormDto;
+import com.example.attendencemonitor.service.dto.Pagination;
 import com.example.attendencemonitor.service.dto.RegisterFormDto;
+import com.example.attendencemonitor.service.dto.UserSearchDto;
 import com.example.attendencemonitor.service.model.UserModel;
 
 import retrofit2.Call;
@@ -47,6 +49,12 @@ public class UserService extends BaseService<IUserApi> implements IUserService
     {
         ApiAccess.getInstance().setAccessToken(null);
         //TODO Backend does not yet have a logout function we "fix" it by deleting the active token in the frontend
+    }
+
+    @Override
+    public void getUserList(UserSearchDto dto, ICallback<Pagination<UserModel>> callback)
+    {
+        api.getUserList(dto.getPage(), dto.getTake(), dto.getSearch(), dto.getType()).enqueue(new ResultResolver<>(callback));
     }
 
     //Custom Handler for Login

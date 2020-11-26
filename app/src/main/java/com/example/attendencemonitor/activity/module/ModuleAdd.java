@@ -1,4 +1,4 @@
-package com.example.attendencemonitor;
+package com.example.attendencemonitor.activity.module;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,22 +12,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
+import com.example.attendencemonitor.R;
+import com.example.attendencemonitor.activity.user.UserSearchActivity;
 import com.example.attendencemonitor.service.ModuleService;
 import com.example.attendencemonitor.service.contract.ICallback;
 import com.example.attendencemonitor.service.contract.IModuleService;
 import com.example.attendencemonitor.service.model.ModuleModel;
 import com.example.attendencemonitor.service.model.UserModel;
 import com.example.attendencemonitor.service.model.UserType;
-import com.example.attendencemonitor.activity.user.UserSearchActivity;
 
 import java.util.ArrayList;
 
-public class AddModule extends AppCompatActivity {
+public class ModuleAdd extends AppCompatActivity {
 
     IModuleService moduleService = new ModuleService();
     private static final int REQUEST_STUDENT_SELECTION = 1;
     private static final int REQUEST_TEACHER_SELECTION = 2;
-
 
     private EditText eName;
     private EditText eCode;
@@ -43,7 +43,7 @@ public class AddModule extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_module);
+        setContentView(R.layout.activity_module_add);
 
         //Buttons/Textfields
         eName = (EditText) findViewById(R.id.add_module_name);
@@ -132,7 +132,7 @@ public class AddModule extends AppCompatActivity {
         @Override
         public void onError(Throwable error)
         {
-            Toast.makeText(AddModule.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ModuleAdd.this, "Something went wrong", Toast.LENGTH_SHORT).show();
         }
     }
 }
