@@ -48,7 +48,7 @@ public class ModuleListActivity extends BaseMenuActivity
         LinearLayoutManager lm = new LinearLayoutManager(this);
         ArrayList<ModuleModel> items = new ArrayList<>();
         Collections.addAll(items, values);
-        ModuleListAdapter adapter = new ModuleListAdapter(items);
+        ModuleListAdapter adapter = new ModuleListAdapter(items, this);
 
         rv.setLayoutManager(lm);
         rv.setAdapter(adapter);
