@@ -21,7 +21,7 @@ public class ApiAccess
     {
         if (instance == null)
         {
-            synchronized (Retrofit.class)
+            synchronized (ApiAccess.class)
             {
                 if (instance == null)
                 {

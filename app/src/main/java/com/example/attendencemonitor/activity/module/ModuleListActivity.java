@@ -10,11 +10,13 @@ import android.widget.Toast;
 
 import com.example.attendencemonitor.R;
 import com.example.attendencemonitor.activity.base.BaseMenuActivity;
+import com.example.attendencemonitor.service.AppData;
 import com.example.attendencemonitor.service.ModuleService;
 import com.example.attendencemonitor.service.contract.ICallback;
 import com.example.attendencemonitor.service.contract.IModuleService;
-import com.example.attendencemonitor.service.dto.UserSearchDto;
 import com.example.attendencemonitor.service.model.ModuleModel;
+import com.example.attendencemonitor.service.model.UserType;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,14 +24,19 @@ import java.util.Collections;
 public class ModuleListActivity extends BaseMenuActivity
 {
     IModuleService moduleService = new ModuleService();
-    private final UserSearchDto dto = new UserSearchDto();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        initializeMenu("Modules", true);
+        initializeMenu("Modules", AppData.getInstance().getUserType() == UserType.ADMIN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_module_list);
+
+        FloatingActionButton fab = findViewById(R.id.fab_module_add);
+        if(AppData.getInstance().getUserType() != UserType.ADMIN)
+        {
+            fab.setVisibility(View.GONE);
+        }
 
         moduleService.getAll(new ModuleListCallback());
     }

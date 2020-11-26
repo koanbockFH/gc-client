@@ -63,8 +63,8 @@ public class RegisterActivity extends BaseMenuActivity
         regDto.setFirstName(eFirstName.getText().toString());
         regDto.setLastName(eLastName.getText().toString());
         regDto.setMail(eEmail.getText().toString());
-        regDto.setPassword(eCode.getText().toString());
-        regDto.setCode(ePassword.getText().toString());
+        regDto.setPassword(ePassword.getText().toString());
+        regDto.setCode(eCode.getText().toString());
         switch(userType) {
             case 0:
                 regDto.setUserType(UserType.TEACHER);

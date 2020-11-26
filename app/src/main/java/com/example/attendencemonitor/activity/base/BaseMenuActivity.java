@@ -13,10 +13,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.attendencemonitor.R;
 import com.example.attendencemonitor.activity.admin.AdminHomeActivity;
 import com.example.attendencemonitor.activity.auth.LoginActivity;
+import com.example.attendencemonitor.activity.student.StudentHomeActivity;
 import com.example.attendencemonitor.service.AppData;
 import com.example.attendencemonitor.service.UserService;
 import com.example.attendencemonitor.service.contract.IActionCallback;
 import com.example.attendencemonitor.service.contract.IUserService;
+import com.example.attendencemonitor.service.model.UserType;
 
 public abstract class BaseMenuActivity extends AppCompatActivity
 {
@@ -26,15 +28,7 @@ public abstract class BaseMenuActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        getSession();
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    protected void onResume()
-    {
-        getSession();
-        super.onResume();
     }
 
     protected void initializeMenu(String title, boolean enableBackButton)
@@ -86,26 +80,6 @@ public abstract class BaseMenuActivity extends AppCompatActivity
         onBackPressed();
         return true;
     }
-
-    private void getSession()
-    {
-        boolean isLoggedIn = AppData.getInstance().getSession(this);
-        if(this.getClass() != LoginActivity.class && !isLoggedIn)
-        {
-            Intent intent = new Intent(this.getApplicationContext(), LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
-        }
-        else if(this.getClass() == LoginActivity.class && isLoggedIn)
-        {
-            Intent intent = new Intent(this.getApplicationContext(), AdminHomeActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
-        }
-    }
-
     private void onLogout()
     {
         Intent intent = new Intent(this.getApplicationContext(), LoginActivity.class);

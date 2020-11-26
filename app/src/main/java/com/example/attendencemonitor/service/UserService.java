@@ -59,7 +59,7 @@ public class UserService extends BaseService<IUserApi> implements IUserService
     }
 
     //Custom Resolver for Login
-    private static class LoginResolver implements Callback<AuthResponseDto>
+    private class LoginResolver implements Callback<AuthResponseDto>
     {
         private final IActionCallback callback;
         private final Context context;
@@ -85,8 +85,7 @@ public class UserService extends BaseService<IUserApi> implements IUserService
                     return;
                 }
                 ApiAccess.getInstance().setAccessToken(dto.getAccessToken());
-                AppData.getInstance().createSession(context);
-                callback.onSuccess();
+                getCurrentUser(new GetUserCallback());
             }
         }
 
@@ -94,6 +93,23 @@ public class UserService extends BaseService<IUserApi> implements IUserService
         public void onFailure(Call<AuthResponseDto> call, Throwable t)
         {
             callback.onError(t);
+        }
+
+        private class GetUserCallback implements ICallback<UserModel>
+        {
+            @Override
+            public void onSuccess(UserModel value)
+            {
+                AppData.getInstance().createSession(context, value);
+                callback.onSuccess();
+            }
+
+            @Override
+            public void onError(Throwable error)
+            {
+                ApiAccess.getInstance().setAccessToken(null);
+                callback.onError(error);
+            }
         }
     }
 

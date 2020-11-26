@@ -7,5 +7,6 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    #D0CDD7
+    <color name="QRWhite">#ffffff</color>
+    <color name="QRBlack">#000000</color>
 </resources>

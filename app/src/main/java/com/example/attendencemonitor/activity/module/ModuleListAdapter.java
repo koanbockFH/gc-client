@@ -14,12 +14,12 @@ import com.example.attendencemonitor.service.model.ModuleModel;
 import java.util.ArrayList;
 
 public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.ItemViewAdapter>{
-    private ArrayList<ModuleModel> moduleList;
+    private final ArrayList<ModuleModel> moduleList;
 
     public static class ItemViewAdapter extends RecyclerView.ViewHolder{
-        private TextView tv_module_code;
-        private TextView tv_module_name;
-        private TextView tv_teacher;
+        private final TextView tv_module_code;
+        private final TextView tv_module_name;
+        private final TextView tv_teacher;
 
         public ItemViewAdapter(@NonNull View itemView) {
             super(itemView);
