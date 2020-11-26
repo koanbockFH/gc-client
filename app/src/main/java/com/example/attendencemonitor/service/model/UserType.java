@@ -6,9 +6,7 @@ public enum UserType
 
     TEACHER(1),
 
-    STUDENT(2),
-
-    TEACHING_STUDENT(3);
+    STUDENT(2);
 
     private final int key;
 

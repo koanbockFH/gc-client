@@ -7,6 +7,19 @@ import java.util.List;
 
 public class ModuleModel extends BaseModel
 {
+
+    /*public ModuleModel(String mName, String mCode, String mDescription, UserModel mTeacher, List<UserModel> mStudents){
+        setName(mName);
+        setDescription(mDescription);
+        setCode(mCode);
+        setStudents(mStudents);
+        setTeacher(mTeacher);
+    }
+
+    public ModuleModel(String mName){
+        setName(mName);
+    }*/
+
     @Expose
     private String name;
     @Expose
