@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.attendencemonitor.R;
+import com.example.attendencemonitor.activity.SessionActivity;
 import com.example.attendencemonitor.activity.admin.AdminHomeActivity;
 import com.example.attendencemonitor.activity.base.BaseMenuActivity;
 import com.example.attendencemonitor.service.UserService;
@@ -44,7 +45,7 @@ public class LoginActivity extends BaseMenuActivity
         @Override
         public void onSuccess()
         {
-            startActivity(new Intent(LoginActivity.this, AdminHomeActivity.class));
+            startActivity(new Intent(LoginActivity.this, SessionActivity.class));
         }
 
         @Override

@@ -2,10 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.attendencemonitor">
 
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-    <uses-feature android:name="android.hardware.type.watch" />
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
 
@@ -16,15 +12,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AttendenceMonitor">
-        <activity android:name=".activity.admin.AdminHomeActivity"></activity>
-        <activity android:name=".activity.auth.RegisterActivity" />
-        <activity android:name=".activity.auth.LoginActivity">
+        <activity android:name=".activity.qr.ScannerActivity"/>
+        <activity android:name=".activity.module.timeslot.TimeslotAddActivity" />
+        <activity android:name=".activity.module.timeslot.TimeslotListActivity" />
+        <activity android:name=".activity.teacher.TeacherHomeActivity" />
+        <activity android:name=".activity.SessionActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.student.StudentHomeActivity" />
+        <activity android:name=".activity.admin.AdminHomeActivity" />
+        <activity android:name=".activity.auth.RegisterActivity" />
+        <activity android:name=".activity.auth.LoginActivity" />
         <activity android:name=".activity.module.ModuleAdd" />
         <activity android:name=".activity.module.ModuleListActivity" />
         <activity android:name=".activity.user.UserSearchActivity" />
