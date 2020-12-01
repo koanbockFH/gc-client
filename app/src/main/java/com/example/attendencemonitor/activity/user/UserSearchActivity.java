@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.attendencemonitor.R;
+import com.example.attendencemonitor.activity.base.BaseMenuActivity;
 import com.example.attendencemonitor.service.UserService;
 import com.example.attendencemonitor.service.contract.ICallback;
 import com.example.attendencemonitor.service.contract.IUserService;
@@ -25,7 +26,7 @@ import com.example.attendencemonitor.service.model.UserType;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class UserSearchActivity extends AppCompatActivity
+public class UserSearchActivity extends BaseMenuActivity
 {
     IUserService userService = new UserService();
     public static final String EXTRA_CURRENT_SELECTED = "SELECTED_USERS";
@@ -37,19 +38,23 @@ public class UserSearchActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_search);
-
         Intent received = getIntent();
         defaultSelection = received.getParcelableArrayListExtra(EXTRA_CURRENT_SELECTED);
         int requestType = received.getIntExtra(EXTRA_USER_TYPE, UserType.TEACHER.getKey());
+        String title = "Search";
         if(requestType == UserType.TEACHER.getKey())
         {
             dto.setType(UserType.TEACHER);
+            title = "Teachers";
         }
         else{
             dto.setType(UserType.STUDENT);
+            title = "Students";
         }
+
+        initializeMenu(title, true);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_user_search);
 
         EditText searchBox = findViewById(R.id.et_searchbox);
         searchBox.addTextChangedListener(new TextWatcher()

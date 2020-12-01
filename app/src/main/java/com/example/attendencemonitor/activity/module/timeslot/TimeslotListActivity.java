@@ -64,7 +64,7 @@ public class TimeslotListActivity extends BaseMenuActivity
         LinearLayoutManager lm = new LinearLayoutManager(this);
         ArrayList<TimeslotModel> items = new ArrayList<>();
         Collections.addAll(items, values);
-        TimeslotListAdapter adapter = new TimeslotListAdapter(items, new TimeslotRecyclerListener());
+        TimeslotListAdapter adapter = new TimeslotListAdapter(items, new ListItemListener());
 
         rv.setLayoutManager(lm);
         rv.setAdapter(adapter);
@@ -146,7 +146,7 @@ public class TimeslotListActivity extends BaseMenuActivity
         }
     }
 
-    private class TimeslotRecyclerListener implements IRecyclerViewItemEventListener<TimeslotModel>
+    private class ListItemListener implements IRecyclerViewItemEventListener<TimeslotModel>
     {
         @Override
         public void onClick(TimeslotModel item)

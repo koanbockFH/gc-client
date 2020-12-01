@@ -10,12 +10,15 @@ import android.widget.Toast;
 
 import com.example.attendencemonitor.R;
 import com.example.attendencemonitor.activity.base.BaseMenuActivity;
+import com.example.attendencemonitor.activity.module.timeslot.TimeslotListActivity;
 import com.example.attendencemonitor.service.AppData;
 import com.example.attendencemonitor.service.ModuleService;
+import com.example.attendencemonitor.service.contract.IActionCallback;
 import com.example.attendencemonitor.service.contract.ICallback;
 import com.example.attendencemonitor.service.contract.IModuleService;
 import com.example.attendencemonitor.service.model.ModuleModel;
 import com.example.attendencemonitor.service.model.UserType;
+import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -48,7 +51,7 @@ public class ModuleListActivity extends BaseMenuActivity
         LinearLayoutManager lm = new LinearLayoutManager(this);
         ArrayList<ModuleModel> items = new ArrayList<>();
         Collections.addAll(items, values);
-        ModuleListAdapter adapter = new ModuleListAdapter(items, this);
+        ModuleListAdapter adapter = new ModuleListAdapter(items,  new ListItemListener());
 
         rv.setLayoutManager(lm);
         rv.setAdapter(adapter);
@@ -63,7 +66,61 @@ public class ModuleListActivity extends BaseMenuActivity
 
     public void onAdd(View view)
     {
-        startActivity(new Intent(this, ModuleAdd.class));
+        startActivity(new Intent(this, ModuleFormActivity.class));
+    }
+
+    private void openDetails(ModuleModel item){
+        Intent timeslots = new Intent(this, TimeslotListActivity.class);
+        timeslots.putExtra(TimeslotListActivity.EXTRA_MODULE_ID, item.getId());
+        startActivity(timeslots);
+    }
+
+    private void deleteModule(ModuleModel item)
+    {
+        moduleService.delete(item, new DeleteCallback());
+    }
+
+    private void edit(ModuleModel item){
+        Intent i = new Intent(this, ModuleFormActivity.class);
+        i.putExtra(ModuleFormActivity.EXTRA_MODULE_ID, item.getId());
+        startActivity(i);
+    }
+
+    private class ListItemListener implements IRecyclerViewItemEventListener<ModuleModel>
+    {
+        @Override
+        public void onClick(ModuleModel item)
+        {
+            openDetails(item);
+        }
+
+        @Override
+        public void onLongPress(ModuleModel item)
+        {
+            deleteModule(item);
+        }
+
+        @Override
+        public void onActionClick(ModuleModel item)
+        {
+            edit(item);
+        }
+    }
+
+
+    private class DeleteCallback implements IActionCallback
+    {
+        @Override
+        public void onSuccess()
+        {
+            Toast.makeText(ModuleListActivity.this, "Timeslot has been deleted!", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onError(Throwable error)
+        {
+            Toast.makeText(ModuleListActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private class ModuleListCallback implements ICallback<ModuleModel[]>

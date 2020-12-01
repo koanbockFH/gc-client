@@ -14,12 +14,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.attendencemonitor.R;
 import com.example.attendencemonitor.activity.module.timeslot.TimeslotListActivity;
 import com.example.attendencemonitor.service.model.ModuleModel;
+import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 
 import java.util.ArrayList;
 
 public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.ItemViewAdapter>{
     private final ArrayList<ModuleModel> moduleList;
-    private final Context context;
+    private final IRecyclerViewItemEventListener<ModuleModel> listener;
 
     public static class ItemViewAdapter extends RecyclerView.ViewHolder{
         private final TextView tv_module_code;
@@ -36,9 +37,9 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.It
         }
 
     }
-    public ModuleListAdapter(ArrayList<ModuleModel> moduleList, Context context) {
+    public ModuleListAdapter(ArrayList<ModuleModel> moduleList, IRecyclerViewItemEventListener<ModuleModel> listener) {
         this.moduleList = moduleList;
-        this.context = context;
+        this.listener = listener;
     }
 
     @Override
@@ -48,9 +49,11 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.It
         holder.tv_module_name.setText(currentItem.getName());
         holder.tv_teacher.setText(currentItem.getTeacher().getFullName());
         holder.ll_moduleContainer.setOnClickListener(view -> {
-            Intent timeslots = new Intent(context, TimeslotListActivity.class);
-            timeslots.putExtra(TimeslotListActivity.EXTRA_MODULE_ID, currentItem.getId());
-            context.startActivity(timeslots);
+            listener.onClick(currentItem);
+        });
+        holder.ll_moduleContainer.setOnLongClickListener(view -> {
+            listener.onLongPress(currentItem);
+            return true;
         });
     }
 
