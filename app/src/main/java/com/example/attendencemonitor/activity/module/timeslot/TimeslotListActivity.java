@@ -14,10 +14,13 @@ import android.widget.Toast;
 
 import com.example.attendencemonitor.R;
 import com.example.attendencemonitor.activity.base.BaseMenuActivity;
+import com.example.attendencemonitor.activity.qr.ScannerActivity;
 import com.example.attendencemonitor.service.TimeslotService;
+import com.example.attendencemonitor.service.contract.IActionCallback;
 import com.example.attendencemonitor.service.contract.ICallback;
 import com.example.attendencemonitor.service.contract.ITimeslotService;
 import com.example.attendencemonitor.service.model.TimeslotModel;
+import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,11 +46,14 @@ public class TimeslotListActivity extends BaseMenuActivity
         {
             finish();
         }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, ZXING_CAMERA_PERMISSION);
-        }
 
+        timeslotService.getAll(moduleId, new TimeslotListCallback());
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
         timeslotService.getAll(moduleId, new TimeslotListCallback());
     }
 
@@ -58,24 +64,55 @@ public class TimeslotListActivity extends BaseMenuActivity
         LinearLayoutManager lm = new LinearLayoutManager(this);
         ArrayList<TimeslotModel> items = new ArrayList<>();
         Collections.addAll(items, values);
-        TimeslotListAdapter adapter = new TimeslotListAdapter(items, this);
+        TimeslotListAdapter adapter = new TimeslotListAdapter(items, new TimeslotRecyclerListener());
 
         rv.setLayoutManager(lm);
         rv.setAdapter(adapter);
     }
 
-    @Override
-    protected void onResume()
-    {
-        super.onResume();
-        timeslotService.getAll(moduleId, new TimeslotListCallback());
-    }
-
     public void onAdd(View view)
     {
-        Intent addTimeslot = new Intent(this, TimeslotAddActivity.class);
-        addTimeslot.putExtra(TimeslotAddActivity.EXTRA_MODULE_ID, moduleId);
+        Intent addTimeslot = new Intent(this, TimeslotFormActivity.class);
+        addTimeslot.putExtra(TimeslotFormActivity.EXTRA_MODULE_ID, moduleId);
         startActivity(addTimeslot);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == ZXING_CAMERA_PERMISSION)
+        {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                Intent scanner = new Intent(this, ScannerActivity.class);
+                this.startActivity(scanner);
+            }
+            else
+            {
+                Toast.makeText(this, R.string.onRequestPermissionsResult, Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private void onOpenScanner(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, ZXING_CAMERA_PERMISSION);
+        }
+        else {
+            Intent scanner = new Intent(this, ScannerActivity.class);
+            this.startActivity(scanner);
+        }
+    }
+
+    private void onDeleteTimeslot(TimeslotModel item){
+        timeslotService.delete(item, new DeleteTimeslotCallback());
+    }
+
+    private void onEditTimeslot(TimeslotModel timeslot) {
+        Intent i = new Intent(this, TimeslotFormActivity.class);
+        i.putExtra(TimeslotFormActivity.EXTRA_MODULE_ID, moduleId);
+        i.putExtra(TimeslotFormActivity.EXTRA_TIMESLOT_ID, timeslot.getId());
+        startActivity(i);
     }
 
     private class TimeslotListCallback implements ICallback<TimeslotModel[]>
@@ -94,17 +131,40 @@ public class TimeslotListActivity extends BaseMenuActivity
         }
     }
 
+    private class DeleteTimeslotCallback implements IActionCallback{
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,  String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case ZXING_CAMERA_PERMISSION:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        @Override
+        public void onSuccess()
+        {
+            Toast.makeText(TimeslotListActivity.this, "Timeslot has been deleted!", Toast.LENGTH_SHORT).show();
+        }
 
-                } else {
-                    finish();
-                }
-                return;
+        @Override
+        public void onError(Throwable error)
+        {
+            Toast.makeText(TimeslotListActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
         }
     }
+
+    private class TimeslotRecyclerListener implements IRecyclerViewItemEventListener<TimeslotModel>
+    {
+        @Override
+        public void onClick(TimeslotModel item)
+        {
+            onOpenScanner();
+        }
+
+        @Override
+        public void onLongPress(TimeslotModel item)
+        {
+            onDeleteTimeslot(item);
+        }
+
+        @Override
+        public void onActionClick(TimeslotModel item)
+        {
+            onEditTimeslot(item);
+        }
+    }
+
 }

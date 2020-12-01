@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AttendenceMonitor">
         <activity android:name=".activity.qr.ScannerActivity"/>
-        <activity android:name=".activity.module.timeslot.TimeslotAddActivity" />
+        <activity android:name=".activity.module.timeslot.TimeslotFormActivity" />
         <activity android:name=".activity.module.timeslot.TimeslotListActivity" />
         <activity android:name=".activity.teacher.TeacherHomeActivity" />
         <activity android:name=".activity.SessionActivity">

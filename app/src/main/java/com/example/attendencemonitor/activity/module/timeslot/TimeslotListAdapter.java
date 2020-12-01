@@ -1,9 +1,5 @@
 package com.example.attendencemonitor.activity.module.timeslot;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,21 +7,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.attendencemonitor.R;
-import com.example.attendencemonitor.activity.qr.ScannerActivity;
 import com.example.attendencemonitor.service.model.TimeslotModel;
+import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
+
 public class TimeslotListAdapter extends RecyclerView.Adapter<TimeslotListAdapter.ItemViewAdapter>{
     private final ArrayList<TimeslotModel> itemList;
-    private final Context context;
+    private final IRecyclerViewItemEventListener<TimeslotModel> listener;
 
     public static class ItemViewAdapter extends RecyclerView.ViewHolder{
         private final TextView tv_name;
@@ -40,9 +35,9 @@ public class TimeslotListAdapter extends RecyclerView.Adapter<TimeslotListAdapte
         }
 
     }
-    public TimeslotListAdapter(ArrayList<TimeslotModel> itemList, Context context) {
+    public TimeslotListAdapter(ArrayList<TimeslotModel> itemList, IRecyclerViewItemEventListener<TimeslotModel> listener) {
         this.itemList = itemList;
-        this.context = context;
+        this.listener = listener;
     }
 
     @Override
@@ -54,9 +49,13 @@ public class TimeslotListAdapter extends RecyclerView.Adapter<TimeslotListAdapte
         holder.tv_name.setText(currentItem.getName());
         holder.tv_start.setText(String.format("%s - %s", dateTimeFormatter.format(currentItem.getStartDate()), timeFormatter.format(currentItem.getEndDate())));
         holder.ll_timeslotContainer.setOnClickListener(view -> {
-            Intent scanner = new Intent(context, ScannerActivity.class);
-            context.startActivity(scanner);
+            listener.onClick(currentItem);
         });
+        holder.ll_timeslotContainer.setOnLongClickListener(view -> {
+            listener.onLongPress(currentItem);
+            return true;
+        });
+
     }
 
     @NonNull
