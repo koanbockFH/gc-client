@@ -5,6 +5,7 @@
     <string name="invalid_code">Enter minimum of three characters</string>
     <string name="invalid_password">Enter minimum of six characters</string>
     <string name="invalid_conf_password">Password does not match</string>
+    <string name="must_not_be_empty">Please enter a value</string>
     <string name="title_activity_modules">Modules</string>
 
     <string name="add_module">Add Module</string>

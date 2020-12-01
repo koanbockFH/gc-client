@@ -2,6 +2,7 @@ package com.example.attendencemonitor.activity.auth;
 
 import android.os.Bundle;
 import android.util.Patterns;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioGroup;
@@ -29,7 +30,7 @@ public class RegisterActivity extends BaseMenuActivity
     private EditText ePassword;
     private RadioGroup eUserTypeGroup;
 
-    AwesomeValidation awesomeValidation;
+    private AwesomeValidation awesomeValidation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +38,22 @@ public class RegisterActivity extends BaseMenuActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth_register);
 
-        eUserTypeGroup = (RadioGroup) findViewById(R.id.reg_user_type);
-        eFirstName = (EditText) findViewById(R.id.reg_firstname);
-        eLastName = (EditText) findViewById(R.id.reg_lastname);
-        eEmail = (EditText) findViewById(R.id.reg_mail);
-        eCode = (EditText) findViewById(R.id.reg_code);
-        ePassword = (EditText) findViewById(R.id.reg_password);
+        eUserTypeGroup = findViewById(R.id.reg_user_type);
+        eFirstName = findViewById(R.id.reg_firstname);
+        eLastName = findViewById(R.id.reg_lastname);
+        eEmail = findViewById(R.id.reg_mail);
+        eCode = findViewById(R.id.reg_code);
+        ePassword = findViewById(R.id.reg_password);
+        EditText confPassword = findViewById(R.id.reg_conf_password);
+
+        confPassword.setOnKeyListener((view, i, keyEvent) -> {
+            if (keyEvent.getAction() == KeyEvent.ACTION_DOWN && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+            {
+                onSubmit(view);
+                return true;
+            }
+            return false;
+        });
 
         //validation
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);

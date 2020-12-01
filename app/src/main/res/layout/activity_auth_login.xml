@@ -9,7 +9,7 @@
     tools:context=".activity.auth.LoginActivity">
 
     <EditText
-        android:id="@+id/username"
+        android:id="@+id/login_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:autofillHints="username"
@@ -22,7 +22,7 @@
         android:textColorHint="@color/primary_color" />
 
     <EditText
-        android:id="@+id/password"
+        android:id="@+id/login_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -32,7 +32,7 @@
         android:hint="@string/login_hint_password"
         android:inputType="textPassword"
         android:textColor="@color/primary_color"
-        android:textColorHint="@color/primary_color" />
+        android:textColorHint="@color/primary_color"/>
 
     <Button
         android:id="@+id/btn_login"
