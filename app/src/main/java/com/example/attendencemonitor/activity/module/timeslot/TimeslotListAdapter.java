@@ -3,6 +3,7 @@ package com.example.attendencemonitor.activity.module.timeslot;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -26,12 +27,16 @@ public class TimeslotListAdapter extends RecyclerView.Adapter<TimeslotListAdapte
         private final TextView tv_name;
         private final TextView tv_start;
         private final LinearLayout ll_timeslotContainer;
+        private final ImageButton ib_edit;
+        private final ImageButton ib_scan;
 
         public ItemViewAdapter(@NonNull View itemView) {
             super(itemView);
             tv_name = itemView.findViewById(R.id.tv_timeslot_name);
             tv_start = itemView.findViewById(R.id.tv_start_date);
             ll_timeslotContainer = itemView.findViewById(R.id.ll_timeslotContainer);
+            ib_edit = itemView.findViewById(R.id.ib_edit);
+            ib_scan = itemView.findViewById(R.id.ib_scan);
         }
 
     }
@@ -48,6 +53,9 @@ public class TimeslotListAdapter extends RecyclerView.Adapter<TimeslotListAdapte
 
         holder.tv_name.setText(currentItem.getName());
         holder.tv_start.setText(String.format("%s - %s", dateTimeFormatter.format(currentItem.getStartDate()), timeFormatter.format(currentItem.getEndDate())));
+
+        holder.ib_edit.setOnClickListener(v -> {listener.onActionClick(currentItem);});
+        holder.ib_scan.setOnClickListener(v -> {listener.onClick(currentItem);});
         holder.ll_timeslotContainer.setOnClickListener(view -> {
             listener.onClick(currentItem);
         });

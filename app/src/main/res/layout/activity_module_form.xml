@@ -22,7 +22,6 @@
             android:id="@+id/add_module_code"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-
             android:hint="Enter Code"
             android:textColor="@color/primary_color"
             android:textColorHint="@color/primary_color"
@@ -46,7 +45,6 @@
             android:layout_width="300dp"
             android:layout_marginTop="20dp"
             android:orientation="horizontal">
-
                 <EditText
                     android:id="@+id/add_module_teacher"
                     android:layout_width="match_parent"
