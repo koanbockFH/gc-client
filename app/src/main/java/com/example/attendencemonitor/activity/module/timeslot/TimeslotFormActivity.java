@@ -19,6 +19,7 @@ import com.example.attendencemonitor.service.model.TimeslotModel;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class TimeslotFormActivity extends BaseMenuActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener
@@ -31,7 +32,7 @@ public class TimeslotFormActivity extends BaseMenuActivity implements DatePicker
     public static final String EXTRA_MODULE_ID = "MODULE_ID";
     public static final String EXTRA_TIMESLOT_ID = "TIMESLOT_ID";
     private int moduleId = -1;
-    TimeslotModel model = new TimeslotModel();
+    TimeslotModel model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -53,7 +54,10 @@ public class TimeslotFormActivity extends BaseMenuActivity implements DatePicker
             timeslotService.getById(timeslotId, new GetTimeslotCallback());
         }
         else{
-            initView(null);
+            TimeslotModel module = new TimeslotModel();
+            module.setStartDate(new Date());
+            module.setEndDate(new Date());
+            initView(module);
         }
     }
 

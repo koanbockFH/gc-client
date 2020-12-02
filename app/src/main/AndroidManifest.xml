@@ -14,7 +14,6 @@
         android:theme="@style/Theme.AttendenceMonitor">
         <activity android:name=".activity.qr.ScannerActivity"/>
         <activity android:name=".activity.module.timeslot.TimeslotFormActivity" />
-        <activity android:name=".activity.module.timeslot.TimeslotListActivity" />
         <activity android:name=".activity.teacher.TeacherHomeActivity" />
         <activity android:name=".activity.SessionActivity">
             <intent-filter>
@@ -29,6 +28,7 @@
         <activity android:name=".activity.auth.LoginActivity" />
         <activity android:name=".activity.module.ModuleFormActivity" />
         <activity android:name=".activity.module.ModuleListActivity" />
+        <activity android:name=".activity.module.detail.ModuleDetailActivity" />
         <activity android:name=".activity.user.UserSearchActivity" />
     </application>
 

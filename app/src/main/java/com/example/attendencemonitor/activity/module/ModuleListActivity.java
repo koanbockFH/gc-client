@@ -10,7 +10,7 @@ import android.widget.Toast;
 
 import com.example.attendencemonitor.R;
 import com.example.attendencemonitor.activity.base.BaseMenuActivity;
-import com.example.attendencemonitor.activity.module.timeslot.TimeslotListActivity;
+import com.example.attendencemonitor.activity.module.detail.ModuleDetailActivity;
 import com.example.attendencemonitor.service.AppData;
 import com.example.attendencemonitor.service.ModuleService;
 import com.example.attendencemonitor.service.contract.IActionCallback;
@@ -70,8 +70,8 @@ public class ModuleListActivity extends BaseMenuActivity
     }
 
     private void openDetails(ModuleModel item){
-        Intent timeslots = new Intent(this, TimeslotListActivity.class);
-        timeslots.putExtra(TimeslotListActivity.EXTRA_MODULE_ID, item.getId());
+        Intent timeslots = new Intent(this, ModuleDetailActivity.class);
+        timeslots.putExtra(ModuleDetailActivity.EXTRA_MODULE_ID, item.getId());
         startActivity(timeslots);
     }
 

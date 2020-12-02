@@ -158,6 +158,7 @@ public class ModuleFormActivity extends BaseMenuActivity
             Toast.makeText(ModuleFormActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
         }
     }
+
     private class GetCallback implements ICallback<ModuleModel> {
 
         @Override

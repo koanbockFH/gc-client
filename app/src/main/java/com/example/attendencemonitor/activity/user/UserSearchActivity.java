@@ -1,6 +1,5 @@
 package com.example.attendencemonitor.activity.user;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 

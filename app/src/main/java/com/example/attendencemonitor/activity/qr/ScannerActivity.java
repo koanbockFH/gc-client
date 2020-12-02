@@ -60,13 +60,6 @@ public class ScannerActivity extends BaseMenuActivity implements ZXingScannerVie
         payload.putExtra(EXTRA_RESULT_PAYLOAD,  rawResult.getText());
         setResult(Activity.RESULT_OK, payload);
 
-        new Handler().postDelayed(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                ScannerActivity.this.finish();
-            }
-        }, 800);
+        new Handler().postDelayed(this::finish, 800);
     }
 }
