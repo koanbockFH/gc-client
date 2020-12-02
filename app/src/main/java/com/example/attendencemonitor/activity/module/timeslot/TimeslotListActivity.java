@@ -1,5 +1,6 @@
 package com.example.attendencemonitor.activity.module.timeslot;
 
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,10 +16,13 @@ import android.widget.Toast;
 import com.example.attendencemonitor.R;
 import com.example.attendencemonitor.activity.base.BaseMenuActivity;
 import com.example.attendencemonitor.activity.qr.ScannerActivity;
+import com.example.attendencemonitor.service.AttendanceService;
 import com.example.attendencemonitor.service.TimeslotService;
 import com.example.attendencemonitor.service.contract.IActionCallback;
+import com.example.attendencemonitor.service.contract.IAttendanceService;
 import com.example.attendencemonitor.service.contract.ICallback;
 import com.example.attendencemonitor.service.contract.ITimeslotService;
+import com.example.attendencemonitor.service.dto.AttendDto;
 import com.example.attendencemonitor.service.model.TimeslotModel;
 import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 
@@ -29,8 +33,11 @@ public class TimeslotListActivity extends BaseMenuActivity
 {
     public static final String EXTRA_MODULE_ID = "MODULE_ID";
     private static final int ZXING_CAMERA_PERMISSION = 1;
+    private static final int SCANNER_REQUEST = 2;
     private int moduleId = -1;
+    private int timeslotId = -1;
     ITimeslotService timeslotService = new TimeslotService();
+    IAttendanceService attendanceService = new AttendanceService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -57,6 +64,39 @@ public class TimeslotListActivity extends BaseMenuActivity
         timeslotService.getAll(moduleId, new TimeslotListCallback());
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == ZXING_CAMERA_PERMISSION)
+        {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                Intent scanner = new Intent(this, ScannerActivity.class);
+                this.startActivity(scanner);
+            }
+            else
+            {
+                Toast.makeText(this, R.string.onRequestPermissionsResult, Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SCANNER_REQUEST && data != null)
+        {
+            String payload = data.getStringExtra(ScannerActivity.EXTRA_RESULT_PAYLOAD);
+            int studentId = Integer.parseInt(payload);
+
+            AttendDto dto = new AttendDto();
+            dto.setStudentId(studentId);
+            dto.setTimeslotId(timeslotId);
+            attendanceService.attend(dto, new AttendTimeslotCallback());
+        }
+    }
+
+
     private void readValues(TimeslotModel[] values)
     {
         RecyclerView rv = findViewById(R.id.rv_timeslot_list);
@@ -77,22 +117,6 @@ public class TimeslotListActivity extends BaseMenuActivity
         startActivity(addTimeslot);
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == ZXING_CAMERA_PERMISSION)
-        {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-            {
-                Intent scanner = new Intent(this, ScannerActivity.class);
-                this.startActivity(scanner);
-            }
-            else
-            {
-                Toast.makeText(this, R.string.onRequestPermissionsResult, Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
     private void onOpenScanner(){
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -100,7 +124,7 @@ public class TimeslotListActivity extends BaseMenuActivity
         }
         else {
             Intent scanner = new Intent(this, ScannerActivity.class);
-            this.startActivity(scanner);
+            this.startActivityForResult(scanner, SCANNER_REQUEST);
         }
     }
 
@@ -146,23 +170,41 @@ public class TimeslotListActivity extends BaseMenuActivity
         }
     }
 
+    private class AttendTimeslotCallback implements IActionCallback{
+
+        @Override
+        public void onSuccess()
+        {
+            Toast.makeText(TimeslotListActivity.this, "Attendance recorded!", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onError(Throwable error)
+        {
+            Toast.makeText(TimeslotListActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private class ListItemListener implements IRecyclerViewItemEventListener<TimeslotModel>
     {
         @Override
         public void onClick(TimeslotModel item)
         {
+            timeslotId = item.getId();
             onOpenScanner();
         }
 
         @Override
         public void onLongPress(TimeslotModel item)
         {
+            timeslotId = item.getId();
             onDeleteTimeslot(item);
         }
 
         @Override
         public void onActionClick(TimeslotModel item)
         {
+            timeslotId = item.getId();
             onEditTimeslot(item);
         }
     }

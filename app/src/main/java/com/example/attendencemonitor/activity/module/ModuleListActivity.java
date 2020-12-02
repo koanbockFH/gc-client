@@ -97,7 +97,7 @@ public class ModuleListActivity extends BaseMenuActivity
         @Override
         public void onLongPress(ModuleModel item)
         {
-            deleteModule(item);
+            edit(item);
         }
 
         @Override

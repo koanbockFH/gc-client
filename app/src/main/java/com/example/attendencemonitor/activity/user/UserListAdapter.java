@@ -86,7 +86,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
                 currentSelection.add(currentItem);
             }
             else{
-                currentSelection.remove(currentItem);
+                currentSelection.removeIf(u -> u.getId() == currentItem.getId());
             }
         });
 
@@ -107,8 +107,6 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item, parent, false);
        return new  UserListAdapter.UserListViewHolder(v);
     }
-
-
 
     @Override
     public int getItemCount() {
