@@ -14,9 +14,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.attendencemonitor.R;
@@ -32,11 +35,13 @@ import com.example.attendencemonitor.service.contract.ITimeslotService;
 import com.example.attendencemonitor.service.dto.AttendDto;
 import com.example.attendencemonitor.service.model.ModuleModel;
 import com.example.attendencemonitor.service.model.TimeslotModel;
+import com.example.attendencemonitor.service.model.UserModel;
 import com.example.attendencemonitor.service.model.UserType;
 import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class TimeslotFragment extends Fragment
 {
@@ -46,6 +51,8 @@ public class TimeslotFragment extends Fragment
     private ModuleModel module;
     ITimeslotService timeslotService = new TimeslotService();
     IAttendanceService attendanceService = new AttendanceService();
+    TimeslotListAdapter adapter;
+    List<TimeslotModel> timeslotList;
 
     public TimeslotFragment()
     {
@@ -77,6 +84,23 @@ public class TimeslotFragment extends Fragment
         View view = inflater.inflate(R.layout.fragment_timeslot, container, false);
 
         view.findViewById(R.id.fab_timeslot_add).setOnClickListener(this::onAdd);
+
+        EditText searchBox = view.findViewById(R.id.et_searchbox);
+        searchBox.addTextChangedListener(new TextWatcher()
+        {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2){}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2){}
+
+            @Override
+            public void afterTextChanged(Editable editable)
+            {
+                String searchValue = editable.toString();
+                adapter.setItems(filter(searchValue));
+            }
+        });
 
         return view;
     }
@@ -120,15 +144,35 @@ public class TimeslotFragment extends Fragment
         }
     }
 
+    private List<TimeslotModel> filter(String searchValue)
+    {
+        List<TimeslotModel> filteredList = new ArrayList<>();
+
+        for(TimeslotModel u: timeslotList)
+        {
+            if(searchValue == null || searchValue.isEmpty())
+            {
+                filteredList.add(u);
+            }
+            else if(u.getName().toLowerCase().contains(searchValue.toLowerCase()))
+            {
+                filteredList.add(u);
+            }
+        }
+
+        return filteredList;
+    }
 
     private void readValues(TimeslotModel[] values)
     {
+        ArrayList<TimeslotModel> items = new ArrayList<>();
+        Collections.addAll(items, values);
+        timeslotList = items;
+
         RecyclerView rv = getActivity().findViewById(R.id.rv_timeslot_list);
         rv.setHasFixedSize(true);
         LinearLayoutManager lm = new LinearLayoutManager(getActivity());
-        ArrayList<TimeslotModel> items = new ArrayList<>();
-        Collections.addAll(items, values);
-        TimeslotListAdapter adapter = new TimeslotListAdapter(items, new ListItemListener());
+        adapter = new TimeslotListAdapter(timeslotList, new ListItemListener());
 
         rv.setLayoutManager(lm);
         rv.setAdapter(adapter);

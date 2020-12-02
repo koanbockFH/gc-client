@@ -13,13 +13,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.attendencemonitor.R;
 import com.example.attendencemonitor.service.AppData;
 import com.example.attendencemonitor.service.model.ModuleModel;
+import com.example.attendencemonitor.service.model.UserModel;
 import com.example.attendencemonitor.service.model.UserType;
 import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.ItemViewAdapter>{
-    private final ArrayList<ModuleModel> moduleList;
+    private List<ModuleModel> moduleList;
     private final IRecyclerViewItemEventListener<ModuleModel> listener;
 
     public static class ItemViewAdapter extends RecyclerView.ViewHolder{
@@ -41,9 +43,15 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.It
         }
 
     }
-    public ModuleListAdapter(ArrayList<ModuleModel> moduleList, IRecyclerViewItemEventListener<ModuleModel> listener) {
+    public ModuleListAdapter(List<ModuleModel> moduleList, IRecyclerViewItemEventListener<ModuleModel> listener) {
         this.moduleList = moduleList;
         this.listener = listener;
+    }
+
+    public void setItems(List<ModuleModel> items)
+    {
+        moduleList = items;
+        notifyDataSetChanged();
     }
 
     @Override

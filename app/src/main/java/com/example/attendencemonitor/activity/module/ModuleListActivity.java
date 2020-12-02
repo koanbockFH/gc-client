@@ -7,7 +7,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.attendencemonitor.R;
@@ -19,16 +22,21 @@ import com.example.attendencemonitor.service.contract.IActionCallback;
 import com.example.attendencemonitor.service.contract.ICallback;
 import com.example.attendencemonitor.service.contract.IModuleService;
 import com.example.attendencemonitor.service.model.ModuleModel;
+import com.example.attendencemonitor.service.model.TimeslotModel;
+import com.example.attendencemonitor.service.model.UserModel;
 import com.example.attendencemonitor.service.model.UserType;
 import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class ModuleListActivity extends BaseMenuActivity
 {
     IModuleService moduleService = new ModuleService();
+    private List<ModuleModel> modules;
+    private ModuleListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -44,16 +52,35 @@ public class ModuleListActivity extends BaseMenuActivity
         }
 
         moduleService.getAll(new ModuleListCallback());
+
+        EditText searchBox = findViewById(R.id.et_searchbox);
+        searchBox.addTextChangedListener(new TextWatcher()
+        {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2){}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2){}
+
+            @Override
+            public void afterTextChanged(Editable editable)
+            {
+                String searchValue = editable.toString();
+                adapter.setItems(filter(searchValue));
+            }
+        });
     }
 
     private void readValues(ModuleModel[] values)
     {
+        ArrayList<ModuleModel> items = new ArrayList<>();
+        Collections.addAll(items, values);
+        modules = items;
+
         RecyclerView rv = findViewById(R.id.rv_module_list);
         rv.setHasFixedSize(true);
         LinearLayoutManager lm = new LinearLayoutManager(this);
-        ArrayList<ModuleModel> items = new ArrayList<>();
-        Collections.addAll(items, values);
-        ModuleListAdapter adapter = new ModuleListAdapter(items,  new ListItemListener());
+        adapter = new ModuleListAdapter(filter(null),  new ListItemListener());
 
         rv.setLayoutManager(lm);
         rv.setAdapter(adapter);
@@ -108,6 +135,27 @@ public class ModuleListActivity extends BaseMenuActivity
         startActivity(i);
     }
 
+    private List<ModuleModel> filter(String searchValue)
+    {
+        List<ModuleModel> filteredList = new ArrayList<>();
+
+        for(ModuleModel u: modules)
+        {
+            if(searchValue == null || searchValue.isEmpty())
+            {
+                filteredList.add(u);
+            }
+            else if(u.getName().toLowerCase().contains(searchValue.toLowerCase()) ||
+                    u.getCode().toLowerCase().contains(searchValue.toLowerCase()) ||
+                    u.getTeacher().getFullName().toLowerCase().contains(searchValue.toLowerCase()))
+            {
+                filteredList.add(u);
+            }
+        }
+
+        return filteredList;
+    }
+
     private class ListItemListener implements IRecyclerViewItemEventListener<ModuleModel>
     {
         @Override
@@ -128,7 +176,6 @@ public class ModuleListActivity extends BaseMenuActivity
             edit(item);
         }
     }
-
 
     private class DeleteCallback implements IActionCallback
     {

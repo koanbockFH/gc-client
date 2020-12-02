@@ -64,7 +64,6 @@ public class ClasslistFragment extends Fragment
         rv.setLayoutManager(lm);
         rv.setAdapter(adapter);
         EditText searchBox = view.findViewById(R.id.et_searchbox);
-
         searchBox.addTextChangedListener(new TextWatcher()
         {
             @Override

@@ -11,16 +11,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.attendencemonitor.R;
+import com.example.attendencemonitor.service.model.ModuleModel;
 import com.example.attendencemonitor.service.model.TimeslotModel;
 import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 
 public class TimeslotListAdapter extends RecyclerView.Adapter<TimeslotListAdapter.ItemViewAdapter>{
-    private final ArrayList<TimeslotModel> itemList;
+    private List<TimeslotModel> itemList;
     private final IRecyclerViewItemEventListener<TimeslotModel> listener;
 
     public static class ItemViewAdapter extends RecyclerView.ViewHolder{
@@ -40,9 +42,15 @@ public class TimeslotListAdapter extends RecyclerView.Adapter<TimeslotListAdapte
         }
 
     }
-    public TimeslotListAdapter(ArrayList<TimeslotModel> itemList, IRecyclerViewItemEventListener<TimeslotModel> listener) {
+    public TimeslotListAdapter(List<TimeslotModel> itemList, IRecyclerViewItemEventListener<TimeslotModel> listener) {
         this.itemList = itemList;
         this.listener = listener;
+    }
+
+    public void setItems(List<TimeslotModel> items)
+    {
+        itemList = items;
+        notifyDataSetChanged();
     }
 
     @Override
