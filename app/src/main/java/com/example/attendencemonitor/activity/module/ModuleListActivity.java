@@ -3,6 +3,8 @@ package com.example.attendencemonitor.activity.module;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -77,7 +79,27 @@ public class ModuleListActivity extends BaseMenuActivity
 
     private void deleteModule(ModuleModel item)
     {
-        moduleService.delete(item, new DeleteCallback());
+        if(AppData.getInstance().getUserType() != UserType.ADMIN)
+        {
+            return;
+        }
+
+        DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    moduleService.delete(item, new DeleteCallback());
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    //No button clicked
+                    break;
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Do you want to delete the module?")
+                .setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
     }
 
     private void edit(ModuleModel item){
@@ -97,7 +119,7 @@ public class ModuleListActivity extends BaseMenuActivity
         @Override
         public void onLongPress(ModuleModel item)
         {
-            edit(item);
+            deleteModule(item);
         }
 
         @Override
@@ -114,6 +136,7 @@ public class ModuleListActivity extends BaseMenuActivity
         public void onSuccess()
         {
             Toast.makeText(ModuleListActivity.this, "Timeslot has been deleted!", Toast.LENGTH_SHORT).show();
+            moduleService.getAll(new ModuleListCallback());
         }
 
         @Override

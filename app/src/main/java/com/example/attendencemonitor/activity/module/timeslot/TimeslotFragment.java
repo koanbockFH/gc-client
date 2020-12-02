@@ -1,6 +1,8 @@
 package com.example.attendencemonitor.activity.module.timeslot;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -18,7 +20,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.attendencemonitor.R;
+import com.example.attendencemonitor.activity.module.ModuleListActivity;
 import com.example.attendencemonitor.activity.qr.ScannerActivity;
+import com.example.attendencemonitor.service.AppData;
 import com.example.attendencemonitor.service.AttendanceService;
 import com.example.attendencemonitor.service.TimeslotService;
 import com.example.attendencemonitor.service.contract.IActionCallback;
@@ -28,6 +32,7 @@ import com.example.attendencemonitor.service.contract.ITimeslotService;
 import com.example.attendencemonitor.service.dto.AttendDto;
 import com.example.attendencemonitor.service.model.ModuleModel;
 import com.example.attendencemonitor.service.model.TimeslotModel;
+import com.example.attendencemonitor.service.model.UserType;
 import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 
 import java.util.ArrayList;
@@ -147,8 +152,29 @@ public class TimeslotFragment extends Fragment
         }
     }
 
-    private void onDeleteTimeslot(TimeslotModel item){
-        timeslotService.delete(item, new DeleteTimeslotCallback());
+    private void onDeleteTimeslot(TimeslotModel item)
+    {
+        if(AppData.getInstance().getUserType() == UserType.STUDENT)
+        {
+            return;
+        }
+
+        DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+            switch (which){
+                case DialogInterface.BUTTON_POSITIVE:
+                    timeslotService.delete(item, new DeleteCallback());
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    //No button clicked
+                    break;
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("Do you want to delete the timeslot?")
+                .setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
     }
 
     private void onEditTimeslot(TimeslotModel timeslot) {
@@ -179,13 +205,14 @@ public class TimeslotFragment extends Fragment
         }
     }
 
-    private class DeleteTimeslotCallback implements IActionCallback
+    private class DeleteCallback implements IActionCallback
     {
 
         @Override
         public void onSuccess()
         {
             makeToast("Timeslot has been deleted!");
+            timeslotService.getAll(module.getId(), new TimeslotListCallback());
         }
 
         @Override
