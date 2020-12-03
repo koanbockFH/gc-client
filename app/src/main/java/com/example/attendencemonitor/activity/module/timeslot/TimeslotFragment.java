@@ -121,6 +121,11 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
             }
         });
 
+        ImageButton delSearch = view.findViewById(R.id.ib_delete_search);
+        delSearch.setOnClickListener(v -> {
+            searchBox.setText("");
+        });
+
         return view;
     }
 
@@ -250,31 +255,6 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
         }
     }
 
-    private void onDeleteTimeslot(TimeslotModel item)
-    {
-        if(AppData.getInstance().getUserType() == UserType.STUDENT)
-        {
-            return;
-        }
-
-        DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
-            switch (which){
-                case DialogInterface.BUTTON_POSITIVE:
-                    timeslotService.delete(item, new DeleteCallback());
-                    break;
-
-                case DialogInterface.BUTTON_NEGATIVE:
-                    //No button clicked
-                    break;
-            }
-        };
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Do you want to delete the timeslot?")
-                .setPositiveButton("Yes", dialogClickListener)
-                .setNegativeButton("No", dialogClickListener).show();
-    }
-
     private void onEditTimeslot(TimeslotModel timeslot) {
         Intent i = new Intent(getActivity(), TimeslotFormActivity.class);
         i.putExtra(TimeslotFormActivity.EXTRA_MODULE_ID, module.getId());
@@ -310,23 +290,6 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
         }
     }
 
-    private class DeleteCallback implements IActionCallback
-    {
-
-        @Override
-        public void onSuccess()
-        {
-            makeToast("Timeslot has been deleted!");
-            attendanceService.getAllTimeslotStats(module.getId(), new TimeslotListCallback());
-        }
-
-        @Override
-        public void onError(Throwable error)
-        {
-            makeToast("Something went wrong!");
-        }
-    }
-
     private class AttendTimeslotCallback implements IActionCallback{
 
         @Override
@@ -355,7 +318,6 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
         public void onLongPress(TimeslotStatisticModel item)
         {
             timeslotId = item.getId();
-            onDeleteTimeslot(item);
         }
 
         @Override

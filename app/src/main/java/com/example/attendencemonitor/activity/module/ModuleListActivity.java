@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -67,6 +68,11 @@ public class ModuleListActivity extends BaseMenuActivity
                 adapter.setItems(filter(searchValue));
             }
         });
+
+        ImageButton delSearch = findViewById(R.id.ib_delete_search_module);
+        delSearch.setOnClickListener(v -> {
+            searchBox.setText("");
+        });
     }
 
     private void readValues(ModuleModel[] values)
@@ -101,31 +107,6 @@ public class ModuleListActivity extends BaseMenuActivity
         i.putExtra(ModuleDetailActivity.EXTRA_MODULE_ID, item.getId());
         i.putExtra(ModuleDetailActivity.EXTRA_MODULE_TITLE, item.getName());
         startActivity(i);
-    }
-
-    private void deleteModule(ModuleModel item)
-    {
-        if(AppData.getInstance().getUserType() != UserType.ADMIN)
-        {
-            return;
-        }
-
-        DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
-            switch (which){
-                case DialogInterface.BUTTON_POSITIVE:
-                    moduleService.delete(item, new DeleteCallback());
-                    break;
-
-                case DialogInterface.BUTTON_NEGATIVE:
-                    //No button clicked
-                    break;
-            }
-        };
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Do you want to delete the module?")
-                .setPositiveButton("Yes", dialogClickListener)
-                .setNegativeButton("No", dialogClickListener).show();
     }
 
     private void edit(ModuleModel item){
@@ -166,7 +147,7 @@ public class ModuleListActivity extends BaseMenuActivity
         @Override
         public void onLongPress(ModuleModel item)
         {
-            deleteModule(item);
+            // not used
         }
 
         @Override
@@ -181,23 +162,6 @@ public class ModuleListActivity extends BaseMenuActivity
             //not used
         }
     }
-
-    private class DeleteCallback implements IActionCallback
-    {
-        @Override
-        public void onSuccess()
-        {
-            Toast.makeText(ModuleListActivity.this, "Timeslot has been deleted!", Toast.LENGTH_SHORT).show();
-            moduleService.getAll(new ModuleListCallback());
-        }
-
-        @Override
-        public void onError(Throwable error)
-        {
-            Toast.makeText(ModuleListActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     private class ModuleListCallback implements ICallback<ModuleModel[]>
     {
 

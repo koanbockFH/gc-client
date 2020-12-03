@@ -1,8 +1,11 @@
 package com.example.attendencemonitor.activity.module;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -14,7 +17,9 @@ import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.example.attendencemonitor.R;
 import com.example.attendencemonitor.activity.base.BaseMenuActivity;
 import com.example.attendencemonitor.activity.user.UserSearchActivity;
+import com.example.attendencemonitor.service.AppData;
 import com.example.attendencemonitor.service.ModuleService;
+import com.example.attendencemonitor.service.contract.IActionCallback;
 import com.example.attendencemonitor.service.contract.ICallback;
 import com.example.attendencemonitor.service.contract.IModuleService;
 import com.example.attendencemonitor.service.model.ModuleModel;
@@ -37,6 +42,8 @@ public class ModuleFormActivity extends BaseMenuActivity
     private EditText eDescription;
     private EditText eStudents;
 
+    private Button delModule;
+
     ModuleModel model = new ModuleModel();
 
     AwesomeValidation awesomeValidation;
@@ -53,6 +60,8 @@ public class ModuleFormActivity extends BaseMenuActivity
         eTeacher = findViewById(R.id.add_module_teacher);
         eDescription = findViewById(R.id.add_module_description);
         eStudents = findViewById(R.id.add_module_class);
+
+        delModule = findViewById(R.id.btn_delete_module);
 
         //validation
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
@@ -164,12 +173,52 @@ public class ModuleFormActivity extends BaseMenuActivity
         {
             model = value;
             loadModel();
+            delModule.setVisibility(View.VISIBLE);
+            delModule.setOnClickListener(v -> {
+                if(AppData.getInstance().getUserType() != UserType.ADMIN)
+                {
+                    return;
+                }
+
+                DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            moduleService.delete(value, new DeleteCallback());
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            //No button clicked
+                            break;
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(ModuleFormActivity.this);
+                builder.setMessage("Do you want to delete the module?")
+                        .setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
+            });
         }
 
         @Override
         public void onError(Throwable error)
         {
 
+        }
+    }
+
+    private class DeleteCallback implements IActionCallback
+    {
+        @Override
+        public void onSuccess()
+        {
+            Toast.makeText(ModuleFormActivity.this, "Module has been deleted!", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+        @Override
+        public void onError(Throwable error)
+        {
+            Toast.makeText(ModuleFormActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
         }
     }
 }
