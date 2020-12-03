@@ -102,31 +102,6 @@ public class ModuleListActivity extends BaseMenuActivity
         startActivity(timeslots);
     }
 
-    private void deleteModule(ModuleModel item)
-    {
-        if(AppData.getInstance().getUserType() != UserType.ADMIN)
-        {
-            return;
-        }
-
-        DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
-            switch (which){
-                case DialogInterface.BUTTON_POSITIVE:
-                    moduleService.delete(item, new DeleteCallback());
-                    break;
-
-                case DialogInterface.BUTTON_NEGATIVE:
-                    //No button clicked
-                    break;
-            }
-        };
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Do you want to delete the module?")
-                .setPositiveButton("Yes", dialogClickListener)
-                .setNegativeButton("No", dialogClickListener).show();
-    }
-
     private void edit(ModuleModel item){
         Intent i = new Intent(this, ModuleFormActivity.class);
         i.putExtra(ModuleFormActivity.EXTRA_MODULE_ID, item.getId());
@@ -165,7 +140,7 @@ public class ModuleListActivity extends BaseMenuActivity
         @Override
         public void onLongPress(ModuleModel item)
         {
-            deleteModule(item);
+            // not used
         }
 
         @Override
@@ -180,23 +155,6 @@ public class ModuleListActivity extends BaseMenuActivity
             //not used
         }
     }
-
-    private class DeleteCallback implements IActionCallback
-    {
-        @Override
-        public void onSuccess()
-        {
-            Toast.makeText(ModuleListActivity.this, "Timeslot has been deleted!", Toast.LENGTH_SHORT).show();
-            moduleService.getAll(new ModuleListCallback());
-        }
-
-        @Override
-        public void onError(Throwable error)
-        {
-            Toast.makeText(ModuleListActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     private class ModuleListCallback implements ICallback<ModuleModel[]>
     {
 

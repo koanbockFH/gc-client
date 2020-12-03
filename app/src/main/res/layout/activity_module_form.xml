@@ -102,15 +102,36 @@
                     android:onClick="onClassChange"/>
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_add_module"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginRight="75dp"
-            android:background="@drawable/round_button"
-            android:text="@string/submit"
-            android:onClick="onSubmit"
-            android:textColor="@color/white"
-            android:layout_marginTop="30dp"/>
+            android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_delete_module"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="55dp"
+                    android:layout_marginTop="30dp"
+                    android:background="@drawable/round_button"
+                    android:text="@string/delete"
+                    android:visibility="invisible" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/btn_add_module"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginRight="75dp"
+                    android:background="@drawable/round_button"
+                    android:onClick="onSubmit"
+                    android:text="@string/submit"
+                    android:textColor="@color/white" />
+        </LinearLayout>
+
 </LinearLayout>
