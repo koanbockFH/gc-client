@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -66,6 +67,11 @@ public class ModuleListActivity extends BaseMenuActivity
                 String searchValue = editable.toString();
                 adapter.setItems(filter(searchValue));
             }
+        });
+
+        ImageButton delSearch = findViewById(R.id.ib_delete_search_module);
+        delSearch.setOnClickListener(v -> {
+            searchBox.setText("");
         });
     }
 
