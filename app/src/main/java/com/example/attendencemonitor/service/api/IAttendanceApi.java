@@ -2,6 +2,8 @@ package com.example.attendencemonitor.service.api;
 
 import com.example.attendencemonitor.service.dto.AttendDto;
 import com.example.attendencemonitor.service.model.ModuleStatisticModel;
+import com.example.attendencemonitor.service.model.ModuleStatisticModelBase;
+import com.example.attendencemonitor.service.model.StudentTimeslotStatisticModel;
 import com.example.attendencemonitor.service.model.TimeslotStatisticModel;
 
 import java.util.List;
@@ -24,5 +26,8 @@ public interface IAttendanceApi
     Call<List<TimeslotStatisticModel>> getAllTimeslotStats(@Path("id") int moduleId);
 
     @GET("statistics/module/{moduleId}/student/{studentId}")
-    Call<List<TimeslotStatisticModel>> getAllTimeslotStats(@Path("moduleId") int moduleId, @Path("studentId") int studentId);
+    Call<StudentTimeslotStatisticModel> getStudentTimeslotStats(@Path("moduleId") int moduleId, @Path("studentId") int studentId);
+
+    @GET("statistics/module/student/{studentId}")
+    Call<List<ModuleStatisticModelBase>> getStudentModuleStats(@Path("studentId") int studentId);
 }
