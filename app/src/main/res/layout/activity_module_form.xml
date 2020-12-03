@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.module.ModuleAdd"
+    tools:context=".activity.module.ModuleFormActivity"
     android:gravity="center">
 
         <EditText
@@ -18,12 +18,10 @@
             android:layout_gravity="center"
             android:padding="10dp"/>
 
-
         <EditText
             android:id="@+id/add_module_code"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-
             android:hint="Enter Code"
             android:textColor="@color/primary_color"
             android:textColorHint="@color/primary_color"
@@ -47,7 +45,6 @@
             android:layout_width="300dp"
             android:layout_marginTop="20dp"
             android:orientation="horizontal">
-
                 <EditText
                     android:id="@+id/add_module_teacher"
                     android:layout_width="match_parent"
@@ -59,7 +56,8 @@
                     android:focusable="false"
                     android:cursorVisible="false"
                     android:textColor="@color/primary_color"
-                    android:textColorHint="@color/primary_color" />
+                    android:textColorHint="@color/primary_color"
+                    android:onClick="onTeacherChange" />
 
                 <ImageButton
                     android:id="@+id/btn_addModuleTeacher"
@@ -89,7 +87,8 @@
                     android:focusable="false"
                     android:cursorVisible="false"
                     android:textColor="@color/primary_color"
-                    android:textColorHint="@color/primary_color" />
+                    android:textColorHint="@color/primary_color"
+                    android:onClick="onClassChange" />
 
                 <ImageButton
                     android:id="@+id/btn_addClass"
@@ -103,7 +102,6 @@
                     android:onClick="onClassChange"/>
         </LinearLayout>
 
-
         <Button
             android:id="@+id/btn_add_module"
             android:layout_width="wrap_content"
@@ -111,10 +109,8 @@
             android:layout_gravity="right"
             android:layout_marginRight="75dp"
             android:background="@drawable/round_button"
-            android:text="Add Module"
+            android:text="Submit"
             android:onClick="onSubmit"
             android:textColor="@color/white"
             android:layout_marginTop="30dp"/>
-
-
 </LinearLayout>

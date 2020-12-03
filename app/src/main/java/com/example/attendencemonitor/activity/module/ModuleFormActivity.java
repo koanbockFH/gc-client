@@ -22,12 +22,14 @@ import com.example.attendencemonitor.service.model.UserModel;
 import com.example.attendencemonitor.service.model.UserType;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
-public class ModuleAdd extends BaseMenuActivity
+public class ModuleFormActivity extends BaseMenuActivity
 {
     IModuleService moduleService = new ModuleService();
     private static final int REQUEST_STUDENT_SELECTION = 1;
     private static final int REQUEST_TEACHER_SELECTION = 2;
+    public static final String EXTRA_MODULE_ID = "MODULE_ID";
 
     private EditText eName;
     private EditText eCode;
@@ -35,44 +37,59 @@ public class ModuleAdd extends BaseMenuActivity
     private EditText eDescription;
     private EditText eStudents;
 
-    UserModel mTeacher = null;
-    ArrayList<UserModel> mStudents = new ArrayList<>();
+    ModuleModel model = new ModuleModel();
 
     AwesomeValidation awesomeValidation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        initializeMenu("Add Module", true);
+        initializeMenu("Module", true);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_module_add);
+        setContentView(R.layout.activity_module_form);
 
         //Buttons/Textfields
-        eName = (EditText) findViewById(R.id.add_module_name);
-        eCode = (EditText) findViewById(R.id.add_module_code);
-        eTeacher = (EditText) findViewById(R.id.add_module_teacher);
-        eDescription = (EditText) findViewById(R.id.add_module_description);
-        eStudents = (EditText) findViewById(R.id.add_module_class);
+        eName = findViewById(R.id.add_module_name);
+        eCode = findViewById(R.id.add_module_code);
+        eTeacher = findViewById(R.id.add_module_teacher);
+        eDescription = findViewById(R.id.add_module_description);
+        eStudents = findViewById(R.id.add_module_class);
 
         //validation
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
         awesomeValidation.addValidation(this,R.id.add_module_name,RegexTemplate.NOT_EMPTY, R.string.invalid_name);
         awesomeValidation.addValidation(this,R.id.add_module_code,".{3,}",R.string.invalid_code);
         awesomeValidation.addValidation(this,R.id.add_module_teacher, RegexTemplate.NOT_EMPTY,R.string.invalid_name);
+
+        Intent received = getIntent();
+        int moduleId = received.getIntExtra(EXTRA_MODULE_ID, -1);
+
+        if (moduleId > 0)
+        {
+            moduleService.getById(moduleId, new GetCallback());
+        }
+    }
+
+    private void loadModel(){
+        eName.setText(model.getName());
+        eCode.setText(model.getCode());
+        eDescription.setText(model.getDescription());
+        eTeacher.setText(model.getTeacher().getFullName());
+        eStudents.setText(String.format(Locale.getDefault(), "%s %d", getString(R.string.add_module_student_value), model.getStudents().size()));
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
     {
         if(requestCode == REQUEST_STUDENT_SELECTION && data != null){
-            mStudents = data.getParcelableArrayListExtra(UserSearchActivity.EXTRA_CURRENT_SELECTED);
-            eStudents.setText(String.format("%s %d", getString(R.string.add_module_student_value), mStudents.size()));
+            model.setStudents(data.getParcelableArrayListExtra(UserSearchActivity.EXTRA_CURRENT_SELECTED));
+            eStudents.setText(String.format(Locale.getDefault(),"%s %d", getString(R.string.add_module_student_value), model.getStudents().size()));
         }
         if(requestCode == REQUEST_TEACHER_SELECTION && data != null){
             ArrayList<UserModel> items = data.getParcelableArrayListExtra(UserSearchActivity.EXTRA_CURRENT_SELECTED);
             if(items.size() > 0)
             {
-                mTeacher = items.get(0);
-                eTeacher.setText(mTeacher.getFullName());
+                model.setTeacher(items.get(0));
+                eTeacher.setText(model.getTeacher().getFullName());
             }
         }
 
@@ -83,7 +100,7 @@ public class ModuleAdd extends BaseMenuActivity
     {
         Intent classIntent = new Intent(this, UserSearchActivity.class);
 
-        classIntent.putParcelableArrayListExtra(UserSearchActivity.EXTRA_CURRENT_SELECTED, mStudents);
+        classIntent.putParcelableArrayListExtra(UserSearchActivity.EXTRA_CURRENT_SELECTED, new ArrayList<>(model.getStudents()));
         classIntent.putExtra(UserSearchActivity.EXTRA_USER_TYPE, UserType.STUDENT.getKey());
         startActivityForResult(classIntent, REQUEST_STUDENT_SELECTION);
     }
@@ -92,9 +109,9 @@ public class ModuleAdd extends BaseMenuActivity
     {
         Intent classIntent = new Intent(this, UserSearchActivity.class);
         ArrayList<UserModel> currentSelection = new ArrayList<>();
-        if(mTeacher != null)
+        if(model.getTeacher() != null)
         {
-            currentSelection.add(mTeacher);
+            currentSelection.add(model.getTeacher());
         }
 
         classIntent.putParcelableArrayListExtra(UserSearchActivity.EXTRA_CURRENT_SELECTED, currentSelection);
@@ -104,16 +121,13 @@ public class ModuleAdd extends BaseMenuActivity
 
     public void onSubmit(View view)
     {
-        ModuleModel dto = new ModuleModel();
-        dto.setName(eName.getText().toString());
-        dto.setStudents(mStudents);
-        dto.setCode(eCode.getText().toString());
-        dto.setDescription(eDescription.getText().toString());
-        dto.setTeacher(mTeacher);
+        model.setName(eName.getText().toString());
+        model.setCode(eCode.getText().toString());
+        model.setDescription(eDescription.getText().toString());
 
         if(awesomeValidation.validate())
         {
-            moduleService.saveOrUpdate(dto, new AddModuleCallback());
+            moduleService.saveOrUpdate(model, new SaveOrUpdateModuleCallback());
         }
         else
         {
@@ -121,19 +135,41 @@ public class ModuleAdd extends BaseMenuActivity
         }
     }
 
-    private class AddModuleCallback implements ICallback<ModuleModel>
+    private class SaveOrUpdateModuleCallback implements ICallback<ModuleModel>
     {
         @Override
         public void onSuccess(ModuleModel moduleModel)
         {
-            Toast.makeText(getApplicationContext(), "Module added successfully", Toast.LENGTH_SHORT).show();
+            if(model.getId() > 0)
+            {
+                Toast.makeText(getApplicationContext(), "Module changed successfully", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(getApplicationContext(), "Module added successfully", Toast.LENGTH_SHORT).show();
+            }
             finish();
         }
 
         @Override
         public void onError(Throwable error)
         {
-            Toast.makeText(ModuleAdd.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ModuleFormActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private class GetCallback implements ICallback<ModuleModel> {
+
+        @Override
+        public void onSuccess(ModuleModel value)
+        {
+            model = value;
+            loadModel();
+        }
+
+        @Override
+        public void onError(Throwable error)
+        {
+
         }
     }
 }

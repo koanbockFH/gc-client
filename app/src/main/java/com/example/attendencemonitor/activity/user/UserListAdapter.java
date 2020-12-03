@@ -28,12 +28,12 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
     }
 
     public static class UserListViewHolder extends RecyclerView.ViewHolder{
-        private TextView tv_username;
-        private TextView tv_code;
-        private TextView tv_usermail;
-        private CheckBox cb_selected;
-        private RadioButton rb_selected;
-        private LinearLayout userContainer;
+        private final TextView tv_username;
+        private final TextView tv_code;
+        private final TextView tv_usermail;
+        private final CheckBox cb_selected;
+        private final RadioButton rb_selected;
+        private final LinearLayout userContainer;
 
         public UserListViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -71,23 +71,32 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
             holder.cb_selected.setChecked(currentSelection.stream().anyMatch(o -> o.getId() == currentItem.getId()));
         }
 
+        holder.rb_selected.setOnCheckedChangeListener((compoundButton, b) -> {
+            currentSelection.clear();
+            currentSelection.add(currentItem);
+            try{
+                notifyItemRangeChanged(0, userList.size());
+            }
+            catch(Exception ignored) { }
+        });
+
+        holder.cb_selected.setOnCheckedChangeListener((compoundButton, newValue) -> {
+            if(newValue)
+            {
+                currentSelection.add(currentItem);
+            }
+            else{
+                currentSelection.removeIf(u -> u.getId() == currentItem.getId());
+            }
+        });
+
         holder.userContainer.setOnClickListener(view -> {
             if(isSingleSelection)
             {
-                currentSelection.clear();
-                currentSelection.add(currentItem);
                 holder.rb_selected.setChecked(true);
-                notifyItemRangeChanged(0, userList.size());
             }
             else{
                 holder.cb_selected.setChecked(!holder.cb_selected.isChecked());
-                if(holder.cb_selected.isChecked())
-                {
-                    currentSelection.add(currentItem);
-                }
-                else{
-                    currentSelection.remove(currentItem);
-                }
             }
         });
     }
@@ -98,8 +107,6 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item, parent, false);
        return new  UserListAdapter.UserListViewHolder(v);
     }
-
-
 
     @Override
     public int getItemCount() {

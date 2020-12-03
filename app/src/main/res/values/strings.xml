@@ -5,22 +5,14 @@
     <string name="invalid_code">Enter minimum of three characters</string>
     <string name="invalid_password">Enter minimum of six characters</string>
     <string name="invalid_conf_password">Password does not match</string>
-    <string name="title_activity_modules">Modules</string>
+    <string name="must_not_be_empty">Please enter a value</string>
+    <string name="onRequestPermissionsResult">Please grant the camera permission to use the QR scanner</string>
 
-    <string name="add_module">Add Module</string>
     <string name="btn_submitUser">Save</string>
     <string name="btn_cancelUser">Cancel</string>
     <string name="tv_searchUser">Search by email or names</string>
     <string name="add_module_student_value">Students selected:</string>
     <string name="menuitem_logout">Logout</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="login_failed">"Login failed"</string>
     <string name="login_hint_username">Enter Username</string>
     <string name="login_hint_password">Enter Password</string>
     <string name="login_submit">Login</string>
@@ -42,4 +34,5 @@
     <string name="qr_code_description">QR Code</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- TODO: Remove or change this placeholder text -->
 </resources>

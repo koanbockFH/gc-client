@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".activity.module.ModuleListActivity">
+    android:layout_height="match_parent">
 
     <EditText
         android:id="@+id/et_searchbox"
@@ -17,33 +16,19 @@
         android:drawableStart="@drawable/ic_baseline_search_24"
         android:drawablePadding="8dp"
         android:drawableTint="@color/primary_color"
-        android:hint="Search for code, name or teacher"
-        android:inputType="textPersonName"
+        android:hint="@string/tv_searchUser"
+        android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_module_list"
-        android:layout_width="match_parent"
+        android:id="@+id/rv_user_list"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_searchbox"
-        tools:layout_editor_absoluteX="121dp" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_module_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/primary_color"
-        android:clickable="true"
-        android:tint="@color/white"
-        app:tint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_baseline_add_24"
-        android:onClick="onAdd"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_searchbox"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
