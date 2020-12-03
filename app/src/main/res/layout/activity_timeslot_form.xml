@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingHorizontal="24dp"
+    android:id="@+id/time_slot_form_layout"
     tools:context=".activity.module.timeslot.TimeslotFormActivity"
     android:gravity="center">
 
@@ -67,16 +68,36 @@
         android:textColorHint="@color/primary_color" />
 
 
-    <Button
-        android:id="@+id/btn_submit_module"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:background="@drawable/round_button"
-        android:text="Submit"
-        android:onClick="onSubmit"
-        android:textColor="@color/white"
-        android:layout_marginTop="30dp"/>
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_delete_timeslot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/round_button"
+            android:text="Delete"
+            android:textColor="@color/white"
+            android:visibility="invisible" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/btn_submit_module"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/round_button"
+            android:onClick="onSubmit"
+            android:text="Submit"
+            android:textColor="@color/white" />
+    </LinearLayout>
 
 
 </LinearLayout>

@@ -45,7 +45,7 @@ public class StudentDetailActivity extends BaseMenuActivity
     private void initView()
     {
         setContentView(R.layout.activity_student_detail);
-        StudentDetailPagerAdapter sectionsPagerAdapter = new StudentDetailPagerAdapter(getSupportFragmentManager());
+        StudentDetailPagerAdapter sectionsPagerAdapter = new StudentDetailPagerAdapter(getSupportFragmentManager(), 38, 84);
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabs);
