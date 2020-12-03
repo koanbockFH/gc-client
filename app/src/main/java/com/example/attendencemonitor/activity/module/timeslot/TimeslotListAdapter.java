@@ -11,12 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.attendencemonitor.R;
-import com.example.attendencemonitor.service.model.ModuleModel;
 import com.example.attendencemonitor.service.model.TimeslotModel;
 import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 

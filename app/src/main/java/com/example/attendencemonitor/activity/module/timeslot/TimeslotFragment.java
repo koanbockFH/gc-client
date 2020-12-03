@@ -7,14 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -25,8 +17,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.attendencemonitor.R;
-import com.example.attendencemonitor.activity.module.ModuleListActivity;
 import com.example.attendencemonitor.activity.qr.ScannerActivity;
 import com.example.attendencemonitor.service.AppData;
 import com.example.attendencemonitor.service.AttendanceService;
@@ -38,7 +36,6 @@ import com.example.attendencemonitor.service.contract.ITimeslotService;
 import com.example.attendencemonitor.service.dto.AttendDto;
 import com.example.attendencemonitor.service.model.ModuleModel;
 import com.example.attendencemonitor.service.model.TimeslotModel;
-import com.example.attendencemonitor.service.model.UserModel;
 import com.example.attendencemonitor.service.model.UserType;
 import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 

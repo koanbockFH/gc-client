@@ -1,8 +1,5 @@
 package com.example.attendencemonitor.activity.module;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +10,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.attendencemonitor.R;
 import com.example.attendencemonitor.activity.base.BaseMenuActivity;
 import com.example.attendencemonitor.activity.module.detail.ModuleDetailActivity;
@@ -22,8 +22,6 @@ import com.example.attendencemonitor.service.contract.IActionCallback;
 import com.example.attendencemonitor.service.contract.ICallback;
 import com.example.attendencemonitor.service.contract.IModuleService;
 import com.example.attendencemonitor.service.model.ModuleModel;
-import com.example.attendencemonitor.service.model.TimeslotModel;
-import com.example.attendencemonitor.service.model.UserModel;
 import com.example.attendencemonitor.service.model.UserType;
 import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

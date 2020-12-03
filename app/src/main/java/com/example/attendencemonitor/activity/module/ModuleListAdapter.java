@@ -13,11 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.attendencemonitor.R;
 import com.example.attendencemonitor.service.AppData;
 import com.example.attendencemonitor.service.model.ModuleModel;
-import com.example.attendencemonitor.service.model.UserModel;
 import com.example.attendencemonitor.service.model.UserType;
 import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.ItemViewAdapter>{

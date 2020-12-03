@@ -1,15 +1,14 @@
 package com.example.attendencemonitor.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.attendencemonitor.activity.admin.AdminHomeActivity;
 import com.example.attendencemonitor.activity.auth.LoginActivity;
 import com.example.attendencemonitor.activity.module.ModuleListActivity;
 import com.example.attendencemonitor.activity.student.StudentHomeActivity;
-import com.example.attendencemonitor.activity.teacher.TeacherHomeActivity;
 import com.example.attendencemonitor.service.AppData;
 import com.example.attendencemonitor.service.model.UserType;
 

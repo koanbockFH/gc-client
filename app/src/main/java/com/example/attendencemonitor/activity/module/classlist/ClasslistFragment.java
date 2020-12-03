@@ -1,11 +1,6 @@
 package com.example.attendencemonitor.activity.module.classlist;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -13,15 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.attendencemonitor.R;
-import com.example.attendencemonitor.activity.user.UserListAdapter;
 import com.example.attendencemonitor.service.model.UserModel;
-import com.example.attendencemonitor.service.model.UserType;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ClasslistFragment extends Fragment
 {

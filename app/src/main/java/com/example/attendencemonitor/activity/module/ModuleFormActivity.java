@@ -13,13 +13,11 @@ import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.example.attendencemonitor.R;
 import com.example.attendencemonitor.activity.base.BaseMenuActivity;
-import com.example.attendencemonitor.activity.module.timeslot.TimeslotFormActivity;
 import com.example.attendencemonitor.activity.user.UserSearchActivity;
 import com.example.attendencemonitor.service.ModuleService;
 import com.example.attendencemonitor.service.contract.ICallback;
 import com.example.attendencemonitor.service.contract.IModuleService;
 import com.example.attendencemonitor.service.model.ModuleModel;
-import com.example.attendencemonitor.service.model.TimeslotModel;
 import com.example.attendencemonitor.service.model.UserModel;
 import com.example.attendencemonitor.service.model.UserType;
 

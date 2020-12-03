@@ -11,14 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.attendencemonitor.R;
-import com.example.attendencemonitor.activity.admin.AdminHomeActivity;
 import com.example.attendencemonitor.activity.auth.LoginActivity;
-import com.example.attendencemonitor.activity.student.StudentHomeActivity;
 import com.example.attendencemonitor.service.AppData;
 import com.example.attendencemonitor.service.UserService;
 import com.example.attendencemonitor.service.contract.IActionCallback;
 import com.example.attendencemonitor.service.contract.IUserService;
-import com.example.attendencemonitor.service.model.UserType;
 
 public abstract class BaseMenuActivity extends AppCompatActivity
 {

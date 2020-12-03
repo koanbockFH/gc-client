@@ -1,7 +1,5 @@
 package com.example.attendencemonitor.activity.student;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.ImageView;
