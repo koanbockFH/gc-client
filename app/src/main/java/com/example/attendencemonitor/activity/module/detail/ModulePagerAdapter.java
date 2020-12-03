@@ -14,13 +14,11 @@ import com.example.attendencemonitor.service.model.ModuleStatisticModel;
 public class ModulePagerAdapter extends FragmentPagerAdapter
 {
     private final ModuleModel module;
-    private final ModuleStatisticModel moduleStats;
 
-    public ModulePagerAdapter(@NonNull FragmentManager fm, ModuleModel module, ModuleStatisticModel moduleStats)
+    public ModulePagerAdapter(@NonNull FragmentManager fm, ModuleModel module)
     {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.module = module;
-        this.moduleStats = moduleStats;
     }
 
     @NonNull
@@ -33,7 +31,7 @@ public class ModulePagerAdapter extends FragmentPagerAdapter
             case 0:
                 return TimeslotFragment.newInstance(module);
             case 1:
-                return ClasslistFragment.newInstance(moduleStats.getStudents());
+                return ClasslistFragment.newInstance(module);
         }
     }
 

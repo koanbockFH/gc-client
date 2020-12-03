@@ -13,6 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.attendencemonitor.R;
+import com.example.attendencemonitor.activity.module.detail.ModuleDetailActivity;
+import com.example.attendencemonitor.service.AttendanceService;
+import com.example.attendencemonitor.service.contract.IAttendanceService;
+import com.example.attendencemonitor.service.contract.ICallback;
+import com.example.attendencemonitor.service.model.ModuleModel;
+import com.example.attendencemonitor.service.model.ModuleStatisticModel;
 import com.example.attendencemonitor.service.model.StudentModuleStatisticModel;
 import com.example.attendencemonitor.service.model.UserModel;
 
@@ -21,21 +27,30 @@ import java.util.List;
 
 public class ClasslistFragment extends Fragment
 {
-    private List<StudentModuleStatisticModel> students;
+    private ModuleModel module;
     private StudentListAdapter adapter;
+    IAttendanceService attendanceService = new AttendanceService();
+    private ModuleStatisticModel moduleStats;
 
     public ClasslistFragment()
     {
         // Required empty public constructor
     }
 
-    public static ClasslistFragment newInstance(List<StudentModuleStatisticModel> students)
+    public static ClasslistFragment newInstance(ModuleModel module)
     {
         ClasslistFragment fragment = new ClasslistFragment();
-        fragment.students = students;
+        fragment.module = module;
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        attendanceService.getModuleStats(module.getId(), new GetStatsCallback());
     }
 
     @Override
@@ -50,6 +65,7 @@ public class ClasslistFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        attendanceService.getModuleStats(module.getId(), new GetStatsCallback());
         View view = inflater.inflate(R.layout.fragment_classlist, container, false);
 
         RecyclerView rv = view.findViewById(R.id.rv_user_list);
@@ -82,8 +98,12 @@ public class ClasslistFragment extends Fragment
     private List<StudentModuleStatisticModel> filter(String searchValue)
     {
         List<StudentModuleStatisticModel> filteredList = new ArrayList<>();
+        if(moduleStats == null)
+        {
+            return filteredList;
+        }
 
-        for(StudentModuleStatisticModel u: students)
+        for(StudentModuleStatisticModel u: moduleStats.getStudents())
         {
             if(searchValue == null || searchValue.isEmpty())
             {
@@ -98,5 +118,18 @@ public class ClasslistFragment extends Fragment
         }
 
         return filteredList;
+    }
+
+    private class GetStatsCallback implements ICallback<ModuleStatisticModel>
+    {
+        @Override
+        public void onSuccess(ModuleStatisticModel value)
+        {
+            moduleStats = value;
+            adapter.setItems(filter(null));
+        }
+
+        @Override
+        public void onError(Throwable error){ }
     }
 }

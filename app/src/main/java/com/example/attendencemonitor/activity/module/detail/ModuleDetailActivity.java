@@ -20,9 +20,7 @@ public class ModuleDetailActivity extends BaseMenuActivity
 {
     public static final String EXTRA_MODULE_ID = "MODULE_ID";
     IModuleService moduleService = new ModuleService();
-    IAttendanceService attendanceService = new AttendanceService();
     private ModuleModel module;
-    private ModuleStatisticModel moduleStats;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -44,7 +42,7 @@ public class ModuleDetailActivity extends BaseMenuActivity
     private void initView()
     {
         setContentView(R.layout.activity_module_detail);
-        ModulePagerAdapter sectionsPagerAdapter = new ModulePagerAdapter(getSupportFragmentManager(), module, moduleStats);
+        ModulePagerAdapter sectionsPagerAdapter = new ModulePagerAdapter(getSupportFragmentManager(), module);
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabs);
@@ -57,19 +55,6 @@ public class ModuleDetailActivity extends BaseMenuActivity
         public void onSuccess(ModuleModel value)
         {
             module = value;
-            attendanceService.getModuleStats(value.getId(), new GetStatsCallback());
-        }
-
-        @Override
-        public void onError(Throwable error){ }
-    }
-
-    private class GetStatsCallback implements ICallback<ModuleStatisticModel>
-    {
-        @Override
-        public void onSuccess(ModuleStatisticModel value)
-        {
-            moduleStats = value;
             initView();
         }
 
