@@ -37,7 +37,7 @@ public class TimeslotFormActivity extends BaseMenuActivity implements DatePicker
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        initializeMenu("Timeslot", true);
+        initializeMenu("Timeslot Form", true);
         super.onCreate(savedInstanceState);
 
         Intent received = getIntent();

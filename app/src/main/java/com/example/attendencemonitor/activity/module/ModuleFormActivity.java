@@ -43,7 +43,7 @@ public class ModuleFormActivity extends BaseMenuActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        initializeMenu("Module", true);
+        initializeMenu("Module Form", true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_module_form);
 
