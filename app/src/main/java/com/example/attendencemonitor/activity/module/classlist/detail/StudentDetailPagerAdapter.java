@@ -1,22 +1,22 @@
-package com.example.attendencemonitor.activity.module.detail;
+package com.example.attendencemonitor.activity.module.classlist.detail;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.example.attendencemonitor.activity.module.classlist.ClasslistFragment;
-import com.example.attendencemonitor.activity.module.timeslot.TimeslotFragment;
-import com.example.attendencemonitor.service.model.ModuleModel;
+import com.example.attendencemonitor.activity.module.classlist.detail.timeslot.StudentTimeslotFragment;
 
-public class ModulePagerAdapter extends FragmentPagerAdapter
+public class StudentDetailPagerAdapter extends FragmentPagerAdapter
 {
-    private final ModuleModel module;
+    private final int moduleId;
+    private final int studentId;
 
-    public ModulePagerAdapter(@NonNull FragmentManager fm, ModuleModel module)
+    public StudentDetailPagerAdapter(@NonNull FragmentManager fm, int moduleId, int studentId)
     {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        this.module = module;
+        this.moduleId = moduleId;
+        this.studentId = studentId;
     }
 
     @NonNull
@@ -27,9 +27,9 @@ public class ModulePagerAdapter extends FragmentPagerAdapter
         {
             default:
             case 0:
-                return TimeslotFragment.newInstance(module);
+                return StudentTimeslotFragment.newInstance();
             case 1:
-                return ClasslistFragment.newInstance(module);
+                return StudentTimeslotFragment.newInstance();
         }
     }
 
@@ -39,9 +39,9 @@ public class ModulePagerAdapter extends FragmentPagerAdapter
         {
             default:
             case 0:
-                return "Timeslot";
+                return "Attendance";
             case 1:
-                return "Classlist";
+                return "Other Modules";
         }
     }
 

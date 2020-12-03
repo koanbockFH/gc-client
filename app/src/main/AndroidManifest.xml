@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AttendenceMonitor">
-        <activity android:name=".activity.qr.ScannerActivity"/>
+        <activity android:name=".activity.module.classlist.detail.StudentDetailActivity"></activity>
+        <activity android:name=".activity.qr.ScannerActivity" />
         <activity android:name=".activity.module.timeslot.TimeslotFormActivity" />
         <activity android:name=".activity.teacher.TeacherHomeActivity" />
         <activity android:name=".activity.SessionActivity">

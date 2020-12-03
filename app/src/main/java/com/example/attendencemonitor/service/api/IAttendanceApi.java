@@ -22,4 +22,7 @@ public interface IAttendanceApi
 
     @GET("statistics/module/{id}/timeslot")
     Call<List<TimeslotStatisticModel>> getAllTimeslotStats(@Path("id") int moduleId);
+
+    @GET("statistics/module/{moduleId}/student/{studentId}")
+    Call<List<TimeslotStatisticModel>> getAllTimeslotStats(@Path("moduleId") int moduleId, @Path("studentId") int studentId);
 }

@@ -1,5 +1,6 @@
 package com.example.attendencemonitor.activity.module.classlist;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,13 +15,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.attendencemonitor.R;
+import com.example.attendencemonitor.activity.module.classlist.detail.StudentDetailActivity;
 import com.example.attendencemonitor.activity.module.detail.ModuleDetailActivity;
+import com.example.attendencemonitor.activity.module.timeslot.TimeslotFormActivity;
 import com.example.attendencemonitor.service.AttendanceService;
 import com.example.attendencemonitor.service.contract.IAttendanceService;
 import com.example.attendencemonitor.service.contract.ICallback;
 import com.example.attendencemonitor.service.model.ModuleModel;
 import com.example.attendencemonitor.service.model.ModuleStatisticModel;
 import com.example.attendencemonitor.service.model.StudentModuleStatisticModel;
+import com.example.attendencemonitor.service.model.TimeslotModel;
 import com.example.attendencemonitor.service.model.TimeslotStatisticModel;
 import com.example.attendencemonitor.service.model.UserModel;
 import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
@@ -119,9 +123,12 @@ public class ClasslistFragment extends Fragment
 
         return filteredList;
     }
-    private void makeToast(String message)
-    {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+
+    private void onOpenstudentDetails(StudentModuleStatisticModel student) {
+        Intent i = new Intent(getActivity(), StudentDetailActivity.class);
+        i.putExtra(StudentDetailActivity.EXTRA_STUDENT_ID, student.getId());
+        i.putExtra(StudentDetailActivity.EXTRA_MODULE_ID, module.getId());
+        startActivity(i);
     }
 
     private class GetStatsCallback implements ICallback<ModuleStatisticModel>
@@ -143,7 +150,7 @@ public class ClasslistFragment extends Fragment
         @Override
         public void onClick(StudentModuleStatisticModel item)
         {
-            makeToast("Open Student Stats");
+            onOpenstudentDetails(item);
         }
 
         @Override
