@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,7 +21,9 @@ import com.example.attendencemonitor.service.contract.ICallback;
 import com.example.attendencemonitor.service.model.ModuleModel;
 import com.example.attendencemonitor.service.model.ModuleStatisticModel;
 import com.example.attendencemonitor.service.model.StudentModuleStatisticModel;
+import com.example.attendencemonitor.service.model.TimeslotStatisticModel;
 import com.example.attendencemonitor.service.model.UserModel;
+import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,9 +60,6 @@ public class ClasslistFragment extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null)
-        {
-        }
     }
 
     @Override
@@ -71,7 +71,7 @@ public class ClasslistFragment extends Fragment
         RecyclerView rv = view.findViewById(R.id.rv_user_list);
         rv.setHasFixedSize(true);
         LinearLayoutManager lm = new LinearLayoutManager(getActivity());
-        adapter = new StudentListAdapter(filter(null));
+        adapter = new StudentListAdapter(filter(null), new ListItemListener());
 
         rv.setLayoutManager(lm);
         rv.setAdapter(adapter);
@@ -119,6 +119,10 @@ public class ClasslistFragment extends Fragment
 
         return filteredList;
     }
+    private void makeToast(String message)
+    {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
 
     private class GetStatsCallback implements ICallback<ModuleStatisticModel>
     {
@@ -131,5 +135,33 @@ public class ClasslistFragment extends Fragment
 
         @Override
         public void onError(Throwable error){ }
+    }
+
+    private class ListItemListener implements IRecyclerViewItemEventListener<StudentModuleStatisticModel>
+    {
+
+        @Override
+        public void onClick(StudentModuleStatisticModel item)
+        {
+            makeToast("Open Student Stats");
+        }
+
+        @Override
+        public void onLongPress(StudentModuleStatisticModel item)
+        {
+
+        }
+
+        @Override
+        public void onPrimaryClick(StudentModuleStatisticModel item)
+        {
+
+        }
+
+        @Override
+        public void onSecondaryActionClick(StudentModuleStatisticModel item)
+        {
+
+        }
     }
 }
