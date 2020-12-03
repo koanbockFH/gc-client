@@ -54,18 +54,20 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.It
 
     @Override
     public void onBindViewHolder(@NonNull ModuleListAdapter.ItemViewAdapter holder, int position) {
+        ModuleModel currentItem = moduleList.get(position);
         if(AppData.getInstance().getUserType() != UserType.ADMIN)
         {
             holder.ib_edit.setVisibility(View.GONE);
         }
+        else{
+            holder.tv_module_name.setOnClickListener(v -> {listener.onPrimaryClick(currentItem);});
+            holder.ib_edit.setOnClickListener(v -> {listener.onPrimaryClick(currentItem);});
+        }
 
-        ModuleModel currentItem = moduleList.get(position);
         holder.tv_module_code.setText(currentItem.getCode());
         holder.tv_module_name.setText(currentItem.getName());
         holder.tv_teacher.setText(currentItem.getTeacher().getFullName());
 
-        holder.tv_module_name.setOnClickListener(v -> {listener.onPrimaryClick(currentItem);});
-        holder.ib_edit.setOnClickListener(v -> {listener.onPrimaryClick(currentItem);});
         holder.ib_open.setOnClickListener(v -> {listener.onClick(currentItem);});
         holder.ll_moduleContainer.setOnClickListener(view -> {
             listener.onClick(currentItem);
