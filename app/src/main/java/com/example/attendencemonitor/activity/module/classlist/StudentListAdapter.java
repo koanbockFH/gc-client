@@ -12,36 +12,35 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.attendencemonitor.R;
+import com.example.attendencemonitor.service.model.StudentModuleStatisticModel;
 import com.example.attendencemonitor.service.model.UserModel;
 
 import java.util.List;
 
 public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.StudentListViewHolder>{
 
-    private List<UserModel> studentList;
+    private List<StudentModuleStatisticModel> studentList;
 
     public static class StudentListViewHolder extends RecyclerView.ViewHolder{
         private final TextView tv_username;
         private final TextView tv_code;
         private final TextView tv_usermail;
-        private final CheckBox cb_selected;
-        private final RadioButton rb_selected;
+        private final TextView tv_attendance;
 
         public StudentListViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_username  = itemView.findViewById(R.id.tv_username);
             tv_code  = itemView.findViewById(R.id.tv_user_code);
             tv_usermail  = itemView.findViewById(R.id.tv_usermail);
-            cb_selected = itemView.findViewById(R.id.cb_user);
-            rb_selected = itemView.findViewById(R.id.rb_user);
+            tv_attendance = itemView.findViewById(R.id.tv_attendance);
         }
     }
 
-    public StudentListAdapter(List<UserModel> StudentList) {
+    public StudentListAdapter(List<StudentModuleStatisticModel> StudentList) {
         this.studentList = StudentList;
     }
 
-    public void setItems(List<UserModel> items)
+    public void setItems(List<StudentModuleStatisticModel> items)
     {
         studentList = items;
         notifyDataSetChanged();
@@ -49,18 +48,17 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull StudentListAdapter.StudentListViewHolder holder, int position) {
-        UserModel currentItem = studentList.get(position);
+        StudentModuleStatisticModel currentItem = studentList.get(position);
         holder.tv_username.setText(currentItem.getFullName());
         holder.tv_usermail.setText(currentItem.getMail());
         holder.tv_code.setText(currentItem.getCode());
-        holder.cb_selected.setVisibility(View.GONE);
-        holder.rb_selected.setVisibility(View.GONE);
+        holder.tv_attendance.setText(String.format("%s/%s", currentItem.getAttended(), currentItem.getTotalTimeslots()));
     }
 
     @NonNull
     @Override
     public StudentListAdapter.StudentListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.class_item, parent, false);
         return new StudentListAdapter.StudentListViewHolder(v);
     }
 

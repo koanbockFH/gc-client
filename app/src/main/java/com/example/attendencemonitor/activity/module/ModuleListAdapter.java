@@ -64,7 +64,8 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.It
         holder.tv_module_name.setText(currentItem.getName());
         holder.tv_teacher.setText(currentItem.getTeacher().getFullName());
 
-        holder.ib_edit.setOnClickListener(v -> {listener.onActionClick(currentItem);});
+        holder.tv_module_name.setOnClickListener(v -> {listener.onPrimaryClick(currentItem);});
+        holder.ib_edit.setOnClickListener(v -> {listener.onPrimaryClick(currentItem);});
         holder.ib_open.setOnClickListener(v -> {listener.onClick(currentItem);});
         holder.ll_moduleContainer.setOnClickListener(view -> {
             listener.onClick(currentItem);

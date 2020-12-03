@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.attendencemonitor.R;
-import com.example.attendencemonitor.service.model.TimeslotModel;
+import com.example.attendencemonitor.service.model.TimeslotStatisticModel;
 import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 
 import java.text.SimpleDateFormat;
@@ -20,15 +20,15 @@ import java.util.Locale;
 
 
 public class TimeslotListAdapter extends RecyclerView.Adapter<TimeslotListAdapter.ItemViewAdapter>{
-    private List<TimeslotModel> itemList;
-    private final IRecyclerViewItemEventListener<TimeslotModel> listener;
+    private List<TimeslotStatisticModel> itemList;
+    private final IRecyclerViewItemEventListener<TimeslotStatisticModel> listener;
 
     public static class ItemViewAdapter extends RecyclerView.ViewHolder{
         private final TextView tv_name;
         private final TextView tv_start;
         private final LinearLayout ll_timeslotContainer;
-        private final ImageButton ib_edit;
-        private final ImageButton ib_scan;
+        private final ImageButton ib_edit, ib_stats, ib_scan;
+        private final TextView tv_attendance;
 
         public ItemViewAdapter(@NonNull View itemView) {
             super(itemView);
@@ -37,15 +37,17 @@ public class TimeslotListAdapter extends RecyclerView.Adapter<TimeslotListAdapte
             ll_timeslotContainer = itemView.findViewById(R.id.ll_timeslotContainer);
             ib_edit = itemView.findViewById(R.id.ib_edit);
             ib_scan = itemView.findViewById(R.id.ib_scan);
+            ib_stats = itemView.findViewById(R.id.ib_stats);
+            tv_attendance = itemView.findViewById(R.id.tv_attendance);
         }
 
     }
-    public TimeslotListAdapter(List<TimeslotModel> itemList, IRecyclerViewItemEventListener<TimeslotModel> listener) {
+    public TimeslotListAdapter(List<TimeslotStatisticModel> itemList, IRecyclerViewItemEventListener<TimeslotStatisticModel> listener) {
         this.itemList = itemList;
         this.listener = listener;
     }
 
-    public void setItems(List<TimeslotModel> items)
+    public void setItems(List<TimeslotStatisticModel> items)
     {
         itemList = items;
         notifyDataSetChanged();
@@ -53,17 +55,19 @@ public class TimeslotListAdapter extends RecyclerView.Adapter<TimeslotListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull TimeslotListAdapter.ItemViewAdapter holder, int position) {
-        TimeslotModel currentItem = itemList.get(position);
+        TimeslotStatisticModel currentItem = itemList.get(position);
         SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("dd/MM/yy HH:mm", Locale.getDefault());
         SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm", Locale.getDefault());
 
+        holder.tv_attendance.setText(String.format("%s/%s", currentItem.getAttended(), currentItem.getTotalStudents()));
         holder.tv_name.setText(currentItem.getName());
         holder.tv_start.setText(String.format("%s - %s", dateTimeFormatter.format(currentItem.getStartDate()), timeFormatter.format(currentItem.getEndDate())));
 
-        holder.ib_edit.setOnClickListener(v -> {listener.onActionClick(currentItem);});
+        holder.ib_stats.setOnClickListener(v -> {listener.onSecondaryActionClick(currentItem);});
+        holder.ib_edit.setOnClickListener(v -> {listener.onPrimaryClick(currentItem);});
         holder.ib_scan.setOnClickListener(v -> {listener.onClick(currentItem);});
-        holder.ll_timeslotContainer.setOnClickListener(view -> {
-            listener.onClick(currentItem);
+        holder.tv_name.setOnClickListener(view -> {
+            listener.onPrimaryClick(currentItem);
         });
         holder.ll_timeslotContainer.setOnLongClickListener(view -> {
             listener.onLongPress(currentItem);

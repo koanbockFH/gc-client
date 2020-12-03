@@ -5,18 +5,18 @@ import com.google.gson.annotations.Expose;
 public class AttendDto
 {
     @Expose
-    int studentId;
+    String studentCode;
     @Expose
     int timeslotId;
 
-    public int getStudentId()
+    public String getStudentCode()
     {
-        return studentId;
+        return studentCode;
     }
 
-    public void setStudentId(int studentId)
+    public void setStudentCode(String studentCode)
     {
-        this.studentId = studentId;
+        this.studentCode = studentCode;
     }
 
     public int getTimeslotId()

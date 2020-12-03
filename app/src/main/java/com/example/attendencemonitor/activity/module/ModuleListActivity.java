@@ -169,9 +169,15 @@ public class ModuleListActivity extends BaseMenuActivity
         }
 
         @Override
-        public void onActionClick(ModuleModel item)
+        public void onPrimaryClick(ModuleModel item)
         {
             edit(item);
+        }
+
+        @Override
+        public void onSecondaryActionClick(ModuleModel item)
+        {
+            //not used
         }
     }
 

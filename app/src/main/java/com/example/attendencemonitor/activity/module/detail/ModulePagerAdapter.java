@@ -9,15 +9,18 @@ import com.example.attendencemonitor.activity.module.classlist.ClasslistFragment
 import com.example.attendencemonitor.activity.module.statistics.ModuleStatisticsFragment;
 import com.example.attendencemonitor.activity.module.timeslot.TimeslotFragment;
 import com.example.attendencemonitor.service.model.ModuleModel;
+import com.example.attendencemonitor.service.model.ModuleStatisticModel;
 
 public class ModulePagerAdapter extends FragmentPagerAdapter
 {
     private final ModuleModel module;
+    private final ModuleStatisticModel moduleStats;
 
-    public ModulePagerAdapter(@NonNull FragmentManager fm, ModuleModel module)
+    public ModulePagerAdapter(@NonNull FragmentManager fm, ModuleModel module, ModuleStatisticModel moduleStats)
     {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.module = module;
+        this.moduleStats = moduleStats;
     }
 
     @NonNull
@@ -30,9 +33,7 @@ public class ModulePagerAdapter extends FragmentPagerAdapter
             case 0:
                 return TimeslotFragment.newInstance(module);
             case 1:
-                return ModuleStatisticsFragment.newInstance();
-            case 2:
-                return ClasslistFragment.newInstance(module.getStudents());
+                return ClasslistFragment.newInstance(moduleStats.getStudents());
         }
     }
 
@@ -44,8 +45,6 @@ public class ModulePagerAdapter extends FragmentPagerAdapter
             case 0:
                 return "Timeslot";
             case 1:
-                return "Statistic";
-            case 2:
                 return "Classlist";
         }
     }
@@ -55,6 +54,6 @@ public class ModulePagerAdapter extends FragmentPagerAdapter
     @Override
     public int getCount()
     {
-        return 3;
+        return 2;
     }
 }

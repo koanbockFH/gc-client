@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.attendencemonitor.R;
+import com.example.attendencemonitor.service.model.StudentModuleStatisticModel;
 import com.example.attendencemonitor.service.model.UserModel;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ import java.util.List;
 
 public class ClasslistFragment extends Fragment
 {
-    private List<UserModel> students;
+    private List<StudentModuleStatisticModel> students;
     private StudentListAdapter adapter;
 
     public ClasslistFragment()
@@ -28,7 +29,7 @@ public class ClasslistFragment extends Fragment
         // Required empty public constructor
     }
 
-    public static ClasslistFragment newInstance(List<UserModel> students)
+    public static ClasslistFragment newInstance(List<StudentModuleStatisticModel> students)
     {
         ClasslistFragment fragment = new ClasslistFragment();
         fragment.students = students;
@@ -78,11 +79,11 @@ public class ClasslistFragment extends Fragment
         return view;
     }
 
-    private List<UserModel> filter(String searchValue)
+    private List<StudentModuleStatisticModel> filter(String searchValue)
     {
-        List<UserModel> filteredList = new ArrayList<>();
+        List<StudentModuleStatisticModel> filteredList = new ArrayList<>();
 
-        for(UserModel u: students)
+        for(StudentModuleStatisticModel u: students)
         {
             if(searchValue == null || searchValue.isEmpty())
             {

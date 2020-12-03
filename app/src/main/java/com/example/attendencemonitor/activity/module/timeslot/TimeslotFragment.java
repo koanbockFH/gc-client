@@ -36,6 +36,7 @@ import com.example.attendencemonitor.service.contract.ITimeslotService;
 import com.example.attendencemonitor.service.dto.AttendDto;
 import com.example.attendencemonitor.service.model.ModuleModel;
 import com.example.attendencemonitor.service.model.TimeslotModel;
+import com.example.attendencemonitor.service.model.TimeslotStatisticModel;
 import com.example.attendencemonitor.service.model.UserType;
 import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 
@@ -56,7 +57,7 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
     ITimeslotService timeslotService = new TimeslotService();
     IAttendanceService attendanceService = new AttendanceService();
     TimeslotListAdapter adapter;
-    List<TimeslotModel> timeslotList;
+    List<TimeslotStatisticModel> timeslotList;
     EditText date, searchBox;
     SimpleDateFormat dateFormatter =  new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
     Date searchDate;
@@ -81,7 +82,7 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
         super.onCreate(savedInstanceState);
         if (getArguments() != null)
         {
-            timeslotService.getAll(module.getId(), new TimeslotListCallback());
+            attendanceService.getAllTimeslotStats(module.getId(), new TimeslotListCallback());
         }
     }
 
@@ -126,7 +127,7 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
     public void onResume()
     {
         super.onResume();
-        timeslotService.getAll(module.getId(), new TimeslotListCallback());
+        attendanceService.getAllTimeslotStats(module.getId(), new TimeslotListCallback());
     }
 
     @Override
@@ -151,11 +152,10 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SCANNER_REQUEST && data != null)
         {
-            String payload = data.getStringExtra(ScannerActivity.EXTRA_RESULT_PAYLOAD);
-            int studentId = Integer.parseInt(payload);
+            String studentCode = data.getStringExtra(ScannerActivity.EXTRA_RESULT_PAYLOAD);
 
             AttendDto dto = new AttendDto();
-            dto.setStudentId(studentId);
+            dto.setStudentCode(studentCode);
             dto.setTimeslotId(timeslotId);
             attendanceService.attend(dto, new AttendTimeslotCallback());
         }
@@ -186,16 +186,16 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
         adapter.setItems(filter(searchBox.getText().toString()));
     }
 
-    private List<TimeslotModel> filter(String searchValue)
+    private List<TimeslotStatisticModel> filter(String searchValue)
     {
         if(searchValue.isEmpty())
         {
             searchValue = null;
         }
 
-        List<TimeslotModel> filteredList = new ArrayList<>();
+        List<TimeslotStatisticModel> filteredList = new ArrayList<>();
 
-        for(TimeslotModel u: timeslotList)
+        for(TimeslotStatisticModel u: timeslotList)
         {
             boolean matchSearch = searchValue == null, matchDate = searchDate == null;
             if(searchValue != null && u.getName().toLowerCase().contains(searchValue.toLowerCase()))
@@ -218,11 +218,9 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
         return filteredList;
     }
 
-    private void readValues(TimeslotModel[] values)
+    private void readValues(List<TimeslotStatisticModel> values)
     {
-        ArrayList<TimeslotModel> items = new ArrayList<>();
-        Collections.addAll(items, values);
-        timeslotList = items;
+        timeslotList = values;
 
         RecyclerView rv = getActivity().findViewById(R.id.rv_timeslot_list);
         rv.setHasFixedSize(true);
@@ -288,11 +286,11 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
-    private class TimeslotListCallback implements ICallback<TimeslotModel[]>
+    private class TimeslotListCallback implements ICallback<List<TimeslotStatisticModel>>
     {
 
         @Override
-        public void onSuccess(TimeslotModel[] value)
+        public void onSuccess(List<TimeslotStatisticModel> value)
         {
             readValues(value);
         }
@@ -311,7 +309,7 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
         public void onSuccess()
         {
             makeToast("Timeslot has been deleted!");
-            timeslotService.getAll(module.getId(), new TimeslotListCallback());
+            attendanceService.getAllTimeslotStats(module.getId(), new TimeslotListCallback());
         }
 
         @Override
@@ -336,27 +334,33 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
         }
     }
 
-    private class ListItemListener implements IRecyclerViewItemEventListener<TimeslotModel>
+    private class ListItemListener implements IRecyclerViewItemEventListener<TimeslotStatisticModel>
     {
         @Override
-        public void onClick(TimeslotModel item)
+        public void onClick(TimeslotStatisticModel item)
         {
             timeslotId = item.getId();
             onOpenScanner();
         }
 
         @Override
-        public void onLongPress(TimeslotModel item)
+        public void onLongPress(TimeslotStatisticModel item)
         {
             timeslotId = item.getId();
             onDeleteTimeslot(item);
         }
 
         @Override
-        public void onActionClick(TimeslotModel item)
+        public void onPrimaryClick(TimeslotStatisticModel item)
         {
             timeslotId = item.getId();
             onEditTimeslot(item);
+        }
+
+        @Override
+        public void onSecondaryActionClick(TimeslotStatisticModel item)
+        {
+            makeToast("Will open timeslot stats!");
         }
     }
 }
