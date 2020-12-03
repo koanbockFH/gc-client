@@ -6,10 +6,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.attendencemonitor.activity.module.classlist.ClasslistFragment;
-import com.example.attendencemonitor.activity.module.statistics.ModuleStatisticsFragment;
 import com.example.attendencemonitor.activity.module.timeslot.TimeslotFragment;
 import com.example.attendencemonitor.service.model.ModuleModel;
-import com.example.attendencemonitor.service.model.ModuleStatisticModel;
 
 public class ModulePagerAdapter extends FragmentPagerAdapter
 {
