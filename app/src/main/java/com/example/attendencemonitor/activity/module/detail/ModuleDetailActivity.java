@@ -17,17 +17,19 @@ import com.google.android.material.tabs.TabLayout;
 public class ModuleDetailActivity extends BaseMenuActivity
 {
     public static final String EXTRA_MODULE_ID = "MODULE_ID";
+    public static final String EXTRA_MODULE_TITLE = "MODULE_TITLE";
     IModuleService moduleService = new ModuleService();
     private ModuleModel module;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        initializeMenu("Module", true);
-        super.onCreate(savedInstanceState);
-
         Intent received = getIntent();
         int moduleId = received.getIntExtra(EXTRA_MODULE_ID, -1);
+        String title = received.getStringExtra(EXTRA_MODULE_TITLE);
+
+        initializeMenu(title, true);
+        super.onCreate(savedInstanceState);
 
         if (moduleId == -1)
         {

@@ -97,9 +97,10 @@ public class ModuleListActivity extends BaseMenuActivity
     }
 
     private void openDetails(ModuleModel item){
-        Intent timeslots = new Intent(this, ModuleDetailActivity.class);
-        timeslots.putExtra(ModuleDetailActivity.EXTRA_MODULE_ID, item.getId());
-        startActivity(timeslots);
+        Intent i = new Intent(this, ModuleDetailActivity.class);
+        i.putExtra(ModuleDetailActivity.EXTRA_MODULE_ID, item.getId());
+        i.putExtra(ModuleDetailActivity.EXTRA_MODULE_TITLE, item.getName());
+        startActivity(i);
     }
 
     private void deleteModule(ModuleModel item)
