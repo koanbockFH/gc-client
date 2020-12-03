@@ -98,7 +98,7 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
         ImageButton delDateSearch = view.findViewById(R.id.ib_delete_date_search);
         delDateSearch.setOnClickListener(v -> {
             searchDate = null;
-            date.setText("Date");
+            date.setText(null);
             adapter.setItems(filter(searchBox.getText().toString()));
         });
 

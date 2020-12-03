@@ -36,8 +36,6 @@
         android:drawableTint="@color/primary_color"
         android:focusable="false"
         android:hint="Date"
-        android:textColor="@color/primary_color"
-        android:textColorHint="@color/primary_color"
         app:layout_constraintEnd_toStartOf="@+id/ib_delete_date_search"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_searchbox"
