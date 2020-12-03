@@ -4,6 +4,7 @@ import com.example.attendencemonitor.service.dto.AttendDto;
 import com.example.attendencemonitor.service.model.ModuleStatisticModel;
 import com.example.attendencemonitor.service.model.ModuleStatisticModelBase;
 import com.example.attendencemonitor.service.model.StudentTimeslotStatisticModel;
+import com.example.attendencemonitor.service.model.TimeslotStatisticDetailModel;
 import com.example.attendencemonitor.service.model.TimeslotStatisticModel;
 
 import java.util.List;
@@ -15,6 +16,8 @@ public interface IAttendanceService
     void getModuleStats(int moduleId, ICallback<ModuleStatisticModel> callback);
 
     void getAllTimeslotStats(int moduleId, ICallback<List<TimeslotStatisticModel>> callback);
+
+    void getTimeslotStats(int timeslotId, ICallback<TimeslotStatisticDetailModel> callback);
 
     void getStudentTimeslotStats(int moduleId, int studentId, ICallback<StudentTimeslotStatisticModel> callback);
 
