@@ -23,13 +23,47 @@
         app:layout_constraintTop_toTopOf="parent"
         />
 
+    <EditText
+        android:id="@+id/search_timeslot_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:cursorVisible="false"
+        android:drawableStart="@drawable/ic_baseline_calendar_today_24"
+        android:drawablePadding="8dp"
+        android:drawableTint="@color/primary_color"
+        android:focusable="false"
+        android:hint="Date"
+        android:textColor="@color/primary_color"
+        android:textColorHint="@color/primary_color"
+        app:layout_constraintEnd_toStartOf="@+id/ib_delete_date_search"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_searchbox"
+        app:startIconTint="@color/primary_color" />
+
+    <ImageButton
+        android:id="@+id/ib_delete_date_search"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/search_timeslot_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/search_timeslot_date"
+        android:backgroundTint="#00FFFFFF"
+        android:tint="@color/primary_color"
+        app:srcCompat="@drawable/ic_baseline_close_24" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_timeslot_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_searchbox"
-        tools:layout_editor_absoluteX="165dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_timeslot_date"
+        app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_timeslot_add"

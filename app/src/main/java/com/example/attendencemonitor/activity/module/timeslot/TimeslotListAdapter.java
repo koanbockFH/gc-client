@@ -56,7 +56,7 @@ public class TimeslotListAdapter extends RecyclerView.Adapter<TimeslotListAdapte
     @Override
     public void onBindViewHolder(@NonNull TimeslotListAdapter.ItemViewAdapter holder, int position) {
         TimeslotModel currentItem = itemList.get(position);
-        SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault());
+        SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("dd/MM/yy HH:mm", Locale.getDefault());
         SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm", Locale.getDefault());
 
         holder.tv_name.setText(currentItem.getName());

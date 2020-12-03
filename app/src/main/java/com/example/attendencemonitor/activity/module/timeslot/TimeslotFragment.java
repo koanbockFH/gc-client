@@ -2,6 +2,7 @@ package com.example.attendencemonitor.activity.module.timeslot;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -19,7 +20,9 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.attendencemonitor.R;
@@ -39,11 +42,15 @@ import com.example.attendencemonitor.service.model.UserModel;
 import com.example.attendencemonitor.service.model.UserType;
 import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
-public class TimeslotFragment extends Fragment
+public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDateSetListener
 {
     private static final int ZXING_CAMERA_PERMISSION = 1;
     private static final int SCANNER_REQUEST = 2;
@@ -53,6 +60,9 @@ public class TimeslotFragment extends Fragment
     IAttendanceService attendanceService = new AttendanceService();
     TimeslotListAdapter adapter;
     List<TimeslotModel> timeslotList;
+    EditText date, searchBox;
+    SimpleDateFormat dateFormatter =  new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
+    Date searchDate;
 
     public TimeslotFragment()
     {
@@ -85,7 +95,17 @@ public class TimeslotFragment extends Fragment
 
         view.findViewById(R.id.fab_timeslot_add).setOnClickListener(this::onAdd);
 
-        EditText searchBox = view.findViewById(R.id.et_searchbox);
+        ImageButton delDateSearch = view.findViewById(R.id.ib_delete_date_search);
+        delDateSearch.setOnClickListener(v -> {
+            searchDate = null;
+            date.setText("Date");
+            adapter.setItems(filter(searchBox.getText().toString()));
+        });
+
+        date = view.findViewById(R.id.search_timeslot_date);
+        date.setOnClickListener((View v) -> showDatePickerDialog());
+
+        searchBox = view.findViewById(R.id.et_searchbox);
         searchBox.addTextChangedListener(new TextWatcher()
         {
             @Override
@@ -144,17 +164,55 @@ public class TimeslotFragment extends Fragment
         }
     }
 
+    private void showDatePickerDialog() {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(searchDate == null ? new Date() : searchDate);
+        DatePickerDialog datePicker = new DatePickerDialog(
+                getActivity(),
+                this,
+                cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH),
+                cal.get(Calendar.DAY_OF_MONTH)
+        );
+        datePicker.show();
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(searchDate == null ? new Date() : searchDate);
+        cal.set(year, month, dayOfMonth);
+        searchDate = cal.getTime();
+
+        date.setText(String.format("Date: %s", dateFormatter.format(searchDate.getTime())));
+
+        adapter.setItems(filter(searchBox.getText().toString()));
+    }
+
     private List<TimeslotModel> filter(String searchValue)
     {
+        if(searchValue.isEmpty())
+        {
+            searchValue = null;
+        }
+
         List<TimeslotModel> filteredList = new ArrayList<>();
 
         for(TimeslotModel u: timeslotList)
         {
-            if(searchValue == null || searchValue.isEmpty())
+            boolean matchSearch = searchValue == null, matchDate = searchDate == null;
+            if(searchValue != null && u.getName().toLowerCase().contains(searchValue.toLowerCase()))
             {
-                filteredList.add(u);
+                matchSearch = true;
             }
-            else if(u.getName().toLowerCase().contains(searchValue.toLowerCase()))
+            if(searchDate != null &&
+                    (dateFormatter.format(u.getStartDate().getTime()).equals(dateFormatter.format(searchDate.getTime())) ||
+                    dateFormatter.format(u.getEndDate().getTime()).equals(dateFormatter.format(searchDate.getTime()))))
+            {
+                matchDate = true;
+            }
+
+            if(matchDate && matchSearch)
             {
                 filteredList.add(u);
             }
