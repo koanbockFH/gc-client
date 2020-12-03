@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.example.attendencemonitor.activity.module.classlist.detail.module.StudentModuleFragment;
 import com.example.attendencemonitor.activity.module.classlist.detail.timeslot.StudentTimeslotFragment;
 
 import java.util.Locale;
@@ -37,7 +38,7 @@ public class StudentDetailPagerAdapter extends FragmentPagerAdapter
             case 1:
                 return StudentTimeslotFragment.newInstance(moduleId, studentId, false);
             case 2:
-                return StudentTimeslotFragment.newInstance(moduleId, studentId, true);
+                return StudentModuleFragment.newInstance(studentId);
         }
     }
 
