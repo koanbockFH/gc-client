@@ -17,7 +17,7 @@
         android:drawableStart="@drawable/ic_baseline_search_24"
         android:drawablePadding="8dp"
         android:drawableTint="@color/primary_color"
-        android:hint="Search for code, name or teacher"
+        android:hint="@string/search_for_code_name_or_teacher"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

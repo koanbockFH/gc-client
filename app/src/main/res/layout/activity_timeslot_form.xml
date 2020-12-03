@@ -14,7 +14,7 @@
         android:id="@+id/add_timeslot_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter Timeslot Name"
+        android:hint="@string/enter_timeslot_name"
         android:singleLine="true"
         android:textColor="@color/primary_color"
         android:textColorHint="@color/primary_color"
@@ -28,7 +28,7 @@
         android:layout_gravity="center"
         android:clickable="true"
         android:cursorVisible="false"
-        android:hint="Date"
+        android:hint="@string/date"
         android:drawableEnd="@drawable/ic_baseline_calendar_today_24"
         android:drawableTint="@color/primary_color"
         android:focusable="false"
@@ -47,7 +47,7 @@
         android:drawableEnd="@drawable/ic_baseline_access_time_24"
         android:drawableTint="@color/primary_color"
         android:focusable="false"
-        android:hint="Start time"
+        android:hint="@string/timeslot_start_time"
         android:padding="10dp"
         android:textColor="@color/primary_color"
         android:textColorHint="@color/primary_color" />
@@ -62,7 +62,7 @@
         android:drawableEnd="@drawable/ic_baseline_access_time_24"
         android:drawableTint="@color/primary_color"
         android:focusable="false"
-        android:hint="End time"
+        android:hint="@string/timeslot_end_time"
         android:padding="10dp"
         android:textColor="@color/primary_color"
         android:textColorHint="@color/primary_color" />
@@ -79,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:background="@drawable/round_button"
-            android:text="Delete"
+            android:text="@string/delete"
             android:textColor="@color/white"
             android:visibility="invisible" />
 
@@ -95,7 +95,7 @@
             android:layout_marginTop="30dp"
             android:background="@drawable/round_button"
             android:onClick="onSubmit"
-            android:text="Submit"
+            android:text="@string/submit"
             android:textColor="@color/white" />
     </LinearLayout>
 
