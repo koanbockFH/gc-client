@@ -1,10 +1,13 @@
 package com.example.attendencemonitor.activity.module.timeslot;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -12,10 +15,14 @@ import android.widget.Toast;
 
 import com.example.attendencemonitor.R;
 import com.example.attendencemonitor.activity.base.BaseMenuActivity;
+import com.example.attendencemonitor.activity.module.detail.ModuleDetailActivity;
+import com.example.attendencemonitor.service.AppData;
 import com.example.attendencemonitor.service.TimeslotService;
+import com.example.attendencemonitor.service.contract.IActionCallback;
 import com.example.attendencemonitor.service.contract.ICallback;
 import com.example.attendencemonitor.service.contract.ITimeslotService;
 import com.example.attendencemonitor.service.model.TimeslotModel;
+import com.example.attendencemonitor.service.model.UserType;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -33,6 +40,7 @@ public class TimeslotFormActivity extends BaseMenuActivity implements DatePicker
     public static final String EXTRA_TIMESLOT_ID = "TIMESLOT_ID";
     private int moduleId = -1;
     TimeslotModel model;
+    Button delTimeslot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -73,6 +81,7 @@ public class TimeslotFormActivity extends BaseMenuActivity implements DatePicker
         startTime = findViewById(R.id.add_timeslot_startTime);
         endTime = findViewById(R.id.add_timeslot_endTime);
         date = findViewById(R.id.add_timeslot_date);
+        delTimeslot = findViewById(R.id.btn_delete_timeslot);
 
         startTime.setOnClickListener((View v) -> showTimePickerDialog(true));
         endTime.setOnClickListener((View v) -> showTimePickerDialog(false));
@@ -155,6 +164,30 @@ public class TimeslotFormActivity extends BaseMenuActivity implements DatePicker
         public void onSuccess(TimeslotModel value)
         {
             initView(value);
+            delTimeslot.setVisibility(View.VISIBLE);
+            delTimeslot.setOnClickListener(v -> {
+                if(AppData.getInstance().getUserType() == UserType.STUDENT)
+                {
+                    return;
+                }
+
+
+                DialogInterface.OnClickListener dialogClickListener = (dialog, which) -> {
+                    switch (which){
+                        case DialogInterface.BUTTON_POSITIVE:
+                            timeslotService.delete(value, new DeleteCallback());
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            //No button clicked
+                            break;
+                    }
+                };
+                AlertDialog.Builder builder = new AlertDialog.Builder(TimeslotFormActivity.this);
+                builder.setMessage("Do you want to delete the timeslot?")
+                        .setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
+            });
         }
 
         @Override
@@ -183,6 +216,28 @@ public class TimeslotFormActivity extends BaseMenuActivity implements DatePicker
         public void onError(Throwable error)
         {
             Toast.makeText(TimeslotFormActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void makeToast(String message)
+    {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    private class DeleteCallback implements IActionCallback
+    {
+
+        @Override
+        public void onSuccess()
+        {
+            makeToast("Timeslot has been deleted!");
+            finish();
+        }
+
+        @Override
+        public void onError(Throwable error)
+        {
+            makeToast("Something went wrong!");
         }
     }
 }
