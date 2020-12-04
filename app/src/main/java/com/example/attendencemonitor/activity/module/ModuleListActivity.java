@@ -25,19 +25,29 @@ import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ModuleListActivity extends BaseMenuActivity
 {
+    public static final String EXTRA_TEACHER_ID = "TEACHER_ID";
+    public static final String EXTRA_TITLE = "TITLE";
     IModuleService moduleService = new ModuleService();
     private List<ModuleModel> modules;
     private ModuleListAdapter adapter;
+    private int teacherId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
-        initializeMenu("Modules", AppData.getInstance().getUserType() == UserType.ADMIN);
+        Intent received = getIntent();
+        teacherId = received.getIntExtra(EXTRA_TEACHER_ID, -1);
+        String title = received.getStringExtra(EXTRA_TITLE);
+
+        initializeMenu(title == null ? "Modules" : title, AppData.getInstance().getUserType() == UserType.ADMIN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_module_list);
 
@@ -165,6 +175,11 @@ public class ModuleListActivity extends BaseMenuActivity
         @Override
         public void onSuccess(ModuleModel[] value)
         {
+            if(teacherId != -1)
+            {
+                List<ModuleModel> list = Arrays.asList(value);
+                value = list.stream().filter(e -> e.getTeacher().getId() == teacherId).toArray(ModuleModel[] ::new);
+            }
             readValues(value);
         }
 

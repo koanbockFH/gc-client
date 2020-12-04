@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.attendencemonitor.R;
 import com.example.attendencemonitor.activity.auth.RegisterActivity;
+import com.example.attendencemonitor.activity.module.ModuleListActivity;
 import com.example.attendencemonitor.service.UserService;
 import com.example.attendencemonitor.service.contract.ICallback;
 import com.example.attendencemonitor.service.contract.IUserService;
@@ -157,6 +158,13 @@ public class UserListFragment extends Fragment
                 Intent i = new Intent(getActivity(), StudentModuleStatisticActivity.class);
                 i.putExtra(StudentModuleStatisticActivity.EXTRA_STUDENT_ID, item.getId());
                 i.putExtra(StudentModuleStatisticActivity.EXTRA_STUDENT_NAME, item.getFullName());
+                startActivity(i);
+            }
+            else if(item.getUserType() == UserType.TEACHER)
+            {
+                Intent i = new Intent(getActivity(), ModuleListActivity.class);
+                i.putExtra(ModuleListActivity.EXTRA_TEACHER_ID, item.getId());
+                i.putExtra(ModuleListActivity.EXTRA_TITLE, item.getFullName() + " | Modules");
                 startActivity(i);
             }
         }
