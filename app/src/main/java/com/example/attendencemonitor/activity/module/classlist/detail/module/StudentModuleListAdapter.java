@@ -22,9 +22,12 @@ import java.util.Locale;
 
 public class StudentModuleListAdapter extends RecyclerView.Adapter<StudentModuleListAdapter.ItemViewAdapter>{
     private List<ModuleStatisticModelBase> moduleList;
+    private IRecyclerViewItemEventListener<ModuleStatisticModelBase> listener;
 
     public static class ItemViewAdapter extends RecyclerView.ViewHolder{
         private final TextView tv_module_code, tv_module_name, tv_teacher, tv_attendance;
+        private final ImageButton ib_module_open;
+        private final LinearLayout ll_moduleContainer;
 
         public ItemViewAdapter(@NonNull View itemView) {
             super(itemView);
@@ -32,12 +35,19 @@ public class StudentModuleListAdapter extends RecyclerView.Adapter<StudentModule
             tv_module_name = itemView.findViewById(R.id.tv_module_name);
             tv_teacher = itemView.findViewById(R.id.tv_teacher);
             tv_attendance = itemView.findViewById(R.id.tv_attendance);
+            ib_module_open = itemView.findViewById(R.id.ib_module_open);
+            ll_moduleContainer = itemView.findViewById(R.id.ll_moduleContainer);
         }
 
     }
-
     public StudentModuleListAdapter(List<ModuleStatisticModelBase> moduleList) {
         this.moduleList = moduleList;
+        this.listener = null;
+    }
+
+    public StudentModuleListAdapter(List<ModuleStatisticModelBase> moduleList, IRecyclerViewItemEventListener<ModuleStatisticModelBase> listener) {
+        this.moduleList = moduleList;
+        this.listener = listener;
     }
 
     public void setItems(List<ModuleStatisticModelBase> items)
@@ -54,6 +64,13 @@ public class StudentModuleListAdapter extends RecyclerView.Adapter<StudentModule
         holder.tv_module_name.setText(currentItem.getName());
         holder.tv_teacher.setText(currentItem.getTeacher().getFullName());
         holder.tv_attendance.setText(String.format(Locale.getDefault(), "%d/%d", currentItem.getAttended(), currentItem.getTotalTimeslots()));
+
+        if(listener != null)
+        {
+            holder.ib_module_open.setVisibility(View.VISIBLE);
+            holder.ib_module_open.setOnClickListener(v -> {listener.onClick(currentItem);});
+            holder.ll_moduleContainer.setOnClickListener(v -> {listener.onClick(currentItem);});
+        }
     }
 
     @NonNull

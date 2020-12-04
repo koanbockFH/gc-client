@@ -16,14 +16,16 @@ public class StudentDetailPagerAdapter extends FragmentPagerAdapter
     private final int studentId;
     private final int attended;
     private final int absent;
+    private final boolean withoutModules;
 
-    public StudentDetailPagerAdapter(@NonNull FragmentManager fm, int moduleId, int studentId, int attended, int absent)
+    public StudentDetailPagerAdapter(@NonNull FragmentManager fm, int moduleId, int studentId, int attended, int absent, boolean withoutModules)
     {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.moduleId = moduleId;
         this.studentId = studentId;
         this.attended = attended;
         this.absent = absent;
+        this.withoutModules = withoutModules;
     }
 
     @NonNull
@@ -59,6 +61,6 @@ public class StudentDetailPagerAdapter extends FragmentPagerAdapter
     @Override
     public int getCount()
     {
-        return 3;
+        return withoutModules ? 2 : 3;
     }
 }

@@ -5,9 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.example.attendencemonitor.activity.module.classlist.ClasslistFragment;
-import com.example.attendencemonitor.activity.module.timeslot.TimeslotFragment;
-import com.example.attendencemonitor.service.model.ModuleModel;
+import com.example.attendencemonitor.activity.admin.user.UserListFragment;
 
 public class AdminPagerAdapter extends FragmentPagerAdapter
 {
@@ -24,11 +22,11 @@ public class AdminPagerAdapter extends FragmentPagerAdapter
         {
             default:
             case 0:
-                return new Fragment();
+                return UserListFragment.newInstance(true);
             case 1:
-                return new Fragment();
+                return UserListFragment.newInstance(false);
             case 2:
-                return new Fragment();
+                return UserListFragment.newInstance(true);
         }
     }
 

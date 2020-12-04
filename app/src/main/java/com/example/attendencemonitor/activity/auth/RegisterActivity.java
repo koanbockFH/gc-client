@@ -1,10 +1,12 @@
 package com.example.attendencemonitor.activity.auth;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -21,6 +23,7 @@ import com.example.attendencemonitor.service.model.UserType;
 
 public class RegisterActivity extends BaseMenuActivity
 {
+    public static final String EXTRA_IS_TEACHER = "IS_TEACHER";
     IUserService userService = new UserService();
 
     private EditText eFirstName;
@@ -38,7 +41,15 @@ public class RegisterActivity extends BaseMenuActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth_register);
 
+
+        Intent received = getIntent();
+        boolean isTeacher = received.getBooleanExtra(EXTRA_IS_TEACHER, false);
         eUserTypeGroup = findViewById(R.id.reg_user_type);
+        if(isTeacher)
+        {
+            eUserTypeGroup.check(R.id.reg_teacher);
+        }
+
         eFirstName = findViewById(R.id.reg_firstname);
         eLastName = findViewById(R.id.reg_lastname);
         eEmail = findViewById(R.id.reg_mail);

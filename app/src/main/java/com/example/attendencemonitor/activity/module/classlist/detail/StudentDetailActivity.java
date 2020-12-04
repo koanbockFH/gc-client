@@ -16,6 +16,7 @@ public class StudentDetailActivity extends BaseMenuActivity
     public static final String EXTRA_STUDENT_NAME = "STUDENT_NAME";
     public static final String EXTRA_STUDENT_ATTENDED = "STUDENT_ATTENDED";
     public static final String EXTRA_STUDENT_ABSENT = "STUDENT_ABSENT";
+    public static final String EXTRA_WITHOUT_MODULES = "WITHOUT_MODULES";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -25,6 +26,7 @@ public class StudentDetailActivity extends BaseMenuActivity
         int moduleId = received.getIntExtra(EXTRA_MODULE_ID, -1);
         int attended = received.getIntExtra(EXTRA_STUDENT_ATTENDED, -1);
         int absent = received.getIntExtra(EXTRA_STUDENT_ABSENT, -1);
+        boolean withoutModules = received.getBooleanExtra(EXTRA_WITHOUT_MODULES, false);
         String title = received.getStringExtra(EXTRA_STUDENT_NAME);
 
         initializeMenu(title, true);
@@ -37,7 +39,7 @@ public class StudentDetailActivity extends BaseMenuActivity
         }
 
         setContentView(R.layout.activity_student_detail);
-        StudentDetailPagerAdapter sectionsPagerAdapter = new StudentDetailPagerAdapter(getSupportFragmentManager(), moduleId, studentId, attended, absent);
+        StudentDetailPagerAdapter sectionsPagerAdapter = new StudentDetailPagerAdapter(getSupportFragmentManager(), moduleId, studentId, attended, absent, withoutModules);
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabs);

@@ -2,6 +2,10 @@ package com.example.attendencemonitor.service.dto;
 
 import com.google.gson.annotations.Expose;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class Pagination<T>
 {
     @Expose
@@ -14,6 +18,10 @@ public class Pagination<T>
     public T[] getItems()
     {
         return items;
+    }
+    public List<T> getItemList()
+    {
+        return Arrays.asList(items);
     }
 
     public void setItems(T[] items)
