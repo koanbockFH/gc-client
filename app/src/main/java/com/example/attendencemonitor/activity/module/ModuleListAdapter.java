@@ -87,6 +87,7 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.It
 
     public void setItems(List<ModuleModel> items)
     {
+        moduleList.clear();
         moduleList.addAll(items);
         notifyDataSetChanged();
     }

@@ -88,6 +88,7 @@ public class TimeslotListAdapter extends RecyclerView.Adapter<TimeslotListAdapte
 
     public void setItems(List<TimeslotStatisticModel> items)
     {
+        itemList.clear();
         itemList.addAll(items);
         notifyDataSetChanged();
     }

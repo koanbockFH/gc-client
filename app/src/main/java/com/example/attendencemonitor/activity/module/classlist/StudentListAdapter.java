@@ -9,15 +9,17 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SortedList;
 
 import com.example.attendencemonitor.R;
 import com.example.attendencemonitor.service.model.StudentModuleStatisticModel;
+import com.example.attendencemonitor.service.model.UserModel;
 import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 
 import java.util.List;
 
 public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.StudentListViewHolder>{
-    private List<StudentModuleStatisticModel> studentList;
+    private SortedList<StudentModuleStatisticModel> studentList;
     private final IRecyclerViewItemEventListener<StudentModuleStatisticModel> listener;
 
     public static class StudentListViewHolder extends RecyclerView.ViewHolder{
@@ -38,13 +40,51 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
     }
 
     public StudentListAdapter(List<StudentModuleStatisticModel> StudentList, IRecyclerViewItemEventListener<StudentModuleStatisticModel> listener) {
-        this.studentList = StudentList;
+        this.studentList = new SortedList<StudentModuleStatisticModel>(StudentModuleStatisticModel.class, new SortedList.Callback<StudentModuleStatisticModel>() {
+            @Override
+            public int compare(StudentModuleStatisticModel o1, StudentModuleStatisticModel o2) {
+                return o1.getFullName().compareTo(o2.getFullName());
+            }
+
+            @Override
+            public void onChanged(int position, int count) {
+                notifyItemRangeChanged(position, count);
+            }
+
+            @Override
+            public boolean areContentsTheSame(StudentModuleStatisticModel oldItem, StudentModuleStatisticModel newItem) {
+                return oldItem.getFullName().equals(newItem.getFullName());
+            }
+
+            @Override
+            public boolean areItemsTheSame(StudentModuleStatisticModel item1, StudentModuleStatisticModel item2) {
+                return item1.getFullName().equals(item2.getFullName());
+            }
+
+            @Override
+            public void onInserted(int position, int count) {
+                notifyItemRangeInserted(position, count);
+            }
+
+            @Override
+            public void onRemoved(int position, int count) {
+                notifyItemRangeRemoved(position, count);
+            }
+
+            @Override
+            public void onMoved(int fromPosition, int toPosition) {
+                notifyItemMoved(fromPosition, toPosition);
+            }
+        });
+        studentList.addAll(StudentList);
+        notifyDataSetChanged();
         this.listener = listener;
     }
 
     public void setItems(List<StudentModuleStatisticModel> items)
     {
-        studentList = items;
+        studentList.clear();
+        studentList.addAll(items);
         notifyDataSetChanged();
     }
 

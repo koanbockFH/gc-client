@@ -83,6 +83,7 @@ public class UserAdminListAdapter extends RecyclerView.Adapter<UserAdminListAdap
 
     public void setItems(List<UserModel> items)
     {
+        studentList.clear();
         studentList.addAll(items);
         notifyDataSetChanged();
     }
