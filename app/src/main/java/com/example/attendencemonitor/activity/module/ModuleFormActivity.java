@@ -162,7 +162,7 @@ public class ModuleFormActivity extends BaseMenuActivity
         @Override
         public void onError(Throwable error)
         {
-            Toast.makeText(ModuleFormActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ModuleFormActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -202,7 +202,7 @@ public class ModuleFormActivity extends BaseMenuActivity
         @Override
         public void onError(Throwable error)
         {
-
+            Toast.makeText(ModuleFormActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -218,7 +218,7 @@ public class ModuleFormActivity extends BaseMenuActivity
         @Override
         public void onError(Throwable error)
         {
-            Toast.makeText(ModuleFormActivity.this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ModuleFormActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 }

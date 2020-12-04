@@ -3,6 +3,7 @@ package com.example.attendencemonitor.service;
 import android.content.Context;
 
 import com.example.attendencemonitor.service.api.resolver.ActionResolver;
+import com.example.attendencemonitor.service.api.resolver.BaseResolver;
 import com.example.attendencemonitor.service.api.resolver.ResultResolver;
 import com.example.attendencemonitor.service.api.ApiAccess;
 import com.example.attendencemonitor.service.api.IUserApi;
@@ -13,6 +14,7 @@ import com.example.attendencemonitor.service.dto.AuthResponseDto;
 import com.example.attendencemonitor.service.dto.LoginFormDto;
 import com.example.attendencemonitor.service.dto.Pagination;
 import com.example.attendencemonitor.service.dto.RegisterFormDto;
+import com.example.attendencemonitor.service.dto.StandardExceptionDto;
 import com.example.attendencemonitor.service.dto.UserSearchDto;
 import com.example.attendencemonitor.service.model.UserModel;
 
@@ -59,7 +61,7 @@ public class UserService extends BaseService<IUserApi> implements IUserService
     }
 
     //Custom Resolver for Login
-    private class LoginResolver implements Callback<AuthResponseDto>
+    private class LoginResolver extends BaseResolver<AuthResponseDto> implements Callback<AuthResponseDto>
     {
         private final IActionCallback callback;
         private final Context context;
@@ -75,7 +77,7 @@ public class UserService extends BaseService<IUserApi> implements IUserService
         {
             if(!response.isSuccessful())
             {
-                callback.onError(new HttpException(response));
+                callback.onError(handleHttpException(response));
             }
             else{
                 AuthResponseDto dto = response.body();
@@ -114,7 +116,7 @@ public class UserService extends BaseService<IUserApi> implements IUserService
     }
 
     //Custom Resolver for Logout
-    private static class LogoutResolver implements  Callback<Void>
+    private static class LogoutResolver extends BaseResolver<Void> implements  Callback<Void>
     {
         private final IActionCallback callback;
         private final Context context;
@@ -135,7 +137,7 @@ public class UserService extends BaseService<IUserApi> implements IUserService
                 callback.onSuccess();
             }
             else{
-                callback.onError(new HttpException(response));
+                callback.onError(handleHttpException(response));
             }
         }
 

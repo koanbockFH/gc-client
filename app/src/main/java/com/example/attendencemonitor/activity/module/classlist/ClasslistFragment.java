@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -134,6 +135,11 @@ public class ClasslistFragment extends Fragment
         startActivity(i);
     }
 
+    private void makeToast(String message)
+    {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
     private class GetStatsCallback implements ICallback<ModuleStatisticModel>
     {
         @Override
@@ -144,7 +150,7 @@ public class ClasslistFragment extends Fragment
         }
 
         @Override
-        public void onError(Throwable error){ }
+        public void onError(Throwable error){ makeToast(error.getMessage());}
     }
 
     private class ListItemListener implements IRecyclerViewItemEventListener<StudentModuleStatisticModel>

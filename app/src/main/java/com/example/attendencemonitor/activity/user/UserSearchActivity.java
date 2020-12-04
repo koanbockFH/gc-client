@@ -133,7 +133,7 @@ public class UserSearchActivity extends BaseMenuActivity
         @Override
         public void onError(Throwable error)
         {
-            Toast.makeText(UserSearchActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(UserSearchActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 }

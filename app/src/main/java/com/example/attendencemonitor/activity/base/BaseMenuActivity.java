@@ -96,14 +96,13 @@ public abstract class BaseMenuActivity extends AppCompatActivity
         @Override
         public void onError(Throwable error)
         {
-            //TODO: Something went wrong - may be only debug problem
             if(error.getMessage().contains("Forbidden"))
             {
                 AppData.getInstance().closeSession(BaseMenuActivity.this);
                 onLogout();
             }
             else{
-                Toast.makeText(BaseMenuActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+                Toast.makeText(BaseMenuActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
     }

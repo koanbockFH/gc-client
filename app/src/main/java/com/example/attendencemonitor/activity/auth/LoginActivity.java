@@ -73,7 +73,7 @@ public class LoginActivity extends BaseMenuActivity
         @Override
         public void onError(Throwable error)
         {
-            Toast.makeText(LoginActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 }

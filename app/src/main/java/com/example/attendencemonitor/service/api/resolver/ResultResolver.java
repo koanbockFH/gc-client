@@ -7,7 +7,7 @@ import retrofit2.Callback;
 import retrofit2.HttpException;
 import retrofit2.Response;
 
-public class ResultResolver<T> implements Callback<T>
+public class ResultResolver<T> extends BaseResolver<T> implements Callback<T>
 {
     private final ICallback<T> callback;
 
@@ -21,7 +21,7 @@ public class ResultResolver<T> implements Callback<T>
     {
         if(!response.isSuccessful())
         {
-            callback.onError(new HttpException(response));
+            callback.onError(handleHttpException(response));
         }
         else{
             callback.onSuccess(response.body());

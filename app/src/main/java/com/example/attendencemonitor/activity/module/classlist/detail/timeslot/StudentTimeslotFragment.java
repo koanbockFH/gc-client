@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.attendencemonitor.R;
 import com.example.attendencemonitor.activity.module.timeslot.TimeslotFragment;
@@ -186,6 +187,11 @@ public class StudentTimeslotFragment extends Fragment implements DatePickerDialo
         adapter.setItems(filter(searchBox.getText().toString()));
     }
 
+    private void makeToast(String message)
+    {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
     private class GetCallback implements ICallback<StudentTimeslotStatisticModel>
     {
         @Override
@@ -198,7 +204,7 @@ public class StudentTimeslotFragment extends Fragment implements DatePickerDialo
         @Override
         public void onError(Throwable error)
         {
-
+            makeToast(error.getMessage());
         }
     }
 }
