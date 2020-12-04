@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.example.attendencemonitor.R;
 import com.example.attendencemonitor.activity.base.BaseMenuActivity;
-import com.example.attendencemonitor.activity.module.detail.ModuleDetailActivity;
 import com.example.attendencemonitor.service.AppData;
 import com.example.attendencemonitor.service.TimeslotService;
 import com.example.attendencemonitor.service.contract.IActionCallback;

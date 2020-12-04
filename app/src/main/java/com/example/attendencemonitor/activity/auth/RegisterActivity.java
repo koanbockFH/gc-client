@@ -6,7 +6,6 @@ import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 

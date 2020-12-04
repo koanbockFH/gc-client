@@ -1,16 +1,11 @@
 package com.example.attendencemonitor.activity.admin;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.attendencemonitor.R;
-import com.example.attendencemonitor.activity.auth.RegisterActivity;
 import com.example.attendencemonitor.activity.base.BaseMenuActivity;
-import com.example.attendencemonitor.activity.module.ModuleListActivity;
-import com.example.attendencemonitor.activity.module.detail.ModulePagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 public class AdminHomeActivity extends BaseMenuActivity

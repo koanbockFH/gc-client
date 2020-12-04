@@ -2,10 +2,10 @@ package com.example.attendencemonitor.service;
 
 import android.content.Context;
 
-import com.example.attendencemonitor.service.api.resolver.ActionResolver;
-import com.example.attendencemonitor.service.api.resolver.ResultResolver;
 import com.example.attendencemonitor.service.api.ApiAccess;
 import com.example.attendencemonitor.service.api.IUserApi;
+import com.example.attendencemonitor.service.api.resolver.ActionResolver;
+import com.example.attendencemonitor.service.api.resolver.ResultResolver;
 import com.example.attendencemonitor.service.contract.IActionCallback;
 import com.example.attendencemonitor.service.contract.ICallback;
 import com.example.attendencemonitor.service.contract.IUserService;

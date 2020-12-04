@@ -1,9 +1,9 @@
 package com.example.attendencemonitor.activity.module.classlist.detail;
 
-import androidx.viewpager.widget.ViewPager;
-
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.attendencemonitor.R;
 import com.example.attendencemonitor.activity.base.BaseMenuActivity;

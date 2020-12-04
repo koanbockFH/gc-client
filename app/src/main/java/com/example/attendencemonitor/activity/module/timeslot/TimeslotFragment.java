@@ -1,9 +1,7 @@
 package com.example.attendencemonitor.activity.module.timeslot;
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -27,7 +25,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.attendencemonitor.R;
 import com.example.attendencemonitor.activity.module.timeslot.detail.TimeslotDetailActivity;
 import com.example.attendencemonitor.activity.qr.ScannerActivity;
-import com.example.attendencemonitor.service.AppData;
 import com.example.attendencemonitor.service.AttendanceService;
 import com.example.attendencemonitor.service.TimeslotService;
 import com.example.attendencemonitor.service.contract.IActionCallback;
@@ -38,13 +35,11 @@ import com.example.attendencemonitor.service.dto.AttendDto;
 import com.example.attendencemonitor.service.model.ModuleModel;
 import com.example.attendencemonitor.service.model.TimeslotModel;
 import com.example.attendencemonitor.service.model.TimeslotStatisticModel;
-import com.example.attendencemonitor.service.model.UserType;
 import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;

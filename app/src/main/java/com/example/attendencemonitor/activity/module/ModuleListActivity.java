@@ -1,7 +1,5 @@
 package com.example.attendencemonitor.activity.module;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,7 +17,6 @@ import com.example.attendencemonitor.activity.base.BaseMenuActivity;
 import com.example.attendencemonitor.activity.module.detail.ModuleDetailActivity;
 import com.example.attendencemonitor.service.AppData;
 import com.example.attendencemonitor.service.ModuleService;
-import com.example.attendencemonitor.service.contract.IActionCallback;
 import com.example.attendencemonitor.service.contract.ICallback;
 import com.example.attendencemonitor.service.contract.IModuleService;
 import com.example.attendencemonitor.service.model.ModuleModel;

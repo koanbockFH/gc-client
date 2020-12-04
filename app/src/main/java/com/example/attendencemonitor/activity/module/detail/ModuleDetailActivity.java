@@ -11,7 +11,6 @@ import com.example.attendencemonitor.service.ModuleService;
 import com.example.attendencemonitor.service.contract.ICallback;
 import com.example.attendencemonitor.service.contract.IModuleService;
 import com.example.attendencemonitor.service.model.ModuleModel;
-import com.example.attendencemonitor.service.model.ModuleStatisticModel;
 import com.google.android.material.tabs.TabLayout;
 
 public class ModuleDetailActivity extends BaseMenuActivity

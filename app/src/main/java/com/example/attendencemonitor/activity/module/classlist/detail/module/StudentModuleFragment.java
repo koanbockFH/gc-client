@@ -1,11 +1,6 @@
 package com.example.attendencemonitor.activity.module.classlist.detail.module;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -14,17 +9,15 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.attendencemonitor.R;
-import com.example.attendencemonitor.activity.module.ModuleListActivity;
-import com.example.attendencemonitor.activity.module.ModuleListAdapter;
-import com.example.attendencemonitor.activity.module.classlist.detail.timeslot.StudentTimeslotFragment;
-import com.example.attendencemonitor.activity.module.classlist.detail.timeslot.StudentTimeslotListAdapter;
 import com.example.attendencemonitor.service.AttendanceService;
 import com.example.attendencemonitor.service.contract.IAttendanceService;
 import com.example.attendencemonitor.service.contract.ICallback;
-import com.example.attendencemonitor.service.model.ModuleModel;
 import com.example.attendencemonitor.service.model.ModuleStatisticModelBase;
-import com.example.attendencemonitor.service.model.StudentTimeslotStatisticModel;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -11,10 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.attendencemonitor.R;
-import com.example.attendencemonitor.service.AppData;
-import com.example.attendencemonitor.service.model.ModuleModel;
 import com.example.attendencemonitor.service.model.ModuleStatisticModelBase;
-import com.example.attendencemonitor.service.model.UserType;
 import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 
 import java.util.List;

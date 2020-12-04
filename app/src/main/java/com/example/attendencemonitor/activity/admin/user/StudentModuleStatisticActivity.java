@@ -1,30 +1,23 @@
 package com.example.attendencemonitor.activity.admin.user;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.attendencemonitor.R;
 import com.example.attendencemonitor.activity.base.BaseMenuActivity;
 import com.example.attendencemonitor.activity.module.classlist.detail.StudentDetailActivity;
-import com.example.attendencemonitor.activity.module.classlist.detail.module.StudentModuleFragment;
 import com.example.attendencemonitor.activity.module.classlist.detail.module.StudentModuleListAdapter;
 import com.example.attendencemonitor.service.AttendanceService;
 import com.example.attendencemonitor.service.contract.IAttendanceService;
 import com.example.attendencemonitor.service.contract.ICallback;
-import com.example.attendencemonitor.service.model.ModuleModel;
 import com.example.attendencemonitor.service.model.ModuleStatisticModelBase;
-import com.example.attendencemonitor.service.model.StudentModuleStatisticModel;
 import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 
 import java.util.ArrayList;
