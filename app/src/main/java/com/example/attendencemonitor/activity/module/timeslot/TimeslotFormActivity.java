@@ -214,7 +214,7 @@ public class TimeslotFormActivity extends BaseMenuActivity implements DatePicker
         @Override
         public void onError(Throwable error)
         {
-            Toast.makeText(TimeslotFormActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(TimeslotFormActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -236,7 +236,7 @@ public class TimeslotFormActivity extends BaseMenuActivity implements DatePicker
         @Override
         public void onError(Throwable error)
         {
-            makeToast("Something went wrong!");
+            makeToast(error.getMessage());
         }
     }
 }
