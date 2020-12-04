@@ -7,6 +7,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -76,6 +77,11 @@ public class UserSearchActivity extends BaseMenuActivity
                 dto.setSearch(editable.toString());
                 loadData();
             }
+        });
+
+        ImageButton delSearch = findViewById(R.id.ib_delete_search_user);
+        delSearch.setOnClickListener(v -> {
+            searchBox.setText("");
         });
         loadData();
     }
