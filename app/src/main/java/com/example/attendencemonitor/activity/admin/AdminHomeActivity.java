@@ -4,10 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.viewpager.widget.ViewPager;
+
 import com.example.attendencemonitor.R;
 import com.example.attendencemonitor.activity.auth.RegisterActivity;
 import com.example.attendencemonitor.activity.base.BaseMenuActivity;
 import com.example.attendencemonitor.activity.module.ModuleListActivity;
+import com.example.attendencemonitor.activity.module.detail.ModulePagerAdapter;
+import com.google.android.material.tabs.TabLayout;
 
 public class AdminHomeActivity extends BaseMenuActivity
 {
@@ -17,13 +21,10 @@ public class AdminHomeActivity extends BaseMenuActivity
         initializeMenu("Administration", false);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_home);
-    }
-
-    public void onRegister(View v) {
-        startActivity(new Intent(this, RegisterActivity.class));
-    }
-
-    public void onModules(View v) {
-        startActivity(new Intent(this, ModuleListActivity.class));
+        AdminPagerAdapter sectionsPagerAdapter = new AdminPagerAdapter(getSupportFragmentManager());
+        ViewPager viewPager = findViewById(R.id.view_pager);
+        viewPager.setAdapter(sectionsPagerAdapter);
+        TabLayout tabs = findViewById(R.id.tabs);
+        tabs.setupWithViewPager(viewPager);
     }
 }
