@@ -22,7 +22,7 @@ public class AdminPagerAdapter extends FragmentPagerAdapter
         {
             default:
             case 0:
-                return UserListFragment.newInstance(true);
+                return ModuleListFragment.newInstance();
             case 1:
                 return UserListFragment.newInstance(false);
             case 2:
