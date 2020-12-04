@@ -9,8 +9,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SortedList;
 
 import com.example.attendencemonitor.R;
+import com.example.attendencemonitor.service.model.ModuleModel;
 import com.example.attendencemonitor.service.model.TimeslotStatisticModel;
 import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 
@@ -20,7 +22,7 @@ import java.util.Locale;
 
 
 public class TimeslotListAdapter extends RecyclerView.Adapter<TimeslotListAdapter.ItemViewAdapter>{
-    private List<TimeslotStatisticModel> itemList;
+    private SortedList<TimeslotStatisticModel> itemList;
     private final IRecyclerViewItemEventListener<TimeslotStatisticModel> listener;
 
     public static class ItemViewAdapter extends RecyclerView.ViewHolder{
@@ -42,14 +44,51 @@ public class TimeslotListAdapter extends RecyclerView.Adapter<TimeslotListAdapte
         }
 
     }
-    public TimeslotListAdapter(List<TimeslotStatisticModel> itemList, IRecyclerViewItemEventListener<TimeslotStatisticModel> listener) {
-        this.itemList = itemList;
+    public TimeslotListAdapter(List<TimeslotStatisticModel> ItemList, IRecyclerViewItemEventListener<TimeslotStatisticModel> listener) {
+        this.itemList = new SortedList<TimeslotStatisticModel>(TimeslotStatisticModel.class, new SortedList.Callback<TimeslotStatisticModel>() {
+            @Override
+            public int compare(TimeslotStatisticModel o1, TimeslotStatisticModel o2) {
+                return o2.getStartDate().compareTo(o1.getStartDate());
+            }
+
+            @Override
+            public void onChanged(int position, int count) {
+                notifyItemRangeChanged(position, count);
+            }
+
+            @Override
+            public boolean areContentsTheSame(TimeslotStatisticModel oldItem, TimeslotStatisticModel newItem) {
+                return newItem.getStartDate().equals(oldItem.getStartDate());
+            }
+
+            @Override
+            public boolean areItemsTheSame(TimeslotStatisticModel item1, TimeslotStatisticModel item2) {
+                return item2.getStartDate().equals(item1.getStartDate());
+            }
+
+            @Override
+            public void onInserted(int position, int count) {
+                notifyItemRangeInserted(position, count);
+            }
+
+            @Override
+            public void onRemoved(int position, int count) {
+                notifyItemRangeRemoved(position, count);
+            }
+
+            @Override
+            public void onMoved(int fromPosition, int toPosition) {
+                notifyItemMoved(fromPosition, toPosition);
+            }
+        });
+        itemList.addAll(ItemList);
+        notifyDataSetChanged();
         this.listener = listener;
     }
 
     public void setItems(List<TimeslotStatisticModel> items)
     {
-        itemList = items;
+        itemList.addAll(items);
         notifyDataSetChanged();
     }
 
