@@ -23,6 +23,7 @@ public class TimeslotStudentFragment extends Fragment
 {
     private List<UserModel> studentList;
     private TimeslotStudentListAdapter adapter;
+    private EditText searchBox;
 
 
     public TimeslotStudentFragment()
@@ -57,7 +58,7 @@ public class TimeslotStudentFragment extends Fragment
 
         rv.setLayoutManager(lm);
         rv.setAdapter(adapter);
-        EditText searchBox = view.findViewById(R.id.et_searchbox);
+        searchBox = view.findViewById(R.id.et_searchbox);
         searchBox.addTextChangedListener(new TextWatcher()
         {
             @Override

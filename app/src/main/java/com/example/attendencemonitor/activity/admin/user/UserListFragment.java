@@ -36,6 +36,7 @@ public class UserListFragment extends Fragment
     List<UserModel> userList;
     boolean isTeacher;
     IUserService userService = new UserService();
+    private EditText searchBox;
 
     public UserListFragment()
     {
@@ -72,7 +73,7 @@ public class UserListFragment extends Fragment
 
         rv.setLayoutManager(lm);
         rv.setAdapter(adapter);
-        EditText searchBox = view.findViewById(R.id.et_searchbox);
+        searchBox = view.findViewById(R.id.et_searchbox);
         searchBox.addTextChangedListener(new TextWatcher()
         {
             @Override
@@ -96,6 +97,7 @@ public class UserListFragment extends Fragment
 
         FloatingActionButton fabAdd = view.findViewById(R.id.fab_user_add);
         fabAdd.setOnClickListener(v -> {
+            searchBox.setText("");
             Intent i = new Intent(getActivity(), RegisterActivity.class);
             i.putExtra(RegisterActivity.EXTRA_IS_TEACHER, isTeacher);
             startActivity(i);
@@ -153,6 +155,7 @@ public class UserListFragment extends Fragment
         @Override
         public void onClick(UserModel item)
         {
+            searchBox.setText("");
             if(item.getUserType() == UserType.STUDENT)
             {
                 Intent i = new Intent(getActivity(), StudentModuleStatisticActivity.class);

@@ -34,6 +34,7 @@ public class ClasslistFragment extends Fragment
     private StudentListAdapter adapter;
     IAttendanceService attendanceService = new AttendanceService();
     private ModuleStatisticModel moduleStats;
+    private EditText searchBox;
 
     public ClasslistFragment()
     {
@@ -75,7 +76,7 @@ public class ClasslistFragment extends Fragment
 
         rv.setLayoutManager(lm);
         rv.setAdapter(adapter);
-        EditText searchBox = view.findViewById(R.id.et_searchbox);
+        searchBox = view.findViewById(R.id.et_searchbox);
         searchBox.addTextChangedListener(new TextWatcher()
         {
             @Override
@@ -126,6 +127,7 @@ public class ClasslistFragment extends Fragment
     }
 
     private void onOpenstudentDetails(StudentModuleStatisticModel student) {
+        searchBox.setText("");
         Intent i = new Intent(getActivity(), StudentDetailActivity.class);
         i.putExtra(StudentDetailActivity.EXTRA_STUDENT_ID, student.getId());
         i.putExtra(StudentDetailActivity.EXTRA_MODULE_ID, module.getId());

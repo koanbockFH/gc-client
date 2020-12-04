@@ -34,6 +34,7 @@ public class UserSearchActivity extends BaseMenuActivity
     private ArrayList<UserModel> defaultSelection;
     private UserListAdapter adapter;
     private final UserSearchDto dto = new UserSearchDto();
+    private EditText searchBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -56,7 +57,7 @@ public class UserSearchActivity extends BaseMenuActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_search);
 
-        EditText searchBox = findViewById(R.id.et_searchbox);
+        searchBox = findViewById(R.id.et_searchbox);
         searchBox.addTextChangedListener(new TextWatcher()
         {
             @Override
