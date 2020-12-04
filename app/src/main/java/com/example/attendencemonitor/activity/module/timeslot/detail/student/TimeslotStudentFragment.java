@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.example.attendencemonitor.R;
 import com.example.attendencemonitor.activity.module.classlist.ClasslistFragment;
@@ -77,6 +78,10 @@ public class TimeslotStudentFragment extends Fragment
             }
         });
 
+        ImageButton delSearch = view.findViewById(R.id.ib_delete_search_classlist);
+        delSearch.setOnClickListener(v -> {
+            searchBox.setText("");
+        });
         return view;
     }
     private List<UserModel> filter(String searchValue)

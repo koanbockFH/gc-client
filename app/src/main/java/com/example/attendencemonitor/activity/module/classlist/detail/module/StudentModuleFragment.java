@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.example.attendencemonitor.R;
 import com.example.attendencemonitor.activity.module.ModuleListActivity;
@@ -93,6 +94,11 @@ public class StudentModuleFragment extends Fragment
             {
                 displayData();
             }
+        });
+
+        ImageButton delSearch = view.findViewById(R.id.ib_delete_search_smodule);
+        delSearch.setOnClickListener(v -> {
+            searchBox.setText("");
         });
 
         return view;
