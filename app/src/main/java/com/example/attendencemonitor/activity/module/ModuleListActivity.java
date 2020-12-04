@@ -174,7 +174,7 @@ public class ModuleListActivity extends BaseMenuActivity
         @Override
         public void onError(Throwable error)
         {
-            Toast.makeText(ModuleListActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ModuleListActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 }

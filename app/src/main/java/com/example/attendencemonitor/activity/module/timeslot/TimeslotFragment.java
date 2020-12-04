@@ -286,7 +286,7 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
         @Override
         public void onError(Throwable error)
         {
-            makeToast("Something went wrong");
+            makeToast(error.getMessage());
         }
     }
 
@@ -301,7 +301,7 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
         @Override
         public void onError(Throwable error)
         {
-            makeToast("Something went wrong!");
+            makeToast(error.getMessage());
         }
     }
 

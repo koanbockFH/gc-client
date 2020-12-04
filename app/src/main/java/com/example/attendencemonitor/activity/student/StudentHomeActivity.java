@@ -52,7 +52,7 @@ public class StudentHomeActivity extends BaseMenuActivity
         @Override
         public void onError(Throwable error)
         {
-            Toast.makeText(StudentHomeActivity.this, "something went wrong see in error", Toast.LENGTH_SHORT).show();
+            Toast.makeText(StudentHomeActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

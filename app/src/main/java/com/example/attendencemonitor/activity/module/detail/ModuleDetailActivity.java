@@ -2,6 +2,7 @@ package com.example.attendencemonitor.activity.module.detail;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.viewpager.widget.ViewPager;
 
@@ -48,7 +49,6 @@ public class ModuleDetailActivity extends BaseMenuActivity
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
     }
-
     private class GetCallback implements ICallback<ModuleModel>
     {
         @Override
@@ -59,6 +59,6 @@ public class ModuleDetailActivity extends BaseMenuActivity
         }
 
         @Override
-        public void onError(Throwable error){ }
+        public void onError(Throwable error){ Toast.makeText(ModuleDetailActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();}
     }
 }
