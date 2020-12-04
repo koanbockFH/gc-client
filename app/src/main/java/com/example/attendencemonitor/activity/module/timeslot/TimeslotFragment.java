@@ -234,6 +234,7 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
 
     public void onAdd(View view)
     {
+        searchBox.setText("");
         Intent addTimeslot = new Intent(getActivity(), TimeslotFormActivity.class);
         addTimeslot.putExtra(TimeslotFormActivity.EXTRA_MODULE_ID, module.getId());
         startActivity(addTimeslot);
@@ -248,9 +249,11 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
             Intent scanner = new Intent(getActivity(), ScannerActivity.class);
             this.startActivityForResult(scanner, SCANNER_REQUEST);
         }
+        searchBox.setText("");
     }
 
     private void onEditTimeslot(TimeslotModel timeslot) {
+        searchBox.setText("");
         Intent i = new Intent(getActivity(), TimeslotFormActivity.class);
         i.putExtra(TimeslotFormActivity.EXTRA_MODULE_ID, module.getId());
         i.putExtra(TimeslotFormActivity.EXTRA_TIMESLOT_ID, timeslot.getId());
@@ -263,6 +266,7 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
     }
 
     private void openStats(TimeslotStatisticModel item){
+        searchBox.setText("");
         Intent i = new Intent(getActivity(), TimeslotDetailActivity.class);
         i.putExtra(TimeslotDetailActivity.EXTRA_TIMESLOT_ID, item.getId());
         i.putExtra(TimeslotDetailActivity.EXTRA_TIMESLOT_NAME, item.getName());

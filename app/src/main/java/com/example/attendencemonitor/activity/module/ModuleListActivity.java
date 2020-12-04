@@ -39,6 +39,7 @@ public class ModuleListActivity extends BaseMenuActivity
     private List<ModuleModel> modules;
     private ModuleListAdapter adapter;
     private int teacherId;
+    private EditText searchBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -59,7 +60,7 @@ public class ModuleListActivity extends BaseMenuActivity
 
         moduleService.getAll(new ModuleListCallback());
 
-        EditText searchBox = findViewById(R.id.et_searchbox);
+        searchBox = findViewById(R.id.et_searchbox);
         searchBox.addTextChangedListener(new TextWatcher()
         {
             @Override
@@ -106,10 +107,12 @@ public class ModuleListActivity extends BaseMenuActivity
 
     public void onAdd(View view)
     {
+        searchBox.setText("");
         startActivity(new Intent(this, ModuleFormActivity.class));
     }
 
     private void openDetails(ModuleModel item){
+        searchBox.setText("");
         Intent i = new Intent(this, ModuleDetailActivity.class);
         i.putExtra(ModuleDetailActivity.EXTRA_MODULE_ID, item.getId());
         i.putExtra(ModuleDetailActivity.EXTRA_MODULE_TITLE, item.getName());
@@ -117,6 +120,7 @@ public class ModuleListActivity extends BaseMenuActivity
     }
 
     private void edit(ModuleModel item){
+        searchBox.setText("");
         Intent i = new Intent(this, ModuleFormActivity.class);
         i.putExtra(ModuleFormActivity.EXTRA_MODULE_ID, item.getId());
         startActivity(i);

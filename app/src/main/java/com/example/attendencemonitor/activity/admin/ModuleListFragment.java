@@ -40,6 +40,7 @@ public class ModuleListFragment extends Fragment
     private List<ModuleModel> modules;
     private ModuleListAdapter adapter;
     private View view;
+    private EditText searchBox;
 
     public ModuleListFragment()
     {
@@ -73,10 +74,11 @@ public class ModuleListFragment extends Fragment
         }
 
         fab.setOnClickListener(v -> {
+            searchBox.setText("");
             startActivity(new Intent(getActivity(), ModuleFormActivity.class));
         });
 
-        EditText searchBox = view.findViewById(R.id.et_searchbox);
+        searchBox = view.findViewById(R.id.et_searchbox);
         searchBox.addTextChangedListener(new TextWatcher()
         {
             @Override
@@ -123,6 +125,7 @@ public class ModuleListFragment extends Fragment
     }
 
     private void openDetails(ModuleModel item){
+        searchBox.setText("");
         Intent i = new Intent(getActivity(), ModuleDetailActivity.class);
         i.putExtra(ModuleDetailActivity.EXTRA_MODULE_ID, item.getId());
         i.putExtra(ModuleDetailActivity.EXTRA_MODULE_TITLE, item.getName());
@@ -130,6 +133,7 @@ public class ModuleListFragment extends Fragment
     }
 
     private void edit(ModuleModel item){
+        searchBox.setText("");
         Intent i = new Intent(getActivity(), ModuleFormActivity.class);
         i.putExtra(ModuleFormActivity.EXTRA_MODULE_ID, item.getId());
         startActivity(i);
