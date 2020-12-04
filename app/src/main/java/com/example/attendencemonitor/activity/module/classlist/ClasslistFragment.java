@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -89,6 +90,11 @@ public class ClasslistFragment extends Fragment
                 String searchValue = editable.toString();
                 adapter.setItems(filter(searchValue));
             }
+        });
+
+        ImageButton delSearch = view.findViewById(R.id.ib_delete_search_classlist);
+        delSearch.setOnClickListener(v -> {
+            searchBox.setText("");
         });
 
         return view;

@@ -116,6 +116,10 @@ public class StudentTimeslotFragment extends Fragment implements DatePickerDialo
             }
         });
 
+        ImageButton delSearch = view.findViewById(R.id.ib_delete_search);
+        delSearch.setOnClickListener(v -> {
+            searchBox.setText("");
+        });
         return view;
     }
 
