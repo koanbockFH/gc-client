@@ -1,4 +1,4 @@
-package com.example.attendencemonitor.activity.module.classlist;
+package com.example.attendencemonitor.activity.admin.user;
 
 
 import android.view.LayoutInflater;
@@ -11,14 +11,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.attendencemonitor.R;
-import com.example.attendencemonitor.service.model.StudentModuleStatisticModel;
+import com.example.attendencemonitor.service.model.UserModel;
 import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 
 import java.util.List;
 
-public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.StudentListViewHolder>{
-    private List<StudentModuleStatisticModel> studentList;
-    private final IRecyclerViewItemEventListener<StudentModuleStatisticModel> listener;
+public class UserAdminListAdapter extends RecyclerView.Adapter<UserAdminListAdapter.StudentListViewHolder>{
+    private List<UserModel> studentList;
+    private final IRecyclerViewItemEventListener<UserModel> listener;
 
     public static class StudentListViewHolder extends RecyclerView.ViewHolder{
         private final TextView tv_username;
@@ -37,32 +37,33 @@ public class StudentListAdapter extends RecyclerView.Adapter<StudentListAdapter.
         }
     }
 
-    public StudentListAdapter(List<StudentModuleStatisticModel> StudentList, IRecyclerViewItemEventListener<StudentModuleStatisticModel> listener) {
+    public UserAdminListAdapter(List<UserModel> StudentList, IRecyclerViewItemEventListener<UserModel> listener) {
         this.studentList = StudentList;
         this.listener = listener;
     }
 
-    public void setItems(List<StudentModuleStatisticModel> items)
+    public void setItems(List<UserModel> items)
     {
         studentList = items;
         notifyDataSetChanged();
     }
 
     @Override
-    public void onBindViewHolder(@NonNull StudentListAdapter.StudentListViewHolder holder, int position) {
-        StudentModuleStatisticModel currentItem = studentList.get(position);
+    public void onBindViewHolder(@NonNull UserAdminListAdapter.StudentListViewHolder holder, int position) {
+        UserModel currentItem = studentList.get(position);
         holder.tv_username.setText(currentItem.getFullName());
         holder.tv_usermail.setText(currentItem.getMail());
         holder.tv_code.setText(currentItem.getCode());
-        holder.tv_attendance.setText(String.format("%s/%s", currentItem.getAttended(), currentItem.getTotalTimeslots()));
         holder.userContainer.setOnClickListener(v -> {listener.onClick(currentItem);});
+
+        holder.tv_attendance.setVisibility(View.GONE);
     }
 
     @NonNull
     @Override
-    public StudentListAdapter.StudentListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public UserAdminListAdapter.StudentListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.class_item, parent, false);
-        return new StudentListAdapter.StudentListViewHolder(v);
+        return new UserAdminListAdapter.StudentListViewHolder(v);
     }
 
     @Override

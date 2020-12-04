@@ -1,7 +1,5 @@
 package com.example.attendencemonitor.service.dto;
 
-import com.example.attendencemonitor.service.model.UserType;
-
 public class ModuleSearchDto
 {
     private Integer page;

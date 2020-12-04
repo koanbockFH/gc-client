@@ -11,10 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.attendencemonitor.R;
-import com.example.attendencemonitor.service.model.StudentModuleStatisticModel;
 import com.example.attendencemonitor.service.model.TimeslotModel;
-import com.example.attendencemonitor.service.model.TimeslotStatisticModel;
-import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.List;

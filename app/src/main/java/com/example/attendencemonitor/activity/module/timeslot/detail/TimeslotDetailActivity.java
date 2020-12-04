@@ -1,22 +1,17 @@
 package com.example.attendencemonitor.activity.module.timeslot.detail;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.viewpager.widget.ViewPager;
+
 import com.example.attendencemonitor.R;
 import com.example.attendencemonitor.activity.base.BaseMenuActivity;
-import com.example.attendencemonitor.activity.module.classlist.detail.StudentDetailPagerAdapter;
 import com.example.attendencemonitor.service.AttendanceService;
 import com.example.attendencemonitor.service.contract.IAttendanceService;
 import com.example.attendencemonitor.service.contract.ICallback;
 import com.example.attendencemonitor.service.model.TimeslotStatisticDetailModel;
-import com.example.attendencemonitor.service.model.TimeslotStatisticModel;
 import com.google.android.material.tabs.TabLayout;
-
-import java.util.List;
 
 public class TimeslotDetailActivity extends BaseMenuActivity
 {

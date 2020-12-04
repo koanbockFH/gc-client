@@ -5,9 +5,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.example.attendencemonitor.activity.module.classlist.ClasslistFragment;
-import com.example.attendencemonitor.activity.module.classlist.detail.module.StudentModuleFragment;
-import com.example.attendencemonitor.activity.module.classlist.detail.timeslot.StudentTimeslotFragment;
 import com.example.attendencemonitor.activity.module.timeslot.detail.student.TimeslotStudentFragment;
 import com.example.attendencemonitor.service.model.TimeslotStatisticDetailModel;
 

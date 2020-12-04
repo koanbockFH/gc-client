@@ -74,9 +74,22 @@
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ib_module_open"
             app:layout_constraintStart_toEndOf="@+id/tv_teacher"
             app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageButton
+            android:id="@+id/ib_module_open"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:backgroundTint="#00FFFFFF"
+            android:tint="@color/primary_color"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_baseline_arrow_forward_ios_24" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

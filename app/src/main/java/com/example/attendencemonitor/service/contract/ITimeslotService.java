@@ -1,6 +1,5 @@
 package com.example.attendencemonitor.service.contract;
 
-import com.example.attendencemonitor.service.model.ModuleModel;
 import com.example.attendencemonitor.service.model.TimeslotModel;
 
 public interface ITimeslotService

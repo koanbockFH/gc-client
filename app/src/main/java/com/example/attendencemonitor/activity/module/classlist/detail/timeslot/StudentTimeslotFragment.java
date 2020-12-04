@@ -2,11 +2,6 @@ package com.example.attendencemonitor.activity.module.classlist.detail.timeslot;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -17,15 +12,16 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.attendencemonitor.R;
-import com.example.attendencemonitor.activity.module.timeslot.TimeslotFragment;
-import com.example.attendencemonitor.activity.module.timeslot.TimeslotListAdapter;
 import com.example.attendencemonitor.service.AttendanceService;
 import com.example.attendencemonitor.service.contract.IAttendanceService;
 import com.example.attendencemonitor.service.contract.ICallback;
 import com.example.attendencemonitor.service.model.StudentTimeslotStatisticModel;
 import com.example.attendencemonitor.service.model.TimeslotModel;
-import com.example.attendencemonitor.service.model.TimeslotStatisticModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

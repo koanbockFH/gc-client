@@ -1,15 +1,12 @@
 package com.example.attendencemonitor.service;
 
 import com.example.attendencemonitor.service.api.ApiAccess;
-import com.example.attendencemonitor.service.api.IModuleApi;
 import com.example.attendencemonitor.service.api.ITimeslotApi;
 import com.example.attendencemonitor.service.api.resolver.ActionResolver;
 import com.example.attendencemonitor.service.api.resolver.ResultResolver;
 import com.example.attendencemonitor.service.contract.IActionCallback;
 import com.example.attendencemonitor.service.contract.ICallback;
-import com.example.attendencemonitor.service.contract.IModuleService;
 import com.example.attendencemonitor.service.contract.ITimeslotService;
-import com.example.attendencemonitor.service.model.ModuleModel;
 import com.example.attendencemonitor.service.model.TimeslotModel;
 
 public class TimeslotService extends BaseService<ITimeslotApi> implements ITimeslotService

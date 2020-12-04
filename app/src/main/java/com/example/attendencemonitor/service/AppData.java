@@ -2,8 +2,8 @@ package com.example.attendencemonitor.service;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
 import com.example.attendencemonitor.service.api.ApiAccess;
-import com.example.attendencemonitor.service.contract.ICallback;
 import com.example.attendencemonitor.service.contract.IUserService;
 import com.example.attendencemonitor.service.model.UserModel;
 import com.example.attendencemonitor.service.model.UserType;

@@ -1,19 +1,25 @@
-package com.example.attendencemonitor.activity.module;
+package com.example.attendencemonitor.activity.admin;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.attendencemonitor.R;
 import com.example.attendencemonitor.activity.base.BaseMenuActivity;
+import com.example.attendencemonitor.activity.module.ModuleFormActivity;
+import com.example.attendencemonitor.activity.module.ModuleListAdapter;
+import com.example.attendencemonitor.activity.module.classlist.ClasslistFragment;
 import com.example.attendencemonitor.activity.module.detail.ModuleDetailActivity;
 import com.example.attendencemonitor.service.AppData;
 import com.example.attendencemonitor.service.ModuleService;
@@ -25,41 +31,52 @@ import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class ModuleListActivity extends BaseMenuActivity
+public class ModuleListFragment extends Fragment
 {
-    public static final String EXTRA_TEACHER_ID = "TEACHER_ID";
-    public static final String EXTRA_TITLE = "TITLE";
     IModuleService moduleService = new ModuleService();
     private List<ModuleModel> modules;
     private ModuleListAdapter adapter;
-    private int teacherId;
+    private View view;
+
+    public ModuleListFragment()
+    {
+        // Required empty public constructor
+    }
+
+    public static ModuleListFragment newInstance()
+    {
+        ModuleListFragment fragment = new ModuleListFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
-        Intent received = getIntent();
-        teacherId = received.getIntExtra(EXTRA_TEACHER_ID, -1);
-        String title = received.getStringExtra(EXTRA_TITLE);
-
-        initializeMenu(title == null ? "Modules" : title, AppData.getInstance().getUserType() == UserType.ADMIN);
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_module_list);
+    }
 
-        FloatingActionButton fab = findViewById(R.id.fab_module_add);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+
+        moduleService.getAll(new ModuleListCallback());
+        view = inflater.inflate(R.layout.activity_module_list, container, false);
+
+        FloatingActionButton fab = view.findViewById(R.id.fab_module_add);
         if(AppData.getInstance().getUserType() != UserType.ADMIN)
         {
             fab.setVisibility(View.GONE);
         }
 
-        moduleService.getAll(new ModuleListCallback());
+        fab.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), ModuleFormActivity.class));
+        });
 
-        EditText searchBox = findViewById(R.id.et_searchbox);
+        EditText searchBox = view.findViewById(R.id.et_searchbox);
         searchBox.addTextChangedListener(new TextWatcher()
         {
             @Override
@@ -76,10 +93,11 @@ public class ModuleListActivity extends BaseMenuActivity
             }
         });
 
-        ImageButton delSearch = findViewById(R.id.ib_delete_search_module);
+        ImageButton delSearch = view.findViewById(R.id.ib_delete_search_module);
         delSearch.setOnClickListener(v -> {
             searchBox.setText("");
         });
+        return view;
     }
 
     private void readValues(ModuleModel[] values)
@@ -88,9 +106,9 @@ public class ModuleListActivity extends BaseMenuActivity
         Collections.addAll(items, values);
         modules = items;
 
-        RecyclerView rv = findViewById(R.id.rv_module_list);
+        RecyclerView rv = view.findViewById(R.id.rv_module_list);
         rv.setHasFixedSize(true);
-        LinearLayoutManager lm = new LinearLayoutManager(this);
+        LinearLayoutManager lm = new LinearLayoutManager(getActivity());
         adapter = new ModuleListAdapter(filter(null),  new ListItemListener());
 
         rv.setLayoutManager(lm);
@@ -98,26 +116,21 @@ public class ModuleListActivity extends BaseMenuActivity
     }
 
     @Override
-    protected void onResume()
+    public void onResume()
     {
         super.onResume();
         moduleService.getAll(new ModuleListCallback());
     }
 
-    public void onAdd(View view)
-    {
-        startActivity(new Intent(this, ModuleFormActivity.class));
-    }
-
     private void openDetails(ModuleModel item){
-        Intent i = new Intent(this, ModuleDetailActivity.class);
+        Intent i = new Intent(getActivity(), ModuleDetailActivity.class);
         i.putExtra(ModuleDetailActivity.EXTRA_MODULE_ID, item.getId());
         i.putExtra(ModuleDetailActivity.EXTRA_MODULE_TITLE, item.getName());
         startActivity(i);
     }
 
     private void edit(ModuleModel item){
-        Intent i = new Intent(this, ModuleFormActivity.class);
+        Intent i = new Intent(getActivity(), ModuleFormActivity.class);
         i.putExtra(ModuleFormActivity.EXTRA_MODULE_ID, item.getId());
         startActivity(i);
     }
@@ -175,18 +188,13 @@ public class ModuleListActivity extends BaseMenuActivity
         @Override
         public void onSuccess(ModuleModel[] value)
         {
-            if(teacherId != -1)
-            {
-                List<ModuleModel> list = Arrays.asList(value);
-                value = list.stream().filter(e -> e.getTeacher().getId() == teacherId).toArray(ModuleModel[] ::new);
-            }
             readValues(value);
         }
 
         @Override
         public void onError(Throwable error)
         {
-            Toast.makeText(ModuleListActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
         }
     }
 }
