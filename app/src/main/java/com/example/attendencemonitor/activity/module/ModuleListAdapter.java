@@ -41,6 +41,7 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.It
         }
 
     }
+
     public ModuleListAdapter(List<ModuleModel> moduleList, IRecyclerViewItemEventListener<ModuleModel> listener) {
         this.moduleList = moduleList;
         this.listener = listener;

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.module.classlist.detail.timeslot.StudentTimeslotFragment">
+    tools:context=".activity.module.timeslot.detail.student.TimeslotStudentFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

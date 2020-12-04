@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.attendencemonitor.R;
+import com.example.attendencemonitor.activity.module.timeslot.detail.TimeslotDetailActivity;
 import com.example.attendencemonitor.activity.qr.ScannerActivity;
 import com.example.attendencemonitor.service.AppData;
 import com.example.attendencemonitor.service.AttendanceService;
@@ -266,6 +267,13 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
+    private void openStats(TimeslotStatisticModel item){
+        Intent i = new Intent(getActivity(), TimeslotDetailActivity.class);
+        i.putExtra(TimeslotDetailActivity.EXTRA_TIMESLOT_ID, item.getId());
+        i.putExtra(TimeslotDetailActivity.EXTRA_TIMESLOT_NAME, item.getName());
+        startActivity(i);
+    }
+
     private class TimeslotListCallback implements ICallback<List<TimeslotStatisticModel>>
     {
 
@@ -322,7 +330,7 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
         @Override
         public void onSecondaryActionClick(TimeslotStatisticModel item)
         {
-            makeToast("Will open timeslot stats!");
+            openStats(item);
         }
     }
 }
