@@ -24,7 +24,7 @@ public class AdminPagerAdapter extends FragmentPagerAdapter
         {
             default:
             case 0:
-                return new Fragment();
+                return ModuleListFragment.newInstance();
             case 1:
                 return new Fragment();
             case 2:
