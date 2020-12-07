@@ -13,7 +13,11 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
+import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.example.attendencemonitor.R;
+import com.example.attendencemonitor.activity.auth.RegisterActivity;
 import com.example.attendencemonitor.activity.base.BaseMenuActivity;
 import com.example.attendencemonitor.service.AppData;
 import com.example.attendencemonitor.service.TimeslotService;
@@ -30,16 +34,17 @@ import java.util.Locale;
 
 public class TimeslotFormActivity extends BaseMenuActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener
 {
-    EditText name, date, startTime, endTime;
-    SimpleDateFormat dateFormatter =  new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
-    SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm", Locale.getDefault());
-    boolean isStartTime = true;
-    ITimeslotService timeslotService = new TimeslotService();
+    private EditText name, date, startTime, endTime;
+    private SimpleDateFormat dateFormatter =  new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
+    private SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm", Locale.getDefault());
+    private boolean isStartTime = true;
+    private ITimeslotService timeslotService = new TimeslotService();
     public static final String EXTRA_MODULE_ID = "MODULE_ID";
     public static final String EXTRA_TIMESLOT_ID = "TIMESLOT_ID";
     private int moduleId = -1;
-    TimeslotModel model;
-    Button delTimeslot;
+    private TimeslotModel model;
+    private Button delTimeslot;
+    private AwesomeValidation awesomeValidation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -66,6 +71,9 @@ public class TimeslotFormActivity extends BaseMenuActivity implements DatePicker
             module.setEndDate(new Date());
             initView(module);
         }
+
+        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
+        awesomeValidation.addValidation(this, R.id.add_timeslot_name, RegexTemplate.NOT_EMPTY, R.string.invalid_name);
     }
 
     private void initView(TimeslotModel currentValue) {
@@ -94,15 +102,23 @@ public class TimeslotFormActivity extends BaseMenuActivity implements DatePicker
 
     public void onSubmit(View v)
     {
-        model.setName(name.getText().toString());
-        if(model.getStartDate().getTime() > model.getEndDate().getTime())
+        if(awesomeValidation.validate())
         {
+            model.setName(name.getText().toString());
+            if(model.getStartDate().getTime() > model.getEndDate().getTime())
+            {
 
-            Toast.makeText(getApplicationContext(), "Start time cannot be after end time, please check your input", Toast.LENGTH_LONG).show();
-            return;
+                Toast.makeText(getApplicationContext(), "Start time cannot be after end time, please check your input", Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            timeslotService.saveOrUpdate(moduleId, model, new SaveOrUpdateTimeslotCallback());
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(), "Please check your input", Toast.LENGTH_SHORT).show();
         }
 
-        timeslotService.saveOrUpdate(moduleId, model, new SaveOrUpdateTimeslotCallback());
     }
 
     @Override
