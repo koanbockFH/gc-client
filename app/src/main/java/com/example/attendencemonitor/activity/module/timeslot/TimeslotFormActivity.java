@@ -95,6 +95,13 @@ public class TimeslotFormActivity extends BaseMenuActivity implements DatePicker
     public void onSubmit(View v)
     {
         model.setName(name.getText().toString());
+        if(model.getStartDate().getTime() > model.getEndDate().getTime())
+        {
+
+            Toast.makeText(getApplicationContext(), "Start time cannot be after end time, please check your input", Toast.LENGTH_LONG).show();
+            return;
+        }
+
         timeslotService.saveOrUpdate(moduleId, model, new SaveOrUpdateTimeslotCallback());
     }
 

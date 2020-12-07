@@ -50,7 +50,6 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
     private static final int SCANNER_REQUEST = 2;
     private int timeslotId = -1;
     private ModuleModel module;
-    ITimeslotService timeslotService = new TimeslotService();
     IAttendanceService attendanceService = new AttendanceService();
     TimeslotListAdapter adapter;
     List<TimeslotStatisticModel> timeslotList;
