@@ -32,6 +32,7 @@ public class UserSearchActivity extends BaseMenuActivity
     public static final String EXTRA_CURRENT_SELECTED = "SELECTED_USERS";
     public static final String EXTRA_USER_TYPE = "USER_TYPE";
     private ArrayList<UserModel> defaultSelection;
+    private ArrayList<UserModel> currentSelection;
     private UserListAdapter adapter;
     private final UserSearchDto dto = new UserSearchDto();
     private EditText searchBox;
@@ -75,6 +76,7 @@ public class UserSearchActivity extends BaseMenuActivity
             @Override
             public void afterTextChanged(Editable editable)
             {
+                currentSelection = adapter.getCurrentSelection();
                 dto.setSearch(editable.toString());
                 loadData();
             }
@@ -100,7 +102,14 @@ public class UserSearchActivity extends BaseMenuActivity
         ArrayList<UserModel> items = new ArrayList<>();
         Collections.addAll(items, values);
         ArrayList<UserModel> currentItems = new ArrayList<>();
-        defaultSelection.forEach(u -> currentItems.add(u));
+        if(currentSelection != null)
+        {
+            currentSelection.forEach(u -> currentItems.add(u));
+        }
+        else
+        {
+            defaultSelection.forEach(u -> currentItems.add(u));
+        }
         adapter = new UserListAdapter(items, dto.getType() == UserType.TEACHER,  currentItems);
 
         rv.setLayoutManager(lm);
