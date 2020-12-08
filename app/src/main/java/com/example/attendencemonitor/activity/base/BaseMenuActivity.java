@@ -17,6 +17,9 @@ import com.example.attendencemonitor.service.UserService;
 import com.example.attendencemonitor.service.contract.IActionCallback;
 import com.example.attendencemonitor.service.contract.IUserService;
 
+/***
+ * Simple and reusable base Activity to inflate the statusbar/menu
+ */
 public abstract class BaseMenuActivity extends AppCompatActivity
 {
     private String title;
@@ -28,6 +31,11 @@ public abstract class BaseMenuActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
     }
 
+    /***
+     * Definition of title and if backbutton is enabled for the view
+     * @param title title of the activity
+     * @param enableBackButton backbutton enabled
+     */
     protected void initializeMenu(String title, boolean enableBackButton)
     {
         this.title = title;
@@ -90,12 +98,15 @@ public abstract class BaseMenuActivity extends AppCompatActivity
         @Override
         public void onSuccess()
         {
+            AppData.getInstance().closeSession(BaseMenuActivity.this);
             onLogout();
         }
 
         @Override
         public void onError(Throwable error)
         {
+            //In some very rare cases, the backend will respond with forbidden
+            //in those cases there will be an forbidden error on the callback which we interpret as logging out
             if(error.getMessage().contains("Forbidden"))
             {
                 AppData.getInstance().closeSession(BaseMenuActivity.this);

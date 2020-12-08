@@ -16,6 +16,7 @@ public class AdminHomeActivity extends BaseMenuActivity
     {
         initializeMenu("Administration", false);
         super.onCreate(savedInstanceState);
+        //initialize Tablayout for admin screen (modules, students, teacher)
         setContentView(R.layout.activity_admin_home);
         AdminPagerAdapter sectionsPagerAdapter = new AdminPagerAdapter(getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);

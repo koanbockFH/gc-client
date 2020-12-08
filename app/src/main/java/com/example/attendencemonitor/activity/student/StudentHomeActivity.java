@@ -24,7 +24,7 @@ import java.util.Map;
 public class StudentHomeActivity extends BaseMenuActivity
 {
     private final IUserService userService =  new UserService();
-    private ImageView imageView;;
+    private ImageView imageView;
     private TextView tv_StudentName;
 
     @Override
@@ -37,9 +37,14 @@ public class StudentHomeActivity extends BaseMenuActivity
         imageView = findViewById(R.id.iv_student_id);
         tv_StudentName = findViewById(R.id.tv_student_name);
 
+
+        //request from backend, and register the callback handling the response
         userService.getCurrentUser(new UserCallback());
     }
 
+    /***
+     * Callback for response of backend on Get user
+     */
     private class UserCallback implements ICallback<UserModel>
     {
         @Override
@@ -56,6 +61,10 @@ public class StudentHomeActivity extends BaseMenuActivity
         }
     }
 
+    /***
+     * create qr code with payload
+     * @param data payload that should be encoded into qr code
+     */
     private void createQrCode(String data)
     {
         try
@@ -70,6 +79,12 @@ public class StudentHomeActivity extends BaseMenuActivity
 
     }
 
+    /***
+     * helper method to create bitmap of qrcode
+     * @param text payload in qr code
+     * @return btimap
+     * @throws WriterException
+     */
     private Bitmap TextToImageEncode(String text) throws WriterException
     {
         final int WIDTH = 200;

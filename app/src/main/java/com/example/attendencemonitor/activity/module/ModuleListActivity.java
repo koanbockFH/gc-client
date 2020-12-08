@@ -35,7 +35,7 @@ public class ModuleListActivity extends BaseMenuActivity
 {
     public static final String EXTRA_TEACHER_ID = "TEACHER_ID";
     public static final String EXTRA_TITLE = "TITLE";
-    IModuleService moduleService = new ModuleService();
+    private final IModuleService moduleService = new ModuleService();
     private List<ModuleModel> modules;
     private ModuleListAdapter adapter;
     private int teacherId;
@@ -44,6 +44,7 @@ public class ModuleListActivity extends BaseMenuActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        //read additional information from calling intent
         Intent received = getIntent();
         teacherId = received.getIntExtra(EXTRA_TEACHER_ID, -1);
         String title = received.getStringExtra(EXTRA_TITLE);
@@ -58,8 +59,10 @@ public class ModuleListActivity extends BaseMenuActivity
             fab.setVisibility(View.GONE);
         }
 
+        //request from backend, and register the callback handling the response
         moduleService.getAll(new ModuleListCallback());
 
+        //init search
         searchBox = findViewById(R.id.et_searchbox);
         searchBox.addTextChangedListener(new TextWatcher()
         {
@@ -78,9 +81,7 @@ public class ModuleListActivity extends BaseMenuActivity
         });
 
         ImageButton delSearch = findViewById(R.id.ib_delete_search_module);
-        delSearch.setOnClickListener(v -> {
-            searchBox.setText("");
-        });
+        delSearch.setOnClickListener(v -> searchBox.setText(""));
     }
 
     private void readValues(ModuleModel[] values)
@@ -126,6 +127,11 @@ public class ModuleListActivity extends BaseMenuActivity
         startActivity(i);
     }
 
+    /***
+     * Filter the displayed user list based on a search value (name, code, mail)
+     * @param searchValue searchvalue
+     * @return list of modules to be displayed
+     */
     private List<ModuleModel> filter(String searchValue)
     {
         List<ModuleModel> filteredList = new ArrayList<>();
@@ -147,6 +153,9 @@ public class ModuleListActivity extends BaseMenuActivity
         return filteredList;
     }
 
+    /***
+     * ListItem listener for recyclerview and handling of events from each row
+     */
     private class ListItemListener implements IRecyclerViewItemEventListener<ModuleModel>
     {
         @Override
@@ -173,6 +182,10 @@ public class ModuleListActivity extends BaseMenuActivity
             //not used
         }
     }
+
+    /***
+     * Callback for response of backend on Get All modules
+     */
     private class ModuleListCallback implements ICallback<ModuleModel[]>
     {
         @Override

@@ -20,16 +20,13 @@ import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 import java.util.List;
 
 public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.ItemViewAdapter>{
-    private SortedList<ModuleModel> moduleList;
+    private final SortedList<ModuleModel> moduleList;
     private final IRecyclerViewItemEventListener<ModuleModel> listener;
 
     public static class ItemViewAdapter extends RecyclerView.ViewHolder{
-        private final TextView tv_module_code;
-        private final TextView tv_module_name;
-        private final TextView tv_teacher;
+        private final TextView tv_module_code, tv_module_name, tv_teacher;
         private final LinearLayout ll_moduleContainer;
-        private final ImageButton ib_edit;
-        private final ImageButton ib_open;
+        private final ImageButton ib_edit, ib_open;
 
         public ItemViewAdapter(@NonNull View itemView) {
             super(itemView);
@@ -44,7 +41,7 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.It
     }
 
     public ModuleListAdapter(List<ModuleModel> ModuleList, IRecyclerViewItemEventListener<ModuleModel> listener) {
-        this.moduleList = new SortedList<ModuleModel>(ModuleModel.class, new SortedList.Callback<ModuleModel>() {
+        this.moduleList = new SortedList<>(ModuleModel.class, new SortedList.Callback<ModuleModel>() {
             @Override
             public int compare(ModuleModel o1, ModuleModel o2) {
                 return o1.getName().compareTo(o2.getName());
@@ -94,24 +91,24 @@ public class ModuleListAdapter extends RecyclerView.Adapter<ModuleListAdapter.It
 
     @Override
     public void onBindViewHolder(@NonNull ModuleListAdapter.ItemViewAdapter holder, int position) {
+        //setting data for each row
         ModuleModel currentItem = moduleList.get(position);
         if(AppData.getInstance().getUserType() != UserType.ADMIN)
         {
             holder.ib_edit.setVisibility(View.GONE);
         }
         else{
-            holder.tv_module_name.setOnClickListener(v -> {listener.onPrimaryClick(currentItem);});
-            holder.ib_edit.setOnClickListener(v -> {listener.onPrimaryClick(currentItem);});
+            holder.tv_module_name.setOnClickListener(v -> listener.onPrimaryClick(currentItem));
+            holder.ib_edit.setOnClickListener(v -> listener.onPrimaryClick(currentItem));
         }
 
         holder.tv_module_code.setText(currentItem.getCode());
         holder.tv_module_name.setText(currentItem.getName());
         holder.tv_teacher.setText(currentItem.getTeacher().getFullName());
 
-        holder.ib_open.setOnClickListener(v -> {listener.onClick(currentItem);});
-        holder.ll_moduleContainer.setOnClickListener(view -> {
-            listener.onClick(currentItem);
-        });
+        //forwarding events to the event listener
+        holder.ib_open.setOnClickListener(v -> listener.onClick(currentItem));
+        holder.ll_moduleContainer.setOnClickListener(view -> listener.onClick(currentItem));
         holder.ll_moduleContainer.setOnLongClickListener(view -> {
             listener.onLongPress(currentItem);
             return true;

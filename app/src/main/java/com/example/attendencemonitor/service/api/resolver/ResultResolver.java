@@ -7,6 +7,11 @@ import retrofit2.Callback;
 import retrofit2.HttpException;
 import retrofit2.Response;
 
+/***
+ * Custom resolver for abstraction layer between service and retrofit - no retrofit in Presentation layer
+ * returntype - aka function or result
+ * @param <T> type of response - cannot be void!
+ */
 public class ResultResolver<T> extends BaseResolver<T> implements Callback<T>
 {
     private final ICallback<T> callback;

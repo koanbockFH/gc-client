@@ -22,6 +22,7 @@ public class TimeslotDetailActivity extends BaseMenuActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        //get additional data from calling intent
         Intent received = getIntent();
         int timeslotId = received.getIntExtra(EXTRA_TIMESLOT_ID, -1);
         String title = received.getStringExtra(EXTRA_TIMESLOT_NAME);
@@ -29,6 +30,8 @@ public class TimeslotDetailActivity extends BaseMenuActivity
         {
             finish();
         }
+
+        //request from backend, and register the callback handling the response
         attendanceService.getTimeslotStats(timeslotId, new GetCallback());
 
         initializeMenu(title, true);
@@ -45,6 +48,9 @@ public class TimeslotDetailActivity extends BaseMenuActivity
         tabs.setupWithViewPager(viewPager);
     }
 
+    /***
+     * Callback for response of backend on Get timeslot details
+     */
     private class GetCallback implements ICallback<TimeslotStatisticDetailModel>
     {
 

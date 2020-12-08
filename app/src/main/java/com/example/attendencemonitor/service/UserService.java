@@ -86,6 +86,7 @@ public class UserService extends BaseService<IUserApi> implements IUserService
                     callback.onError(new IllegalArgumentException("Response was empty, but Call was successful!"));
                     return;
                 }
+
                 ApiAccess.getInstance().setAccessToken(dto.getAccessToken());
                 getCurrentUser(new GetUserCallback());
             }

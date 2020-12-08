@@ -10,6 +10,9 @@ import okhttp3.Request;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * handles access to the api via retrofit, and manages user access token
+ */
 public class ApiAccess
 {
     private String accessToken;
@@ -17,6 +20,7 @@ public class ApiAccess
 
     private static ApiAccess instance;
 
+    //singleton implementation
     public static ApiAccess getInstance()
     {
         if (instance == null)
@@ -33,6 +37,8 @@ public class ApiAccess
     }
 
     private ApiAccess(){
+
+        //add interceptor for automatic adding of authorization header
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(chain -> {
             if(getAccessToken() == null)
             {
@@ -45,9 +51,12 @@ public class ApiAccess
             return chain.proceed(newRequest);
         }).build();
 
+        //register generated gson deserializer
         Gson gson = new GsonBuilder()
             .registerTypeAdapter(UserType.class, new UserTypeAdapter())
             .create();
+
+        //create retrofit instance, with connection to private server
         retrofit = new Retrofit.Builder()
                 .client(client)
                 .baseUrl("https://attendance.jloferer.de/api/v1/")

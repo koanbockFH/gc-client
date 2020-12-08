@@ -17,22 +17,20 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
-
+/***
+ * Simple implementation of the Recycler Adapter for the User Admin lists (Student and Teacher)
+ */
 public class StudentTimeslotListAdapter extends RecyclerView.Adapter<StudentTimeslotListAdapter.ItemViewAdapter>{
     private List<TimeslotModel> itemList;
 
     public static class ItemViewAdapter extends RecyclerView.ViewHolder{
-        private final TextView tv_name;
-        private final TextView tv_start;
-        private final LinearLayout ll_timeslotContainer;
+        private final TextView tv_name, tv_start, tv_attendance;
         private final ImageButton ib_edit, ib_stats, ib_scan;
-        private final TextView tv_attendance;
 
         public ItemViewAdapter(@NonNull View itemView) {
             super(itemView);
             tv_name = itemView.findViewById(R.id.tv_timeslot_name);
             tv_start = itemView.findViewById(R.id.tv_start_date);
-            ll_timeslotContainer = itemView.findViewById(R.id.ll_timeslotContainer);
             ib_edit = itemView.findViewById(R.id.ib_edit);
             ib_scan = itemView.findViewById(R.id.ib_scan);
             ib_stats = itemView.findViewById(R.id.ib_stats);
@@ -52,6 +50,7 @@ public class StudentTimeslotListAdapter extends RecyclerView.Adapter<StudentTime
 
     @Override
     public void onBindViewHolder(@NonNull StudentTimeslotListAdapter.ItemViewAdapter holder, int position) {
+        //setting data for each row
         TimeslotModel currentItem = itemList.get(position);
         SimpleDateFormat dateTimeFormatter = new SimpleDateFormat("dd/MM/yy HH:mm", Locale.getDefault());
         SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm", Locale.getDefault());
@@ -59,6 +58,7 @@ public class StudentTimeslotListAdapter extends RecyclerView.Adapter<StudentTime
         holder.tv_name.setText(currentItem.getName());
         holder.tv_start.setText(String.format("%s - %s", dateTimeFormatter.format(currentItem.getStartDate()), timeFormatter.format(currentItem.getEndDate())));
 
+        //disable items not needed in the current activity
         holder.tv_attendance.setVisibility(View.GONE);
         holder.ib_edit.setVisibility(View.GONE);
         holder.ib_scan.setVisibility(View.GONE);

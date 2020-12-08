@@ -30,12 +30,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
+/***
+ * Fragment displaying all the users(student or teacher) of the university, used for the administrator only
+ */
 public class UserListFragment extends Fragment
 {
     private UserAdminListAdapter adapter;
-    List<UserModel> userList;
-    boolean isTeacher;
-    IUserService userService = new UserService();
+    private List<UserModel> userList;
+    private boolean isTeacher;
+    private final IUserService userService = new UserService();
     private EditText searchBox;
 
     public UserListFragment()
@@ -43,6 +46,7 @@ public class UserListFragment extends Fragment
         // Required empty public constructor
     }
 
+    //static creation of fragment - best practice described in official android documentation
     public static UserListFragment newInstance(boolean isTeacher)
     {
         UserListFragment fragment = new UserListFragment();
@@ -63,9 +67,11 @@ public class UserListFragment extends Fragment
     {
         UserSearchDto dto = new UserSearchDto();
         dto.setType(isTeacher ? UserType.TEACHER : UserType.STUDENT);
+        //based on the teacher bool, it queries students or teachers only
         userService.getUserList(dto, new GetCallback());
         View view = inflater.inflate(R.layout.fragment_user_admin, container, false);
 
+        //init recycler view
         RecyclerView rv = view.findViewById(R.id.rv_user_list);
         rv.setHasFixedSize(true);
         LinearLayoutManager lm = new LinearLayoutManager(getActivity());
@@ -73,6 +79,8 @@ public class UserListFragment extends Fragment
 
         rv.setLayoutManager(lm);
         rv.setAdapter(adapter);
+
+        //init search
         searchBox = view.findViewById(R.id.et_searchbox);
         searchBox.addTextChangedListener(new TextWatcher()
         {
@@ -91,9 +99,7 @@ public class UserListFragment extends Fragment
         });
 
         ImageButton delSearch = view.findViewById(R.id.ib_delete_search_classlist);
-        delSearch.setOnClickListener(v -> {
-            searchBox.setText("");
-        });
+        delSearch.setOnClickListener(v -> searchBox.setText(""));
 
         FloatingActionButton fabAdd = view.findViewById(R.id.fab_user_add);
         fabAdd.setOnClickListener(v -> {
@@ -106,7 +112,11 @@ public class UserListFragment extends Fragment
         return view;
     }
 
-
+    /***
+     * Filter the displayed user list based on a search value (name, code, mail)
+     * @param searchValue searchvalue
+     * @return list of modules to be displayed
+     */
     private List<UserModel> filter(String searchValue)
     {
         List<UserModel> filteredList = new ArrayList<>();
@@ -132,6 +142,9 @@ public class UserListFragment extends Fragment
         return filteredList;
     }
 
+    /***
+     * Callback for response of backend on Get All students/teachers
+     */
     private class GetCallback implements ICallback<Pagination<UserModel>>
     {
 
@@ -149,6 +162,9 @@ public class UserListFragment extends Fragment
         }
     }
 
+    /***
+     * ListItem listener for recyclerview and handling of events from each row
+     */
     private class ListItemListener implements IRecyclerViewItemEventListener<UserModel>
     {
 
@@ -156,6 +172,7 @@ public class UserListFragment extends Fragment
         public void onClick(UserModel item)
         {
             searchBox.setText("");
+            //open details based on user type displayed
             if(item.getUserType() == UserType.STUDENT)
             {
                 Intent i = new Intent(getActivity(), StudentModuleStatisticActivity.class);

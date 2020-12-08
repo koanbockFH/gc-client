@@ -12,6 +12,9 @@ import com.example.attendencemonitor.activity.student.StudentHomeActivity;
 import com.example.attendencemonitor.service.AppData;
 import com.example.attendencemonitor.service.model.UserType;
 
+/***
+ * Manages the session for a user type - does not manage the access token itself but manages the presentation layout
+ */
 public class SessionActivity extends AppCompatActivity
 {
 
@@ -34,6 +37,7 @@ public class SessionActivity extends AppCompatActivity
         }
         else if(isLoggedIn)
         {
+            //if logged in reroute user to user type specific home activity
             UserType type = AppData.getInstance().getUserType();
             Class<?> home = null;
             switch(type)
@@ -53,7 +57,7 @@ public class SessionActivity extends AppCompatActivity
                 return;
             }
             Intent intent = new Intent(this.getApplicationContext(), home);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK); //reset the navigation history to prevent back navigation to login site
             startActivity(intent);
             finish();
         }

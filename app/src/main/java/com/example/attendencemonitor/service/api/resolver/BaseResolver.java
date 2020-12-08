@@ -11,6 +11,10 @@ import retrofit2.Converter;
 import retrofit2.HttpException;
 import retrofit2.Response;
 
+/**
+ * Base resolver defining exception handling - again to provide an abstraction layer for retrofit and presentation layer
+ * @param <T> type of response - can be void
+ */
 public abstract class BaseResolver<T>
 {
     protected Exception handleHttpException(Response<T> response)

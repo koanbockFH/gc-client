@@ -20,10 +20,8 @@ import com.example.attendencemonitor.service.dto.LoginFormDto;
 
 public class LoginActivity extends BaseMenuActivity
 {
-    IUserService userService = new UserService();
-
-    private EditText eUsername;
-    private EditText ePassword;
+    private final IUserService userService = new UserService();
+    private EditText eUsername, ePassword;
     private AwesomeValidation awesomeValidation;
 
     @Override
@@ -32,9 +30,11 @@ public class LoginActivity extends BaseMenuActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth_login);
 
+        //save input into variables for later use
         eUsername = findViewById(R.id.login_username);
         ePassword = findViewById(R.id.login_password);
 
+        //submit login request on "Enter" in password box
         ePassword.setOnKeyListener((view, i, keyEvent) -> {
             if (keyEvent.getAction() == KeyEvent.ACTION_DOWN && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
             {
@@ -44,21 +44,25 @@ public class LoginActivity extends BaseMenuActivity
             return false;
         });
 
+        //init validation
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
         awesomeValidation.addValidation(this, R.id.login_username, RegexTemplate.NOT_EMPTY, R.string.must_not_be_empty);
         awesomeValidation.addValidation(this,R.id.login_password,RegexTemplate.NOT_EMPTY,R.string.must_not_be_empty);
     }
 
     public void onSubmit(View v) {
+        //validate input
         if(!awesomeValidation.validate())
         {
             return;
         }
 
+        //if ok, setup request access token
         LoginFormDto dto = new LoginFormDto();
         dto.setCodeOrMail(eUsername.getText().toString());
         dto.setPassword(ePassword.getText().toString());
 
+        //send request, and register callback to handle response
         userService.login(this, dto, new LoginCallback());
     }
 
@@ -67,12 +71,14 @@ public class LoginActivity extends BaseMenuActivity
         @Override
         public void onSuccess()
         {
+            //start App-Session
             startActivity(new Intent(LoginActivity.this, SessionActivity.class));
         }
 
         @Override
         public void onError(Throwable error)
         {
+            //display error e.g. wrong password
             Toast.makeText(LoginActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }

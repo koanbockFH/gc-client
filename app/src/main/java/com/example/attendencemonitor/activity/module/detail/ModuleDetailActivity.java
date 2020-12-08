@@ -18,12 +18,13 @@ public class ModuleDetailActivity extends BaseMenuActivity
 {
     public static final String EXTRA_MODULE_ID = "MODULE_ID";
     public static final String EXTRA_MODULE_TITLE = "MODULE_TITLE";
-    IModuleService moduleService = new ModuleService();
+    private final IModuleService moduleService = new ModuleService();
     private ModuleModel module;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        //read information for calling intent (module id and title)
         Intent received = getIntent();
         int moduleId = received.getIntExtra(EXTRA_MODULE_ID, -1);
         String title = received.getStringExtra(EXTRA_MODULE_TITLE);
@@ -36,6 +37,8 @@ public class ModuleDetailActivity extends BaseMenuActivity
             finish();
         }
 
+
+        //request from backend, and register the callback handling the response
         moduleService.getById(moduleId, new GetCallback());
     }
 
@@ -48,6 +51,10 @@ public class ModuleDetailActivity extends BaseMenuActivity
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
     }
+
+    /***
+     * Callback for response of backend on Get module details
+     */
     private class GetCallback implements ICallback<ModuleModel>
     {
         @Override

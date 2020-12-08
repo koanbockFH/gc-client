@@ -31,7 +31,7 @@ import java.util.Locale;
 
 public class ModuleFormActivity extends BaseMenuActivity
 {
-    IModuleService moduleService = new ModuleService();
+    private final IModuleService moduleService = new ModuleService();
     private static final int REQUEST_STUDENT_SELECTION = 1;
     private static final int REQUEST_TEACHER_SELECTION = 2;
     public static final String EXTRA_MODULE_ID = "MODULE_ID";
@@ -44,9 +44,9 @@ public class ModuleFormActivity extends BaseMenuActivity
 
     private Button delModule;
 
-    ModuleModel model = new ModuleModel();
+    private ModuleModel model = new ModuleModel();
 
-    AwesomeValidation awesomeValidation;
+    private AwesomeValidation awesomeValidation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +69,7 @@ public class ModuleFormActivity extends BaseMenuActivity
         awesomeValidation.addValidation(this,R.id.add_module_code,".{3,}",R.string.invalid_code);
         awesomeValidation.addValidation(this,R.id.add_module_teacher, RegexTemplate.NOT_EMPTY,R.string.invalid_name);
 
+        //load module if this call is to edit existing module
         Intent received = getIntent();
         int moduleId = received.getIntExtra(EXTRA_MODULE_ID, -1);
 
@@ -86,6 +87,7 @@ public class ModuleFormActivity extends BaseMenuActivity
         eStudents.setText(String.format(Locale.getDefault(), "%s %d", getString(R.string.add_module_student_value), model.getStudents().size()));
     }
 
+    //handle student or teacher selection process
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
     {
@@ -105,6 +107,7 @@ public class ModuleFormActivity extends BaseMenuActivity
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    //open student selection
     public void onClassChange(View view)
     {
         Intent classIntent = new Intent(this, UserSearchActivity.class);
@@ -114,6 +117,7 @@ public class ModuleFormActivity extends BaseMenuActivity
         startActivityForResult(classIntent, REQUEST_STUDENT_SELECTION);
     }
 
+    //open teacher selection
     public void onTeacherChange(View view)
     {
         Intent classIntent = new Intent(this, UserSearchActivity.class);
@@ -128,6 +132,7 @@ public class ModuleFormActivity extends BaseMenuActivity
         startActivityForResult(classIntent, REQUEST_TEACHER_SELECTION);
     }
 
+    //save module to backend
     public void onSubmit(View view)
     {
         model.setName(eName.getText().toString());
@@ -144,6 +149,9 @@ public class ModuleFormActivity extends BaseMenuActivity
         }
     }
 
+    /***
+     * Callback for response of backend on save module
+     */
     private class SaveOrUpdateModuleCallback implements ICallback<ModuleModel>
     {
         @Override
@@ -166,6 +174,9 @@ public class ModuleFormActivity extends BaseMenuActivity
         }
     }
 
+    /***
+     * Callback for response of backend on get module
+     */
     private class GetCallback implements ICallback<ModuleModel> {
 
         @Override
@@ -173,6 +184,8 @@ public class ModuleFormActivity extends BaseMenuActivity
         {
             model = value;
             loadModel();
+
+            //setup delete if module exists
             delModule.setVisibility(View.VISIBLE);
             delModule.setOnClickListener(v -> {
                 if(AppData.getInstance().getUserType() != UserType.ADMIN)
@@ -206,6 +219,9 @@ public class ModuleFormActivity extends BaseMenuActivity
         }
     }
 
+    /***
+     * Callback for response of backend on sdelete module
+     */
     private class DeleteCallback implements IActionCallback
     {
         @Override

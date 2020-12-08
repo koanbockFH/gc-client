@@ -15,14 +15,14 @@ import com.example.attendencemonitor.service.model.UserModel;
 
 import java.util.List;
 
+/***
+ * Simple implementation of the Recycler Adapter for the students in timeslot details (attendees, and absentees)
+ */
 public class TimeslotStudentListAdapter extends RecyclerView.Adapter<TimeslotStudentListAdapter.StudentListViewHolder>{
     private List<UserModel> studentList;
 
     public static class StudentListViewHolder extends RecyclerView.ViewHolder{
-        private final TextView tv_username;
-        private final TextView tv_code;
-        private final TextView tv_usermail;
-        private final TextView tv_attendance;
+        private final TextView tv_username, tv_code, tv_usermail, tv_attendance;
         private final ImageButton ib_open;
 
         public StudentListViewHolder(@NonNull View itemView) {
@@ -47,6 +47,7 @@ public class TimeslotStudentListAdapter extends RecyclerView.Adapter<TimeslotStu
 
     @Override
     public void onBindViewHolder(@NonNull TimeslotStudentListAdapter.StudentListViewHolder holder, int position) {
+        //setting data for each row
         UserModel currentItem = studentList.get(position);
         holder.tv_username.setText(currentItem.getFullName());
         holder.tv_usermail.setText(currentItem.getMail());

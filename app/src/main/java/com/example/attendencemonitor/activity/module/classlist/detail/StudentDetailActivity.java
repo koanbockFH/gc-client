@@ -38,6 +38,7 @@ public class StudentDetailActivity extends BaseMenuActivity
             finish();
         }
 
+        //initialize Tablayout for teacher module screen (student detail information: attending, absent, other modules)
         setContentView(R.layout.activity_student_detail);
         StudentDetailPagerAdapter sectionsPagerAdapter = new StudentDetailPagerAdapter(getSupportFragmentManager(), moduleId, studentId, attended, absent, withoutModules);
         ViewPager viewPager = findViewById(R.id.view_pager);
