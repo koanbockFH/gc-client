@@ -4,6 +4,7 @@ package com.example.attendencemonitor.activity.admin.user;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,7 +20,7 @@ import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 import java.util.List;
 
 public class UserAdminListAdapter extends RecyclerView.Adapter<UserAdminListAdapter.StudentListViewHolder>{
-    private SortedList<UserModel> studentList;
+    private final SortedList<UserModel> studentList;
     private final IRecyclerViewItemEventListener<UserModel> listener;
 
     public static class StudentListViewHolder extends RecyclerView.ViewHolder{
@@ -28,6 +29,7 @@ public class UserAdminListAdapter extends RecyclerView.Adapter<UserAdminListAdap
         private final TextView tv_usermail;
         private final TextView tv_attendance;
         private final LinearLayout userContainer;
+        private final ImageButton ib_student_open;
 
         public StudentListViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -36,6 +38,7 @@ public class UserAdminListAdapter extends RecyclerView.Adapter<UserAdminListAdap
             tv_usermail  = itemView.findViewById(R.id.tv_usermail);
             tv_attendance = itemView.findViewById(R.id.tv_attendance);
             userContainer = itemView.findViewById(R.id.ll_userContainer);
+            ib_student_open = itemView.findViewById(R.id.ib_student_open);
         }
     }
 
@@ -95,6 +98,7 @@ public class UserAdminListAdapter extends RecyclerView.Adapter<UserAdminListAdap
         holder.tv_usermail.setText(currentItem.getMail());
         holder.tv_code.setText(currentItem.getCode());
         holder.userContainer.setOnClickListener(v -> {listener.onClick(currentItem);});
+        holder.ib_student_open.setOnClickListener(v -> listener.onClick(currentItem));
 
         holder.tv_attendance.setVisibility(View.GONE);
     }

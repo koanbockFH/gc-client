@@ -175,7 +175,6 @@ public class ModuleListActivity extends BaseMenuActivity
     }
     private class ModuleListCallback implements ICallback<ModuleModel[]>
     {
-
         @Override
         public void onSuccess(ModuleModel[] value)
         {

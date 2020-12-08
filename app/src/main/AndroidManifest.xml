@@ -12,27 +12,42 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AttendenceMonitor">
-        <activity android:name=".activity.admin.user.StudentModuleStatisticActivity"></activity>
-        <activity android:name=".activity.module.timeslot.detail.TimeslotDetailActivity" />
-        <activity android:name=".activity.module.classlist.detail.StudentDetailActivity" />
-        <activity android:name=".activity.qr.ScannerActivity" />
-        <activity android:name=".activity.module.timeslot.TimeslotFormActivity" />
-        <activity android:name=".activity.teacher.TeacherHomeActivity" />
-        <activity android:name=".activity.SessionActivity">
+        <activity android:name=".activity.admin.user.StudentModuleStatisticActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".activity.module.timeslot.detail.TimeslotDetailActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".activity.module.classlist.detail.StudentDetailActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".activity.qr.ScannerActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".activity.module.timeslot.TimeslotFormActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".activity.teacher.TeacherHomeActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".activity.SessionActivity"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.student.StudentHomeActivity" />
-        <activity android:name=".activity.admin.AdminHomeActivity" />
-        <activity android:name=".activity.auth.RegisterActivity" />
-        <activity android:name=".activity.auth.LoginActivity" />
-        <activity android:name=".activity.module.ModuleFormActivity" />
-        <activity android:name=".activity.module.ModuleListActivity" />
-        <activity android:name=".activity.module.detail.ModuleDetailActivity" />
-        <activity android:name=".activity.user.UserSearchActivity" />
+        <activity android:name=".activity.student.StudentHomeActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".activity.admin.AdminHomeActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".activity.auth.RegisterActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".activity.auth.LoginActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".activity.module.ModuleFormActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".activity.module.ModuleListActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".activity.module.detail.ModuleDetailActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".activity.user.UserSearchActivity"
+            android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>

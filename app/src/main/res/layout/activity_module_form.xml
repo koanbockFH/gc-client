@@ -13,6 +13,7 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:hint="@string/enter_module_name"
+            android:singleLine="true"
             android:textColor="@color/primary_color"
             android:textColorHint="@color/primary_color"
             android:layout_gravity="center"
@@ -27,6 +28,7 @@
             android:textColorHint="@color/primary_color"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
+            android:singleLine="true"
             android:padding="10dp"/>
 
         <EditText
@@ -36,6 +38,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:hint="@string/enter_description"
+            android:singleLine="true"
             android:padding="10dp"
             android:textColor="@color/primary_color"
             android:textColorHint="@color/primary_color" />
