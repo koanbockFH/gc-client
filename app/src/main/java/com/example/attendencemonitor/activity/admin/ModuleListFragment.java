@@ -34,6 +34,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/***
+ * Fragment displaying all the Modules of the university, used for the administrator only
+ */
 public class ModuleListFragment extends Fragment
 {
     IModuleService moduleService = new ModuleService();
@@ -47,6 +50,7 @@ public class ModuleListFragment extends Fragment
         // Required empty public constructor
     }
 
+    //static creation of fragment - best practice described in official android documentation
     public static ModuleListFragment newInstance()
     {
         ModuleListFragment fragment = new ModuleListFragment();
@@ -63,10 +67,12 @@ public class ModuleListFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-
+        //request all modules from backend, and register the callback handling the response
         moduleService.getAll(new ModuleListCallback());
+        //inflate the view
         view = inflater.inflate(R.layout.activity_module_list, container, false);
 
+        //define if FAB is visible based on user Type
         FloatingActionButton fab = view.findViewById(R.id.fab_module_add);
         if(AppData.getInstance().getUserType() != UserType.ADMIN)
         {
@@ -74,10 +80,11 @@ public class ModuleListFragment extends Fragment
         }
 
         fab.setOnClickListener(v -> {
-            searchBox.setText("");
-            startActivity(new Intent(getActivity(), ModuleFormActivity.class));
+            searchBox.setText(""); //reset search box, to prevent wrong list filter when returning to page
+            startActivity(new Intent(getActivity(), ModuleFormActivity.class)); //start new Module Form Activity
         });
 
+        //initialize search logic
         searchBox = view.findViewById(R.id.et_searchbox);
         searchBox.addTextChangedListener(new TextWatcher()
         {
@@ -95,19 +102,23 @@ public class ModuleListFragment extends Fragment
             }
         });
 
+        //init delete search logic
         ImageButton delSearch = view.findViewById(R.id.ib_delete_search_module);
-        delSearch.setOnClickListener(v -> {
-            searchBox.setText("");
-        });
+        delSearch.setOnClickListener(v -> searchBox.setText(""));
         return view;
     }
 
+    /***
+     * Reads values from the parameter and displays them on the view
+     * @param values modules to be displayed
+     */
     private void readValues(ModuleModel[] values)
     {
         ArrayList<ModuleModel> items = new ArrayList<>();
         Collections.addAll(items, values);
         modules = items;
 
+        //init recylcler view and populate data
         RecyclerView rv = view.findViewById(R.id.rv_module_list);
         rv.setHasFixedSize(true);
         LinearLayoutManager lm = new LinearLayoutManager(getActivity());
@@ -121,24 +132,39 @@ public class ModuleListFragment extends Fragment
     public void onResume()
     {
         super.onResume();
-        moduleService.getAll(new ModuleListCallback());
+        moduleService.getAll(new ModuleListCallback()); //request again since values may have changed
     }
 
+    /***
+     * open details of specific module
+     * @param item module in question
+     */
     private void openDetails(ModuleModel item){
         searchBox.setText("");
         Intent i = new Intent(getActivity(), ModuleDetailActivity.class);
+        //add additional data for detail view
         i.putExtra(ModuleDetailActivity.EXTRA_MODULE_ID, item.getId());
         i.putExtra(ModuleDetailActivity.EXTRA_MODULE_TITLE, item.getName());
         startActivity(i);
     }
 
+    /***
+     * open edit view of specific module
+     * @param item module in question
+     */
     private void edit(ModuleModel item){
         searchBox.setText("");
         Intent i = new Intent(getActivity(), ModuleFormActivity.class);
+        //add additional data for edit view
         i.putExtra(ModuleFormActivity.EXTRA_MODULE_ID, item.getId());
         startActivity(i);
     }
 
+    /***
+     * Filter the displayed module list based on a search value (name, code, teacher)
+     * @param searchValue searchvalue
+     * @return list of modules to be displayed
+     */
     private List<ModuleModel> filter(String searchValue)
     {
         List<ModuleModel> filteredList = new ArrayList<>();
@@ -160,6 +186,9 @@ public class ModuleListFragment extends Fragment
         return filteredList;
     }
 
+    /***
+     * ListItem listener for recyclerview and handling of events from each row
+     */
     private class ListItemListener implements IRecyclerViewItemEventListener<ModuleModel>
     {
         @Override
@@ -186,19 +215,23 @@ public class ModuleListFragment extends Fragment
             //not used
         }
     }
+
+    /***
+     * Callback for response of backend on Get All Modules
+     */
     private class ModuleListCallback implements ICallback<ModuleModel[]>
     {
 
         @Override
         public void onSuccess(ModuleModel[] value)
         {
-            readValues(value);
+            readValues(value); //read values into the view
         }
 
         @Override
         public void onError(Throwable error)
         {
-            Toast.makeText(getActivity(), "Something went wrong", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 }

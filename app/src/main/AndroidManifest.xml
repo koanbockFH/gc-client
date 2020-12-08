@@ -22,8 +22,6 @@
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".activity.module.timeslot.TimeslotFormActivity"
             android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".activity.teacher.TeacherHomeActivity"
-            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".activity.SessionActivity"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>

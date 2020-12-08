@@ -28,11 +28,14 @@ import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/***
+ * Show all students of a specific module
+ */
 public class ClasslistFragment extends Fragment
 {
+    private final IAttendanceService attendanceService = new AttendanceService();
     private ModuleModel module;
     private StudentListAdapter adapter;
-    IAttendanceService attendanceService = new AttendanceService();
     private ModuleStatisticModel moduleStats;
     private EditText searchBox;
 
@@ -41,6 +44,7 @@ public class ClasslistFragment extends Fragment
         // Required empty public constructor
     }
 
+    //static creation of fragment - best practice described in official android documentation
     public static ClasslistFragment newInstance(ModuleModel module)
     {
         ClasslistFragment fragment = new ClasslistFragment();
@@ -69,6 +73,7 @@ public class ClasslistFragment extends Fragment
         attendanceService.getModuleStats(module.getId(), new GetStatsCallback());
         View view = inflater.inflate(R.layout.fragment_classlist, container, false);
 
+        //init recycler view
         RecyclerView rv = view.findViewById(R.id.rv_user_list);
         rv.setHasFixedSize(true);
         LinearLayoutManager lm = new LinearLayoutManager(getActivity());
@@ -76,6 +81,8 @@ public class ClasslistFragment extends Fragment
 
         rv.setLayoutManager(lm);
         rv.setAdapter(adapter);
+
+        //init search
         searchBox = view.findViewById(R.id.et_searchbox);
         searchBox.addTextChangedListener(new TextWatcher()
         {
@@ -94,13 +101,16 @@ public class ClasslistFragment extends Fragment
         });
 
         ImageButton delSearch = view.findViewById(R.id.ib_delete_search_classlist);
-        delSearch.setOnClickListener(v -> {
-            searchBox.setText("");
-        });
+        delSearch.setOnClickListener(v -> searchBox.setText(""));
 
         return view;
     }
 
+    /***
+     * Filter the displayed user list based on a search value (name, code, mail)
+     * @param searchValue searchvalue
+     * @return list of modules to be displayed
+     */
     private List<StudentModuleStatisticModel> filter(String searchValue)
     {
         List<StudentModuleStatisticModel> filteredList = new ArrayList<>();
@@ -126,6 +136,10 @@ public class ClasslistFragment extends Fragment
         return filteredList;
     }
 
+    /***
+     * open student details
+     * @param student student in question
+     */
     private void onOpenstudentDetails(StudentModuleStatisticModel student) {
         searchBox.setText("");
         Intent i = new Intent(getActivity(), StudentDetailActivity.class);
@@ -142,6 +156,9 @@ public class ClasslistFragment extends Fragment
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
+    /***
+     * Callback for response of backend on Get All students of the module
+     */
     private class GetStatsCallback implements ICallback<ModuleStatisticModel>
     {
         @Override
@@ -155,6 +172,9 @@ public class ClasslistFragment extends Fragment
         public void onError(Throwable error){ makeToast(error.getMessage());}
     }
 
+    /***
+     * ListItem listener for recyclerview and handling of events from each row
+     */
     private class ListItemListener implements IRecyclerViewItemEventListener<StudentModuleStatisticModel>
     {
 

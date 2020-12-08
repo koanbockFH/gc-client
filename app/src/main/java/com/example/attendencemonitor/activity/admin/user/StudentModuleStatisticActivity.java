@@ -24,6 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+/***
+ * Shows All Modules of a student for the administrator, with the ability to get further information on them
+ */
 public class StudentModuleStatisticActivity extends BaseMenuActivity
 {
     public static final String EXTRA_STUDENT_ID = "STUDENT_ID";
@@ -39,10 +42,12 @@ public class StudentModuleStatisticActivity extends BaseMenuActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        //read the student in question from the intent that started the activity
         Intent received = getIntent();
         studentId = received.getIntExtra(EXTRA_STUDENT_ID, -1);
         title = received.getStringExtra(EXTRA_STUDENT_NAME);
 
+        //initialize the menu and reuse the title from the opening student detail activity
         initializeMenu(title + " | Modules", true);
         super.onCreate(savedInstanceState);
 
@@ -51,6 +56,7 @@ public class StudentModuleStatisticActivity extends BaseMenuActivity
             finish();
         }
 
+        //inflate recycler view with all modules of the student
         setContentView(R.layout.fragment_student_module);
         RecyclerView rv = findViewById(R.id.rv_module_list);
         rv.setHasFixedSize(true);
@@ -62,6 +68,7 @@ public class StudentModuleStatisticActivity extends BaseMenuActivity
 
         loadData();
 
+        //init search box
         searchBox = findViewById(R.id.et_searchbox);
         searchBox.addTextChangedListener(new TextWatcher()
         {
@@ -79,9 +86,7 @@ public class StudentModuleStatisticActivity extends BaseMenuActivity
         });
 
         ImageButton delSearch = findViewById(R.id.ib_delete_search_smodule);
-        delSearch.setOnClickListener(v -> {
-            searchBox.setText("");
-        });
+        delSearch.setOnClickListener(v -> searchBox.setText(""));
     }
 
     @Override
@@ -92,6 +97,11 @@ public class StudentModuleStatisticActivity extends BaseMenuActivity
     }
 
 
+    /***
+     * Filter the displayed module list based on a search value (name, code, teacher)
+     * @param searchValue searchvalue
+     * @return list of modules to be displayed
+     */
     private List<ModuleStatisticModelBase> filter(String searchValue)
     {
         List<ModuleStatisticModelBase> filteredList = new ArrayList<>();
@@ -121,8 +131,13 @@ public class StudentModuleStatisticActivity extends BaseMenuActivity
         adapter.setItems(filter(searchBox.getText().toString()));
     }
 
+    /***
+     * open details of specific module
+     * @param module module in question
+     */
     private void onOpenstudentDetails(ModuleStatisticModelBase module) {
         Intent i = new Intent(this, StudentDetailActivity.class);
+        //add all additional information for the students details
         i.putExtra(StudentDetailActivity.EXTRA_STUDENT_ID, studentId);
         i.putExtra(StudentDetailActivity.EXTRA_MODULE_ID, module.getId());
         i.putExtra(StudentDetailActivity.EXTRA_STUDENT_NAME, String.format(Locale.getDefault(), "%s | %s", title, module.getName()));
@@ -132,6 +147,9 @@ public class StudentModuleStatisticActivity extends BaseMenuActivity
         startActivity(i);
     }
 
+    /***
+     * Callback for response of backend on Get All Modules with statistical information
+     */
     private class GetCallback implements ICallback<List<ModuleStatisticModelBase>>
     {
         @Override
@@ -148,6 +166,9 @@ public class StudentModuleStatisticActivity extends BaseMenuActivity
         }
     }
 
+    /***
+     * ListItem listener for recyclerview and handling of events from each row
+     */
     private class ListItemListener implements IRecyclerViewItemEventListener<ModuleStatisticModelBase>
     {
         @Override

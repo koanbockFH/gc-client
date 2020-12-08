@@ -23,6 +23,7 @@ public class ModulePagerAdapter extends FragmentPagerAdapter
     @Override
     public Fragment getItem(int position)
     {
+        //Return a new Instance of the fragment in question
         switch (position)
         {
             default:
@@ -34,7 +35,9 @@ public class ModulePagerAdapter extends FragmentPagerAdapter
     }
 
     @Override
-    public CharSequence getPageTitle(int position) {
+    public CharSequence getPageTitle(int position)
+    {
+        //define the titles based on the tabs
         switch (position)
         {
             default:
@@ -48,6 +51,7 @@ public class ModulePagerAdapter extends FragmentPagerAdapter
     @Override
     public int getCount()
     {
+        //return the amount of tabs to be displayed
         return 2;
     }
 }

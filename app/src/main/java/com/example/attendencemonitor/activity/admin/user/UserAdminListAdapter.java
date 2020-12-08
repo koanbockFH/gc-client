@@ -19,15 +19,15 @@ import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 
 import java.util.List;
 
+/***
+ * Simple implementation of the Recycler Adapter for the User Admin lists (Student and Teacher)
+ */
 public class UserAdminListAdapter extends RecyclerView.Adapter<UserAdminListAdapter.StudentListViewHolder>{
     private final SortedList<UserModel> studentList;
     private final IRecyclerViewItemEventListener<UserModel> listener;
 
     public static class StudentListViewHolder extends RecyclerView.ViewHolder{
-        private final TextView tv_username;
-        private final TextView tv_code;
-        private final TextView tv_usermail;
-        private final TextView tv_attendance;
+        private final TextView tv_username, tv_code, tv_usermail, tv_attendance;
         private final LinearLayout userContainer;
         private final ImageButton ib_student_open;
 
@@ -43,7 +43,8 @@ public class UserAdminListAdapter extends RecyclerView.Adapter<UserAdminListAdap
     }
 
     public UserAdminListAdapter(List<UserModel> StudentList, IRecyclerViewItemEventListener<UserModel> listener) {
-        this.studentList = new SortedList<UserModel>(UserModel.class, new SortedList.Callback<UserModel>() {
+        //Setting up the sorting of the user List
+        this.studentList = new SortedList<>(UserModel.class, new SortedList.Callback<UserModel>() {
             @Override
             public int compare(UserModel o1, UserModel o2) {
                 return o1.getFullName().compareTo(o2.getFullName());
@@ -93,11 +94,13 @@ public class UserAdminListAdapter extends RecyclerView.Adapter<UserAdminListAdap
 
     @Override
     public void onBindViewHolder(@NonNull UserAdminListAdapter.StudentListViewHolder holder, int position) {
+        //setting data for each row
         UserModel currentItem = studentList.get(position);
         holder.tv_username.setText(currentItem.getFullName());
         holder.tv_usermail.setText(currentItem.getMail());
         holder.tv_code.setText(currentItem.getCode());
-        holder.userContainer.setOnClickListener(v -> {listener.onClick(currentItem);});
+        //forwarding events to the event listener
+        holder.userContainer.setOnClickListener(v -> listener.onClick(currentItem));
         holder.ib_student_open.setOnClickListener(v -> listener.onClick(currentItem));
 
         holder.tv_attendance.setVisibility(View.GONE);

@@ -23,13 +23,9 @@ import com.example.attendencemonitor.service.model.UserType;
 public class RegisterActivity extends BaseMenuActivity
 {
     public static final String EXTRA_IS_TEACHER = "IS_TEACHER";
-    IUserService userService = new UserService();
+    private final IUserService userService = new UserService();
 
-    private EditText eFirstName;
-    private EditText eLastName;
-    private EditText eEmail;
-    private EditText eCode;
-    private EditText ePassword;
+    private EditText eFirstName, eLastName, eEmail, eCode, ePassword;
     private RadioGroup eUserTypeGroup;
 
     private AwesomeValidation awesomeValidation;
@@ -40,7 +36,7 @@ public class RegisterActivity extends BaseMenuActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth_register);
 
-
+        //based on admins current location the system will predefine which user type to register - can be changed by the user afterwards
         Intent received = getIntent();
         boolean isTeacher = received.getBooleanExtra(EXTRA_IS_TEACHER, false);
         eUserTypeGroup = findViewById(R.id.reg_user_type);
@@ -56,6 +52,7 @@ public class RegisterActivity extends BaseMenuActivity
         ePassword = findViewById(R.id.reg_password);
         EditText confPassword = findViewById(R.id.reg_conf_password);
 
+        //submit login request on "Enter" in password box
         confPassword.setOnKeyListener((view, i, keyEvent) -> {
             if (keyEvent.getAction() == KeyEvent.ACTION_DOWN && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER)
             {
@@ -96,9 +93,10 @@ public class RegisterActivity extends BaseMenuActivity
                 break;
         }
 
-        //validation
+        //validate input
         if(awesomeValidation.validate())
         {
+            //send request, and register callback to handle response
             userService.register(regDto, new RegistrationCallback());
         }
         else

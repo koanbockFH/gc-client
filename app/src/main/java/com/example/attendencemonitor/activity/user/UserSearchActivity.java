@@ -28,7 +28,7 @@ import java.util.Collections;
 
 public class UserSearchActivity extends BaseMenuActivity
 {
-    IUserService userService = new UserService();
+    private final IUserService userService = new UserService();
     public static final String EXTRA_CURRENT_SELECTED = "SELECTED_USERS";
     public static final String EXTRA_USER_TYPE = "USER_TYPE";
     private ArrayList<UserModel> defaultSelection;
@@ -40,6 +40,7 @@ public class UserSearchActivity extends BaseMenuActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        //get additional information from calling intent
         Intent received = getIntent();
         defaultSelection = received.getParcelableArrayListExtra(EXTRA_CURRENT_SELECTED);
         int requestType = received.getIntExtra(EXTRA_USER_TYPE, UserType.TEACHER.getKey());
@@ -58,6 +59,7 @@ public class UserSearchActivity extends BaseMenuActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_search);
 
+        //init search
         searchBox = findViewById(R.id.et_searchbox);
         searchBox.addTextChangedListener(new TextWatcher()
         {
@@ -83,14 +85,13 @@ public class UserSearchActivity extends BaseMenuActivity
         });
 
         ImageButton delSearch = findViewById(R.id.ib_delete_search_user);
-        delSearch.setOnClickListener(v -> {
-            searchBox.setText("");
-        });
+        delSearch.setOnClickListener(v -> searchBox.setText(""));
         loadData();
     }
 
     private void loadData()
     {
+        //request from backend, and register the callback handling the response
         userService.getUserList(dto, new UserListCallback());
     }
 
@@ -102,6 +103,7 @@ public class UserSearchActivity extends BaseMenuActivity
         ArrayList<UserModel> items = new ArrayList<>();
         Collections.addAll(items, values);
         ArrayList<UserModel> currentItems = new ArrayList<>();
+        //setup current selection e.g. if module has already some students/teacher selected; or if a search has been initiated - search is powered by backend to reduce workload on phone
         if(currentSelection != null)
         {
             currentSelection.forEach(u -> currentItems.add(u));
@@ -118,6 +120,7 @@ public class UserSearchActivity extends BaseMenuActivity
 
     public void onSave(View view)
     {
+        //return list of selected items - if single selection array with 1 item
         Intent save = new Intent();
         save.putParcelableArrayListExtra(EXTRA_CURRENT_SELECTED, adapter.getCurrentSelection());
         setResult(Activity.RESULT_OK, save);
@@ -132,6 +135,9 @@ public class UserSearchActivity extends BaseMenuActivity
         finish();
     }
 
+    /***
+     * Callback for response of backend on Get All students/teachers based on the search
+     */
     private class UserListCallback implements ICallback<Pagination<UserModel>>
     {
         @Override

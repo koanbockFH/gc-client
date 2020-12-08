@@ -35,10 +35,10 @@ import java.util.Locale;
 public class TimeslotFormActivity extends BaseMenuActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener
 {
     private EditText name, date, startTime, endTime;
-    private SimpleDateFormat dateFormatter =  new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
-    private SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm", Locale.getDefault());
+    private final SimpleDateFormat dateFormatter =  new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
+    private final SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm", Locale.getDefault());
     private boolean isStartTime = true;
-    private ITimeslotService timeslotService = new TimeslotService();
+    private final ITimeslotService timeslotService = new TimeslotService();
     public static final String EXTRA_MODULE_ID = "MODULE_ID";
     public static final String EXTRA_TIMESLOT_ID = "TIMESLOT_ID";
     private int moduleId = -1;
@@ -52,6 +52,7 @@ public class TimeslotFormActivity extends BaseMenuActivity implements DatePicker
         initializeMenu("Timeslot Form", true);
         super.onCreate(savedInstanceState);
 
+        //read information for calling intent (module id and timeslotId if its to edit the timeslot)
         Intent received = getIntent();
         moduleId = received.getIntExtra(EXTRA_MODULE_ID, -1);
         int timeslotId = received.getIntExtra(EXTRA_TIMESLOT_ID, -1);
@@ -61,8 +62,10 @@ public class TimeslotFormActivity extends BaseMenuActivity implements DatePicker
             finish();
         }
 
+        //if edit than load it from backend else create a new
         if(timeslotId != -1)
         {
+            //request from backend, and register the callback handling the response
             timeslotService.getById(timeslotId, new GetTimeslotCallback());
         }
         else{
@@ -72,6 +75,7 @@ public class TimeslotFormActivity extends BaseMenuActivity implements DatePicker
             initView(module);
         }
 
+        //init validation
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
         awesomeValidation.addValidation(this, R.id.add_timeslot_name, RegexTemplate.NOT_EMPTY, R.string.invalid_name);
     }
@@ -90,6 +94,7 @@ public class TimeslotFormActivity extends BaseMenuActivity implements DatePicker
         date = findViewById(R.id.add_timeslot_date);
         delTimeslot = findViewById(R.id.btn_delete_timeslot);
 
+        //setup date selection
         startTime.setOnClickListener((View v) -> showTimePickerDialog(true));
         endTime.setOnClickListener((View v) -> showTimePickerDialog(false));
         date.setOnClickListener((View v) -> showDatePickerDialog());
@@ -104,6 +109,7 @@ public class TimeslotFormActivity extends BaseMenuActivity implements DatePicker
     {
         if(awesomeValidation.validate())
         {
+            //save if validation passes
             model.setName(name.getText().toString());
             if(model.getStartDate().getTime() > model.getEndDate().getTime())
             {
@@ -121,6 +127,7 @@ public class TimeslotFormActivity extends BaseMenuActivity implements DatePicker
 
     }
 
+    //Event callback on date set
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         Calendar cal = Calendar.getInstance();
@@ -135,6 +142,7 @@ public class TimeslotFormActivity extends BaseMenuActivity implements DatePicker
         date.setText(String.format("Date: %s", dateFormatter.format(model.getStartDate().getTime())));
     }
 
+    //Event callback on time set
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         Calendar cal = Calendar.getInstance();
@@ -153,6 +161,9 @@ public class TimeslotFormActivity extends BaseMenuActivity implements DatePicker
         }
     }
 
+    /***
+     * Show the date picker dialog so that the user can input date
+     */
     private void showDatePickerDialog() {
         Calendar cal = Calendar.getInstance();
         cal.setTime(model.getStartDate());
@@ -166,6 +177,9 @@ public class TimeslotFormActivity extends BaseMenuActivity implements DatePicker
         datePicker.show();
     }
 
+    /***
+     * Show the date picker dialog so that the user can input time
+     */
     private void showTimePickerDialog(boolean startTime){
         Calendar cal = Calendar.getInstance();
         cal.setTime(startTime ? model.getStartDate() : model.getEndDate());
@@ -180,12 +194,17 @@ public class TimeslotFormActivity extends BaseMenuActivity implements DatePicker
         timePicker.show();
     }
 
+    /***
+     * Callback for response of backend on Get timeslot if id is given
+     */
     private class GetTimeslotCallback implements ICallback<TimeslotModel> {
 
         @Override
         public void onSuccess(TimeslotModel value)
         {
             initView(value);
+
+            //setup delete if its edit
             delTimeslot.setVisibility(View.VISIBLE);
             delTimeslot.setOnClickListener(v -> {
                 if(AppData.getInstance().getUserType() == UserType.STUDENT)
@@ -219,6 +238,9 @@ public class TimeslotFormActivity extends BaseMenuActivity implements DatePicker
         }
     }
 
+    /***
+     * Callback for response of backend on Save timeslot
+     */
     private class SaveOrUpdateTimeslotCallback implements ICallback<TimeslotModel>{
 
         @Override
@@ -241,25 +263,22 @@ public class TimeslotFormActivity extends BaseMenuActivity implements DatePicker
         }
     }
 
-    private void makeToast(String message)
-    {
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-    }
-
+    /***
+     * Callback for response of backend on delete timeslot
+     */
     private class DeleteCallback implements IActionCallback
     {
-
         @Override
         public void onSuccess()
         {
-            makeToast("Timeslot has been deleted!");
+            Toast.makeText(TimeslotFormActivity.this, "Timeslot has been deleted!", Toast.LENGTH_SHORT).show();
             finish();
         }
 
         @Override
         public void onError(Throwable error)
         {
-            makeToast(error.getMessage());
+            Toast.makeText(TimeslotFormActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 }

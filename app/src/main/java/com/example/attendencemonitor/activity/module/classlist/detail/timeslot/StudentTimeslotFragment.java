@@ -30,6 +30,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+/***
+ * Fragment displaying all the timeslots of a student inside a specific module
+ */
 public class StudentTimeslotFragment extends Fragment implements DatePickerDialog.OnDateSetListener
 {
     private final IAttendanceService attendanceService = new AttendanceService();
@@ -37,7 +40,7 @@ public class StudentTimeslotFragment extends Fragment implements DatePickerDialo
     private int moduleId, studentId;
     private StudentTimeslotListAdapter adapter;
     private EditText date, searchBox;
-    private SimpleDateFormat dateFormatter =  new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
+    private final SimpleDateFormat dateFormatter =  new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
     private Date searchDate;
     private boolean isAttending;
 
@@ -46,6 +49,7 @@ public class StudentTimeslotFragment extends Fragment implements DatePickerDialo
         // Required empty public constructor
     }
 
+    //static creation of fragment - best practice described in official android documentation
     public static StudentTimeslotFragment newInstance(int moduleId, int studentId, boolean isAttending)
     {
         StudentTimeslotFragment fragment = new StudentTimeslotFragment();
@@ -76,6 +80,7 @@ public class StudentTimeslotFragment extends Fragment implements DatePickerDialo
     {
         View view = inflater.inflate(R.layout.fragment_timeslot, container, false);
 
+        //init recycler view
         RecyclerView rv = view.findViewById(R.id.rv_timeslot_list);
         rv.setHasFixedSize(true);
         LinearLayoutManager lm = new LinearLayoutManager(getActivity());
@@ -86,6 +91,7 @@ public class StudentTimeslotFragment extends Fragment implements DatePickerDialo
 
         view.findViewById(R.id.fab_timeslot_add).setVisibility(View.GONE);
 
+        //init search incl. date search
         ImageButton delDateSearch = view.findViewById(R.id.ib_delete_date_search);
         delDateSearch.setOnClickListener(v -> {
             searchDate = null;
@@ -113,12 +119,13 @@ public class StudentTimeslotFragment extends Fragment implements DatePickerDialo
         });
 
         ImageButton delSearch = view.findViewById(R.id.ib_delete_search);
-        delSearch.setOnClickListener(v -> {
-            searchBox.setText("");
-        });
+        delSearch.setOnClickListener(v -> searchBox.setText(""));
         return view;
     }
 
+    /***
+     * Show the date picker dialog so that the user can input his search date
+     */
     private void showDatePickerDialog() {
         Calendar cal = Calendar.getInstance();
         cal.setTime(searchDate == null ? new Date() : searchDate);
@@ -132,6 +139,7 @@ public class StudentTimeslotFragment extends Fragment implements DatePickerDialo
         datePicker.show();
     }
 
+    //Event callback on date set
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         Calendar cal = Calendar.getInstance();
@@ -143,6 +151,11 @@ public class StudentTimeslotFragment extends Fragment implements DatePickerDialo
         displayData();
     }
 
+    /***
+     * Filter the displayed user list based on a search value (name, date)
+     * @param searchValue searchvalue
+     * @return list of timeslots to be displayed
+     */
     private List<TimeslotModel> filter(String searchValue)
     {
         if(searchValue.isEmpty())
@@ -188,11 +201,15 @@ public class StudentTimeslotFragment extends Fragment implements DatePickerDialo
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
+    /***
+     * Callback for response of backend on Get All timeslots of the student and module in question
+     */
     private class GetCallback implements ICallback<StudentTimeslotStatisticModel>
     {
         @Override
         public void onSuccess(StudentTimeslotStatisticModel value)
         {
+            //only load attending or absent timeslots depending on the current view
             timeslotList = isAttending ? value.getAttended() : value.getAbsent();
             displayData();
         }

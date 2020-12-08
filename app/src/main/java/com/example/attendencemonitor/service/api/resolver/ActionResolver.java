@@ -5,6 +5,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/***
+ * Custom resolver for abstraction layer between service and retrofit - no retrofit in Presentation layer
+ * no return type -- aka actions
+ */
 public class ActionResolver extends BaseResolver<Void> implements Callback<Void>
 {
     private final IActionCallback callback;

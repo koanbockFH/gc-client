@@ -19,6 +19,9 @@ import com.example.attendencemonitor.service.model.UserModel;
 import java.util.ArrayList;
 import java.util.List;
 
+/***
+ * Fragment displaying timeslot student detailed information (attendees and absentees)
+ */
 public class TimeslotStudentFragment extends Fragment
 {
     private List<UserModel> studentList;
@@ -31,6 +34,7 @@ public class TimeslotStudentFragment extends Fragment
         // Required empty public constructor
     }
 
+    //static creation of fragment - best practice described in official android documentation
     public static TimeslotStudentFragment newInstance(List<UserModel> studentList)
     {
         TimeslotStudentFragment fragment = new TimeslotStudentFragment();
@@ -51,6 +55,7 @@ public class TimeslotStudentFragment extends Fragment
     {
         View view = inflater.inflate(R.layout.fragment_classlist, container, false);
 
+        //init recycler view
         RecyclerView rv = view.findViewById(R.id.rv_user_list);
         rv.setHasFixedSize(true);
         LinearLayoutManager lm = new LinearLayoutManager(getActivity());
@@ -58,6 +63,8 @@ public class TimeslotStudentFragment extends Fragment
 
         rv.setLayoutManager(lm);
         rv.setAdapter(adapter);
+
+        //init search
         searchBox = view.findViewById(R.id.et_searchbox);
         searchBox.addTextChangedListener(new TextWatcher()
         {
@@ -76,11 +83,15 @@ public class TimeslotStudentFragment extends Fragment
         });
 
         ImageButton delSearch = view.findViewById(R.id.ib_delete_search_classlist);
-        delSearch.setOnClickListener(v -> {
-            searchBox.setText("");
-        });
+        delSearch.setOnClickListener(v -> searchBox.setText(""));
         return view;
     }
+
+    /***
+     * Filter the displayed user list based on a search value (name, code, mail)
+     * @param searchValue searchvalue
+     * @return list of students to be displayed
+     */
     private List<UserModel> filter(String searchValue)
     {
         List<UserModel> filteredList = new ArrayList<>();

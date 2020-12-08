@@ -42,6 +42,7 @@ public class ScannerActivity extends BaseMenuActivity implements ZXingScannerVie
     public void onResume()
     {
         super.onResume();
+        //handling pausing of app, e.g. if user switches app - camera should be deactivated meanwhile
         mScannerView.setResultHandler(this);
         mScannerView.startCamera();
     }
@@ -50,12 +51,14 @@ public class ScannerActivity extends BaseMenuActivity implements ZXingScannerVie
     public void onPause()
     {
         super.onPause();
+        //handling pausing of app, e.g. if user switches app - camera should be deactivated meanwhile
         mScannerView.stopCamera();
     }
 
     @Override
     public void handleResult(Result rawResult)
     {
+        //handle result from ZXing Scanner
         Intent payload = new Intent();
         payload.putExtra(EXTRA_RESULT_PAYLOAD,  rawResult.getText());
         setResult(Activity.RESULT_OK, payload);

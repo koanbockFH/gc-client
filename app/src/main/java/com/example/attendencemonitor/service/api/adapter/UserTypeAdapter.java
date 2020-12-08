@@ -11,6 +11,9 @@ import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
 
+/**
+ * Adapter for de- and serialization of User Type enum to integer / string
+ */
 public class UserTypeAdapter implements JsonSerializer<UserType>, JsonDeserializer<UserType>
 {
     @Override

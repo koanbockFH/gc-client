@@ -50,18 +50,19 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
     private static final int SCANNER_REQUEST = 2;
     private int timeslotId = -1;
     private ModuleModel module;
-    IAttendanceService attendanceService = new AttendanceService();
-    TimeslotListAdapter adapter;
-    List<TimeslotStatisticModel> timeslotList;
-    EditText date, searchBox;
-    SimpleDateFormat dateFormatter =  new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
-    Date searchDate;
+    private final IAttendanceService attendanceService = new AttendanceService();
+    private TimeslotListAdapter adapter;
+    private List<TimeslotStatisticModel> timeslotList;
+    private EditText date, searchBox;
+    private final SimpleDateFormat dateFormatter =  new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
+    private Date searchDate;
 
     public TimeslotFragment()
     {
         // Required empty public constructor
     }
 
+    //static creation of fragment - best practice described in official android documentation
     public static TimeslotFragment newInstance(ModuleModel module)
     {
         TimeslotFragment fragment = new TimeslotFragment();
@@ -88,6 +89,7 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
 
         view.findViewById(R.id.fab_timeslot_add).setOnClickListener(this::onAdd);
 
+        //init search
         ImageButton delDateSearch = view.findViewById(R.id.ib_delete_date_search);
         delDateSearch.setOnClickListener(v -> {
             searchDate = null;
@@ -116,9 +118,7 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
         });
 
         ImageButton delSearch = view.findViewById(R.id.ib_delete_search);
-        delSearch.setOnClickListener(v -> {
-            searchBox.setText("");
-        });
+        delSearch.setOnClickListener(v -> searchBox.setText(""));
 
         return view;
     }
@@ -130,6 +130,7 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
         attendanceService.getAllTimeslotStats(module.getId(), new TimeslotListCallback());
     }
 
+    //request result on permission request -- open scanner activity if camara permission is given
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == ZXING_CAMERA_PERMISSION)
@@ -146,6 +147,7 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
         }
     }
 
+    //handle result from scanner
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
     {
@@ -186,6 +188,11 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
         adapter.setItems(filter(searchBox.getText().toString()));
     }
 
+    /***
+     * Filter the displayed timeslot list based on a search value (name, code, mail)
+     * @param searchValue searchvalue
+     * @return list of timeslot to be displayed
+     */
     private List<TimeslotStatisticModel> filter(String searchValue)
     {
         if(searchValue.isEmpty())
@@ -222,6 +229,7 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
     {
         timeslotList = values;
 
+        //init recycler view
         RecyclerView rv = getActivity().findViewById(R.id.rv_timeslot_list);
         rv.setHasFixedSize(true);
         LinearLayoutManager lm = new LinearLayoutManager(getActivity());
@@ -231,6 +239,7 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
         rv.setAdapter(adapter);
     }
 
+    //handle on adding new timeslots
     public void onAdd(View view)
     {
         searchBox.setText("");
@@ -239,6 +248,7 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
         startActivity(addTimeslot);
     }
 
+    //handle opening scanner activity and check for permission to use camera
     private void onOpenScanner(){
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -251,6 +261,7 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
         searchBox.setText("");
     }
 
+    //handle editing the timeslot
     private void onEditTimeslot(TimeslotModel timeslot) {
         searchBox.setText("");
         Intent i = new Intent(getActivity(), TimeslotFormActivity.class);
@@ -264,6 +275,7 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 
+    //handle showing timeslot details/statistics
     private void openStats(TimeslotStatisticModel item){
         searchBox.setText("");
         Intent i = new Intent(getActivity(), TimeslotDetailActivity.class);
@@ -272,6 +284,9 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
         startActivity(i);
     }
 
+    /***
+     * Callback for response of backend on Get timeslot list
+     */
     private class TimeslotListCallback implements ICallback<List<TimeslotStatisticModel>>
     {
 
@@ -288,6 +303,9 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
         }
     }
 
+    /***
+     * Callback for response of backend on attending timeslot
+     */
     private class AttendTimeslotCallback implements IActionCallback{
 
         @Override
@@ -303,6 +321,9 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
         }
     }
 
+    /***
+     * ListItem listener for recyclerview and handling of events from each row
+     */
     private class ListItemListener implements IRecyclerViewItemEventListener<TimeslotStatisticModel>
     {
         @Override

@@ -17,9 +17,12 @@ import com.example.attendencemonitor.util.IRecyclerViewItemEventListener;
 import java.util.List;
 import java.util.Locale;
 
+/***
+ * Simple implementation of the Recycler Adapter for the User teacher/module lists
+ */
 public class StudentModuleListAdapter extends RecyclerView.Adapter<StudentModuleListAdapter.ItemViewAdapter>{
     private List<ModuleStatisticModelBase> moduleList;
-    private IRecyclerViewItemEventListener<ModuleStatisticModelBase> listener;
+    private final IRecyclerViewItemEventListener<ModuleStatisticModelBase> listener;
 
     public static class ItemViewAdapter extends RecyclerView.ViewHolder{
         private final TextView tv_module_code, tv_module_name, tv_teacher, tv_attendance;
@@ -55,6 +58,7 @@ public class StudentModuleListAdapter extends RecyclerView.Adapter<StudentModule
 
     @Override
     public void onBindViewHolder(@NonNull StudentModuleListAdapter.ItemViewAdapter holder, int position) {
+        //setting data for each row
         ModuleStatisticModelBase currentItem = moduleList.get(position);
 
         holder.tv_module_code.setText(currentItem.getCode());
@@ -62,11 +66,12 @@ public class StudentModuleListAdapter extends RecyclerView.Adapter<StudentModule
         holder.tv_teacher.setText(currentItem.getTeacher().getFullName());
         holder.tv_attendance.setText(String.format(Locale.getDefault(), "%d/%d", currentItem.getAttended(), currentItem.getTotalTimeslots()));
 
+        //forwarding events to the event listener
         if(listener != null)
         {
             holder.ib_module_open.setVisibility(View.VISIBLE);
-            holder.ib_module_open.setOnClickListener(v -> {listener.onClick(currentItem);});
-            holder.ll_moduleContainer.setOnClickListener(v -> {listener.onClick(currentItem);});
+            holder.ib_module_open.setOnClickListener(v -> listener.onClick(currentItem));
+            holder.ll_moduleContainer.setOnClickListener(v -> listener.onClick(currentItem));
         }
     }
 

@@ -28,9 +28,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
     }
 
     public static class UserListViewHolder extends RecyclerView.ViewHolder{
-        private final TextView tv_username;
-        private final TextView tv_code;
-        private final TextView tv_usermail;
+        private final TextView tv_username, tv_code, tv_usermail;
         private final CheckBox cb_selected;
         private final RadioButton rb_selected;
         private final LinearLayout userContainer;
@@ -54,12 +52,15 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull UserListAdapter.UserListViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull UserListAdapter.UserListViewHolder holder, int position)
+    {
+        //setting data for each row
         UserModel currentItem = userList.get(position);
         holder.tv_username.setText(currentItem.getFullName());
         holder.tv_usermail.setText(currentItem.getMail());
         holder.tv_code.setText(currentItem.getCode());
 
+        //setup check radio button or checkbox depending on single or multi selection
         if(isSingleSelection){
             holder.cb_selected.setVisibility(View.GONE);
             holder.rb_selected.setVisibility(View.VISIBLE);
@@ -90,6 +91,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
             }
         });
 
+        //forwarding events to the event listener
         holder.userContainer.setOnClickListener(view -> {
             if(isSingleSelection)
             {

@@ -23,6 +23,9 @@ import com.example.attendencemonitor.service.model.ModuleStatisticModelBase;
 import java.util.ArrayList;
 import java.util.List;
 
+/***
+ * Fragment to display the student module items with attendance information
+ */
 public class StudentModuleFragment extends Fragment
 {
     private int studentId;
@@ -37,6 +40,7 @@ public class StudentModuleFragment extends Fragment
         // Required empty public constructor
     }
 
+    //static creation of fragment - best practice described in official android documentation
     public static StudentModuleFragment newInstance(int studentId)
     {
         StudentModuleFragment fragment = new StudentModuleFragment();
@@ -64,6 +68,7 @@ public class StudentModuleFragment extends Fragment
     {
         View view = inflater.inflate(R.layout.fragment_student_module, container, false);
 
+        //init recycler view
         RecyclerView rv = view.findViewById(R.id.rv_module_list);
         rv.setHasFixedSize(true);
         LinearLayoutManager lm = new LinearLayoutManager(getActivity());
@@ -74,6 +79,7 @@ public class StudentModuleFragment extends Fragment
 
         loadData();
 
+        //init search logic
         searchBox = view.findViewById(R.id.et_searchbox);
         searchBox.addTextChangedListener(new TextWatcher()
         {
@@ -91,13 +97,16 @@ public class StudentModuleFragment extends Fragment
         });
 
         ImageButton delSearch = view.findViewById(R.id.ib_delete_search_smodule);
-        delSearch.setOnClickListener(v -> {
-            searchBox.setText("");
-        });
+        delSearch.setOnClickListener(v -> searchBox.setText(""));
 
         return view;
     }
 
+    /***
+     * Filter the displayed user list based on a search value (name, code, teacher)
+     * @param searchValue searchvalue
+     * @return list of modules to be displayed
+     */
     private List<ModuleStatisticModelBase> filter(String searchValue)
     {
         List<ModuleStatisticModelBase> filteredList = new ArrayList<>();
@@ -131,6 +140,10 @@ public class StudentModuleFragment extends Fragment
     {
         Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
+
+    /***
+     * Callback for response of backend on Get All students/teachers
+     */
     private class GetCallback implements ICallback<List<ModuleStatisticModelBase>>
     {
         @Override
