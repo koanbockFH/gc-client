@@ -57,6 +57,16 @@ public class UserListFragment extends Fragment
     }
 
     @Override
+    public void onResume()
+    {
+        super.onResume();
+        UserSearchDto dto = new UserSearchDto();
+        dto.setType(isTeacher ? UserType.TEACHER : UserType.STUDENT);
+        //based on the teacher bool, it queries students or teachers only
+        userService.getUserList(dto, new GetCallback());
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
