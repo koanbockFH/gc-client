@@ -72,7 +72,9 @@ public class LoginActivity extends BaseMenuActivity
         public void onSuccess()
         {
             //start App-Session
-            startActivity(new Intent(LoginActivity.this, SessionActivity.class));
+            Intent intent = new Intent(LoginActivity.this, SessionActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         }
 
         @Override
