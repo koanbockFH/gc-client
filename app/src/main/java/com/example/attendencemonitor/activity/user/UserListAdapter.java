@@ -62,6 +62,7 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
 
         //Must be before loading values, otherwise selection will get lost on scrolling
         holder.rb_selected.setOnCheckedChangeListener((compoundButton, b) -> {
+            if(!b) return;
             currentSelection.clear();
             currentSelection.add(currentItem);
             try{
