@@ -233,7 +233,7 @@ public class TimeslotFragment extends Fragment implements DatePickerDialog.OnDat
         RecyclerView rv = getActivity().findViewById(R.id.rv_timeslot_list);
         rv.setHasFixedSize(true);
         LinearLayoutManager lm = new LinearLayoutManager(getActivity());
-        adapter = new TimeslotListAdapter(timeslotList, new ListItemListener());
+        adapter = new TimeslotListAdapter(filter(searchBox.getText().toString()), new ListItemListener());
 
         rv.setLayoutManager(lm);
         rv.setAdapter(adapter);

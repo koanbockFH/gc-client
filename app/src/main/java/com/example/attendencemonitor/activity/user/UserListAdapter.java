@@ -60,19 +60,9 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
         holder.tv_usermail.setText(currentItem.getMail());
         holder.tv_code.setText(currentItem.getCode());
 
-        //setup check radio button or checkbox depending on single or multi selection
-        if(isSingleSelection){
-            holder.cb_selected.setVisibility(View.GONE);
-            holder.rb_selected.setVisibility(View.VISIBLE);
-            holder.rb_selected.setChecked(currentSelection.stream().anyMatch(o -> o.getId() == currentItem.getId()));
-        }
-        else{
-            holder.rb_selected.setVisibility(View.GONE);
-            holder.cb_selected.setVisibility(View.VISIBLE);
-            holder.cb_selected.setChecked(currentSelection.stream().anyMatch(o -> o.getId() == currentItem.getId()));
-        }
-
+        //Must be before loading values, otherwise selection will get lost on scrolling
         holder.rb_selected.setOnCheckedChangeListener((compoundButton, b) -> {
+            if(!b) return;
             currentSelection.clear();
             currentSelection.add(currentItem);
             try{
@@ -87,9 +77,23 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserLi
                 currentSelection.add(currentItem);
             }
             else{
-                currentSelection.removeIf(u -> u.getId() == currentItem.getId());
+                int id = currentItem.getId();
+                currentSelection.removeIf(u -> u.getId() == id);
             }
         });
+
+        //setup check radio button or checkbox depending on single or multi selection
+        if(isSingleSelection){
+            holder.cb_selected.setVisibility(View.GONE);
+            holder.rb_selected.setVisibility(View.VISIBLE);
+            holder.rb_selected.setChecked(currentSelection.stream().anyMatch(o -> o.getId() == currentItem.getId()));
+        }
+        else{
+            holder.rb_selected.setVisibility(View.GONE);
+            holder.cb_selected.setVisibility(View.VISIBLE);
+            boolean isChecked = currentSelection.stream().anyMatch(o -> o.getId() == currentItem.getId());
+            holder.cb_selected.setChecked(isChecked);
+        }
 
         //forwarding events to the event listener
         holder.userContainer.setOnClickListener(view -> {
